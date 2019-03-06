@@ -1,0 +1,21 @@
+{
+    "name": "elgentos/prismic-io",
+    "description": "Magento 2 - Prismic.io integration",
+    "type": "magento2-module",
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "name": "Jeroen Boersma",
+            "email": "jeroen@elgentos.nl"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.2",
+        "prismic/php-sdk": "^5.0.0"
+    },
+    "autoload": {
+        "psr-4": { "Elgentos\\PrismicIO\\": "" },
+        "files": [ "registration.php" ]
+    }
+}

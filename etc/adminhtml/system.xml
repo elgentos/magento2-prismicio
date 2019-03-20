@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="elgentos_prismicio" sortOrder="10" showInDefault="1" showInStore="1" showInWebsite="1">
+            <tab>service</tab>
+            <label>Prismic.IO</label>
+            <resource>Elgentos_PrismicIO::config_prismicio</resource>
+
+            <group id="general" translate="label" showInDefault="1">
+                <label>General</label>
+
+                <field id="enabled" showInDefault="1" translate="label" type="select">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+                
+                <field id="enpoint" showInDefault="1" translate="label">
+                    <label>API Endpoint(URL)</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="token" showInDefault="1" translate="label">
+                    <label>API token</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+
+        </section>
+    </system>
+</config>

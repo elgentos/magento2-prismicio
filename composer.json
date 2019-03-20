@@ -12,7 +12,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=7.2",
-        "prismic/php-sdk": "^5.0.0"
+        "prismic/php-sdk": "dev-master"
     },
     "autoload": {
         "psr-4": { "Elgentos\\PrismicIO\\": "" },

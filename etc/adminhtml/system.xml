@@ -21,7 +21,7 @@
                     </depends>
                 </field>
                 <field id="token" showInDefault="1" translate="label">
-                    <label>API token</label>
+                    <label>Access Token</label>
                     <depends>
                         <field id="enabled">1</field>
                     </depends>

@@ -16,6 +16,9 @@
                         </resource>
                     </resource>
                 </resource>
+                <resource id="Elgentos_PrismicIO::routes" title="PrismicIO Routes" translate="title">
+
+                </resource>
             </resource>
         </resources>
     </acl>

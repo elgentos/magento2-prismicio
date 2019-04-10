@@ -26,11 +26,11 @@
             </storageConfig>
             <updateUrl path="mui/index/render"/>
         </settings>
-        <aclResource>Magento_Cms::block</aclResource>
+        <aclResource>Elgentos_PrismicIO::routes</aclResource>
         <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="prismicio_routes_listing_data_source">
             <settings>
                 <requestFieldName>id</requestFieldName>
-                <primaryFieldName>block_id</primaryFieldName>
+                <primaryFieldName>route_id</primaryFieldName>
             </settings>
         </dataProvider>
     </dataSource>
@@ -80,27 +80,27 @@
         <paging name="listing_paging"/>
     </listingToolbar>
     <columns name="prismicio_routes_columns">
-        <settings>
-            <editorConfig>
-                <param name="clientConfig" xsi:type="array">
-                    <item name="saveUrl" xsi:type="url" path="prismicio/routes/inlineEdit"/>
-                    <item name="validateBeforeSave" xsi:type="boolean">false</item>
-                </param>
-                <param name="indexField" xsi:type="string">route_id</param>
-                <param name="enabled" xsi:type="boolean">true</param>
-                <param name="selectProvider" xsi:type="string">prismicio_routes_listing.prismicio_routes_listing.prismicio_routes_columns.ids</param>
-            </editorConfig>
-            <childDefaults>
-                <param name="fieldAction" xsi:type="array">
-                    <item name="provider" xsi:type="string">prismicio_routes_listing.prismicio_routes_listing.prismicio_routes_columns_editor</item>
-                    <item name="target" xsi:type="string">startEdit</item>
-                    <item name="params" xsi:type="array">
-                        <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
-                        <item name="1" xsi:type="boolean">true</item>
-                    </item>
-                </param>
-            </childDefaults>
-        </settings>
+        <!--<settings>-->
+            <!--<editorConfig>-->
+                <!--<param name="clientConfig" xsi:type="array">-->
+                    <!--<item name="saveUrl" xsi:type="url" path="prismicio/routes/inlineEdit"/>-->
+                    <!--<item name="validateBeforeSave" xsi:type="boolean">false</item>-->
+                <!--</param>-->
+                <!--<param name="indexField" xsi:type="string">route_id</param>-->
+                <!--<param name="enabled" xsi:type="boolean">true</param>-->
+                <!--<param name="selectProvider" xsi:type="string">prismicio_routes_listing.prismicio_routes_listing.prismicio_routes_columns.ids</param>-->
+            <!--</editorConfig>-->
+            <!--<childDefaults>-->
+                <!--<param name="fieldAction" xsi:type="array">-->
+                    <!--<item name="provider" xsi:type="string">prismicio_routes_listing.prismicio_routes_listing.prismicio_routes_columns_editor</item>-->
+                    <!--<item name="target" xsi:type="string">startEdit</item>-->
+                    <!--<item name="params" xsi:type="array">-->
+                        <!--<item name="0" xsi:type="string">${ $.$data.rowIndex }</item>-->
+                        <!--<item name="1" xsi:type="boolean">true</item>-->
+                    <!--</item>-->
+                <!--</param>-->
+            <!--</childDefaults>-->
+        <!--</settings>-->
         <selectionsColumn name="ids">
             <settings>
                 <indexField>route_id</indexField>
@@ -171,21 +171,21 @@
                 <label translate="true">Status</label>
             </settings>
         </column>
-        <column name="creation_time" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
             <settings>
                 <filter>dateRange</filter>
                 <dataType>date</dataType>
                 <label translate="true">Created</label>
             </settings>
         </column>
-        <column name="update_time" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+        <column name="updated_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
             <settings>
                 <filter>dateRange</filter>
                 <dataType>date</dataType>
                 <label translate="true">Modified</label>
             </settings>
         </column>
-        <actionsColumn name="actions" class="Magento\Cms\Ui\Component\Listing\Column\BlockActions">
+        <actionsColumn name="actions" class="Elgentos\PrismicIO\Ui\Component\Routes\Column\PageActions">
             <settings>
                 <indexField>route_id</indexField>
             </settings>

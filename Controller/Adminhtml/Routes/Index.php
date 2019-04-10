@@ -19,25 +19,16 @@ use Prismic\Api;
 class Index extends Action
 {
 
-
     /** @var PageFactory */
     private $pageFactory;
-    /** @var ConfigurationInterface */
-    private $configuration;
-    /** @var StoreManagerInterface */
-    private $storeManager;
 
     public function __construct(
         Action\Context $context,
-        PageFactory $pageFactory,
-        ConfigurationInterface $configuration,
-        StoreManagerInterface $storeManager
+        PageFactory $pageFactory
     )
     {
         parent::__construct($context);
         $this->pageFactory = $pageFactory;
-        $this->configuration = $configuration;
-        $this->storeManager = $storeManager;
     }
 
     /**

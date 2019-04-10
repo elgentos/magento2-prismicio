@@ -43,6 +43,25 @@ class Api
                 ->getApiEnabled($this->storeManager->getStore());
     }
 
+    /**
+     * Get content language for api
+     *
+     * @return string
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
+    public function getLanguage(): string
+    {
+        return $this->configuration
+                ->getContentLanguage($this->storeManager->getStore());
+    }
+
+    /**
+     * Create a prismic API for reading content
+     *
+     * @return PrismicApi
+     * @throws ApiNotEnabledException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     */
     public function create(): PrismicApi
     {
         $configuration = $this->configuration;

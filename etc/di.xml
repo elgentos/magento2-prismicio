@@ -9,5 +9,10 @@
             </argument>
         </arguments>
     </type>
+
     <preference for="Elgentos\PrismicIO\Api\ConfigurationInterface" type="Elgentos\PrismicIO\Model\Configuration" />
+
+    <preference for="\Elgentos\PrismicIO\Api\Data\RouteInterface" type="Elgentos\PrismicIO\Model\Route" />
+    <preference for="\Elgentos\PrismicIO\Api\Data\Route\StoreInterface" type="Elgentos\PrismicIO\Model\Route\Store" />
+
 </config>

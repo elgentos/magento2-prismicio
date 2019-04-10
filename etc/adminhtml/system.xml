@@ -27,6 +27,14 @@
                     </depends>
                 </field>
             </group>
+            <group id="content" translate="label" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Content</label>
+
+                <field id="language" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="select">
+                    <label>Language</label>
+                    <source_model>Elgentos\PrismicIO\Model\Source\Languages</source_model>
+                </field>
+            </group>
 
         </section>
     </system>

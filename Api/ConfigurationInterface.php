@@ -18,8 +18,12 @@ interface ConfigurationInterface
     const XML_PATH_API_ENDPOINT = 'prismicio/general/enpoint';
     const XML_PATH_API_SECRET = 'prismicio/general/token';
 
+    const XML_PATH_CONTENT_LANGUAGE = 'prismicio/content/language';
+
     public function getApiEnabled(StoreInterface $store): bool;
     public function getApiEndpoint(StoreInterface $store): string;
     public function getApiSecret(StoreInterface $store): string;
+
+    public function getContentLanguage(StoreInterface $store): string;
 
 }

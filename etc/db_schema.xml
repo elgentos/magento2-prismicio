@@ -27,6 +27,9 @@
         <column xsi:type="boolean" name="status" nullable="false"
                 comment="Status" default="true" />
 
+        <index referenceId="PRISMICIO_ROUTE_ROUTE" indexType="btree">
+            <column name="route" />
+        </index>
 
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="route_id"/>

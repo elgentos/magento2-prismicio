@@ -2,7 +2,7 @@
 
 namespace Elgentos\PrismicIO\Model\ResourceModel\Route;
 
-use Elgentos\PrismicIO\Model\ResourceModel\Route\StoreFactory;
+use Elgentos\PrismicIO\Model\Route;
 
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
@@ -42,7 +42,9 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 
         $select = $this->getSelect();
 
-        $select->join(['stores' => $storeResource->getMainTable()], 'main_table.route_id = stores.route_id');
+        $select->join(['stores' => $storeResource->getMainTable()], 'main_table.route_id = stores.route_id', []);
+        $select->columns(new \Zend_Db_Expr('group_concat(distinct stores.store_id separator ",") as ' . Route::STORE_IDS));
+
         $select->where('stores.store_id in(?)', [0, $storeId]);
     }
 

@@ -22,6 +22,8 @@ interface RouteInterface
     public function getCreatedAt(): string;
     public function getUpdatedAt(): string;
 
+    public function getStoreIds(): array;
+
     /**
      * Generate uid for requested path
      *

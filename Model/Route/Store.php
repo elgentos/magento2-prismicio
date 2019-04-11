@@ -15,4 +15,13 @@ class Store extends \Magento\Framework\Model\AbstractModel implements \Elgentos\
         return [self::CACHE_TAG . '_' . $this->getId()];
     }
 
+    public function getRouteId(): int
+    {
+        return +$this->_getData('route_id');
+    }
+
+    public function getStoreId(): int
+    {
+        return +$this->_getData('store_id');
+    }
 }

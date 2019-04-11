@@ -1,8 +1,34 @@
 <?php
+
 namespace Elgentos\PrismicIO\Model;
+
+use Elgentos\PrismicIO\Api\Data\Route\StoreInterface;
+use Elgentos\PrismicIO\Model\ResourceModel\Route\Store\Collection;
+use Elgentos\PrismicIO\Model\ResourceModel\Route\Store\CollectionFactory;
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
+
 class Route extends \Magento\Framework\Model\AbstractModel implements \Elgentos\PrismicIO\Api\Data\RouteInterface, \Magento\Framework\DataObject\IdentityInterface
 {
     const CACHE_TAG = 'elgentos_prismicio_route';
+    const STORE_IDS = '_store_ids';
+
+    /** @var CollectionFactory */
+    private $storeCollectionFactory;
+
+    public function __construct(
+        Context $context,
+        Registry $registry,
+        CollectionFactory $storeCollectionFactory,
+        AbstractResource $resource = null,
+        AbstractDb $resourceCollection = null,
+        array $data = []
+    ) {
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+        $this->storeCollectionFactory = $storeCollectionFactory;
+    }
 
     protected function _construct()
     {
@@ -28,7 +54,7 @@ class Route extends \Magento\Framework\Model\AbstractModel implements \Elgentos\
     public function getId(): ?int
     {
         $id = +parent::getId();
-        return $id < 1 ? $id : null;
+        return $id > 0 ? $id : null;
     }
 
     public function getTitle(): string
@@ -63,7 +89,7 @@ class Route extends \Magento\Framework\Model\AbstractModel implements \Elgentos\
 
     public function getStatus(): bool
     {
-        return !! $this->_getData('status');
+        return !!$this->_getData('status');
     }
 
     public function setStatus(bool $status): void
@@ -79,6 +105,30 @@ class Route extends \Magento\Framework\Model\AbstractModel implements \Elgentos\
     public function getUpdatedAt(): string
     {
         return (string)$this->_getData('updated_at');
+    }
+
+    public function getStoreIds(): array
+    {
+        $storeIds = null;
+        if (! $this->hasData(self::STORE_IDS) && $this->getId()) {
+            /** @var Collection $collection */
+            $collection = $this->storeCollectionFactory->create();
+
+            $collection->addRouteFilter($this);
+
+            $storeIds = array_map(function(StoreInterface $store) {
+                return $store->getStoreId();
+            }, $collection->getItems());
+
+            $this->setData(self::STORE_IDS, $storeIds);
+        }
+
+        $storeIds = $storeIds ?? $this->_getData(self::STORE_IDS) ?? [];
+        if (! is_array($storeIds)) {
+            $storeIds = explode(',', $storeIds);
+        }
+
+        return $storeIds;
     }
 
 }

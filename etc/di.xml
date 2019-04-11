@@ -14,5 +14,6 @@
 
     <preference for="\Elgentos\PrismicIO\Api\Data\RouteInterface" type="Elgentos\PrismicIO\Model\Route" />
     <preference for="\Elgentos\PrismicIO\Api\Data\Route\StoreInterface" type="Elgentos\PrismicIO\Model\Route\Store" />
+    <preference for="\Elgentos\PrismicIO\Api\RouteRepositoryInterface" type="Elgentos\PrismicIO\Model\RouteRepository" />
 
 </config>

@@ -80,6 +80,11 @@ class Router implements RouterInterface
             return null;
         }
 
+        if ($this->currentRoute->getRoute()) {
+            // Already initialized
+            return null;
+        }
+
         $requestPath = $request->getPathInfo();
 
         /** @var Collection $collection */
@@ -101,7 +106,7 @@ class Router implements RouterInterface
         $prismicRouteUid = $route->getUidForRequestPath($requestPath);
 
         $request->setModuleName('prismicio')
-                ->setControllerName('page')
+                ->setControllerName('route')
                 ->setActionName('view')
                 ->setParam('uid', $prismicRouteUid);
 

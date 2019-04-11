@@ -6,7 +6,7 @@
  * Time: 17:41
  */
 
-namespace Elgentos\PrismicIO\Controller\Page;
+namespace Elgentos\PrismicIO\Controller\Route;
 
 use Elgentos\PrismicIO\Model\Api;
 use Elgentos\PrismicIO\Registry\CurrentDocument;
@@ -16,6 +16,7 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Controller\Result\ForwardFactory;
+use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\View\Result\PageFactory;
 
 
@@ -71,16 +72,17 @@ class View extends Action implements HttpGetActionInterface, HttpPostActionInter
                 ->getParam('uid');
 
         $route = $this->currentRoute->getRoute();
+        if (! $route) {
+            return $this->forwardNoRoute();
+        }
 
-        if (! $uid || ! $route) {
-            $resultForward = $this->resultForwardFactory->create();
-            return $resultForward->forward('noroute');
+        if (! $uid) {
+            return $this->forwardIndex();
         }
 
         $api = $this->api;
         if (! $api->isActive()) {
-            $resultForward = $this->resultForwardFactory->create();
-            return $resultForward->forward('noroute');
+            return $this->forwardNoRoute();
         }
 
         $language = $api->getLanguage();
@@ -89,11 +91,15 @@ class View extends Action implements HttpGetActionInterface, HttpPostActionInter
                 ->getByUID($route->getContentType(), $uid, ['lang' => $language]);
 
         if (! $document) {
-            $resultForward = $this->resultForwardFactory->create();
-            return $resultForward->forward('noroute');
+            return $this->forwardNoRoute();
         }
 
         $this->currentDocument->setDocument($document);
+
+        var_dump($document->data->body);
+        echo \Prismic\Dom\BlockGroup::asHtml([$document->data]);
+
+        die;
 
         $page = $this->pageFactory->create();
 
@@ -105,6 +111,28 @@ class View extends Action implements HttpGetActionInterface, HttpPostActionInter
         ]);
 
         return $page;
+    }
+
+    /**
+     * @return ResultInterface
+     */
+    public function forwardNoRoute(): ResultInterface
+    {
+        $resultForward = $this->resultForwardFactory->create();
+        $resultForward->forward('noroute');
+
+        return $resultForward;
+    }
+
+    /**
+     * @return ResultInterface
+     */
+    public function forwardIndex(): ResultInterface
+    {
+        $resultForward = $this->resultForwardFactory->create();
+        $resultForward->forward('index');
+
+        return $resultForward->forward('index');
     }
 
 }

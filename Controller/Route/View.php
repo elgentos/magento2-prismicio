@@ -81,36 +81,22 @@ class View extends Action implements HttpGetActionInterface, HttpPostActionInter
         }
 
         $api = $this->api;
-        if (! $api->isActive()) {
-            return $this->forwardNoRoute();
-        }
-
-        $language = $api->getLanguage();
 
         $document = $api->create()
-                ->getByUID($route->getContentType(), $uid, ['lang' => $language]);
+                ->getByUID($route->getContentType(), $uid, ['lang' => $api->getLanguage()]);
 
         if (! $document) {
             return $this->forwardNoRoute();
         }
 
+        if ($document->uid !== $uid) {
+            // Redirect if slug/uid is updated
+            return $this->redirectUid($document->uid);
+        }
+
         $this->currentDocument->setDocument($document);
 
-        var_dump($document->data->body);
-        echo \Prismic\Dom\BlockGroup::asHtml([$document->data]);
-
-        die;
-
-        $page = $this->pageFactory->create();
-
-        $page->addHandle([
-            'prismicio_default',
-            'prismicio_page_view',
-            'prismicio_page_view_' . $route->getId(),
-            'prismicio_page_view_' . $route->getContentType()
-        ]);
-
-        return $page;
+        return $this->renderPage();
     }
 
     /**
@@ -133,6 +119,37 @@ class View extends Action implements HttpGetActionInterface, HttpPostActionInter
         $resultForward->forward('index');
 
         return $resultForward->forward('index');
+    }
+
+    public function redirectUid(string $uid): ResultInterface
+    {
+        $resultRedirect = $this->resultRedirectFactory->create();
+
+        $redirectUrl = trim($this->currentRoute->getRoute()->getRoute(), '/') . '/' . $uid;
+
+        $resultRedirect->setPath('',
+             [
+                 '_use_rewrite' => false,
+                 '_direct' => $redirectUrl
+             ]
+        );
+        $resultRedirect->setHttpResponseCode(301);
+
+        return $resultRedirect;
+    }
+
+    public function renderPage(): ResultInterface
+    {
+        $page = $this->pageFactory->create();
+        $route = $this->currentRoute->getRoute();
+
+        $page->addHandle([
+            'prismicio_default',
+            'prismicio_page_view',
+            'prismicio_page_view_' . $route->getContentType()
+        ]);
+
+        return $page;
     }
 
 }

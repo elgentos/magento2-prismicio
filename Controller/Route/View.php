@@ -8,7 +8,6 @@
 
 namespace Elgentos\PrismicIO\Controller\Route;
 
-use Elgentos\PrismicIO\Block\LinkResolver;
 use Elgentos\PrismicIO\Model\Api;
 use Elgentos\PrismicIO\Registry\CurrentDocument;
 use Elgentos\PrismicIO\Registry\CurrentRoute;

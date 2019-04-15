@@ -1,0 +1,22 @@
+<?php declare(strict_types=1);
+/**
+ * Created by PhpStorm.
+ * User: jeroen
+ * Date: 15-4-19
+ * Time: 22:43
+ */
+
+namespace Elgentos\PrismicIO\Block\Dom;
+
+
+use Prismic\Dom\RichText;
+
+class Text extends AbstractDom
+{
+
+    public function fetchDocumentView(): string
+    {
+        return RichText::asText($this->getContext());
+    }
+
+}

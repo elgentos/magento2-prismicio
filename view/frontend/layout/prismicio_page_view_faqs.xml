@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+
+    <body>
+
+        <referenceContainer name="prismicio_content">
+            <block name="prismicio_page" class="Elgentos\PrismicIO\Block\Dom\Debug" template="*" />
+
+            <block name="prismicio_page_title" class="Elgentos\PrismicIO\Block\PageTitle" template="data.page_title_h1" />
+
+            <block name="prismicio_page_body1_q" class="Elgentos\PrismicIO\Block\Dom\Plain" template="data.body1.0.items.0.faq_question" />
+            <block name="prismicio_page_body1_a" class="Elgentos\PrismicIO\Block\Dom\RichText" template="data.body1.0.items.0.faq_answer" />
+
+            <!--<block name="prismicio_content_date" class="Elgentos\PrismicIO\Block\Dom\Date" template="data.date-posted" />-->
+            <!--<block name="prismicio_content_body" class="Elgentos\PrismicIO\Block\Dom\RichText" template="data.body.0.primary.text" />-->
+        </referenceContainer>
+
+    </body>
+    
+</page>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+
+    <body>
+
+        <referenceContainer name="prismicio_content">
+            <block name="prismicio_page_title" class="Elgentos\PrismicIO\Block\PageTitle" template="data.title" />
+
+            <block name="prismicio_content_date" class="Elgentos\PrismicIO\Block\Dom\Date" template="data.date-posted" />
+            <block name="prismicio_content_body" class="Elgentos\PrismicIO\Block\Dom\RichText" template="data.body.0.primary.text" />
+        </referenceContainer>
+
+    </body>
+    
+</page>

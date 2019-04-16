@@ -8,12 +8,13 @@
 
 namespace Elgentos\PrismicIO\Block\Dom;
 
+use Elgentos\PrismicIO\Block\BlockInterface;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\Context;
 
-abstract class AbstractDom extends AbstractBlock
+abstract class AbstractDom extends AbstractBlock implements BlockInterface
 {
 
     /**
@@ -56,7 +57,8 @@ abstract class AbstractDom extends AbstractBlock
      */
     public function getContext()
     {
-        $reference = $this->_getData('document_reference') ?:
+        $reference = $this->_getData(BlockInterface::REFERENCE_KEY) ?:
+                    // Fallback on template parameter
                     $this->_getData('template') ?:
                     '*';
 

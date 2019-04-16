@@ -12,15 +12,15 @@
 
 <div class="prismicio-post">
 
-    <?php echo $block->getChildHtml('prismicio_post.poster_image'); ?>
+    <?php echo $block->getChildHtml('post.poster_image'); ?>
 
-    <h6><?php echo $block->getChildHtml('prismicio_post.category'); ?></h6>
-    <h1><?php echo $block->getChildHtml('prismicio_post.title'); ?></h1>
+    <h6><?php echo $block->getChildHtml('post.category'); ?></h6>
+    <h1><?php echo $block->getChildHtml('post.title'); ?></h1>
 
-    <div>Date created: <?php echo $block->getChildHtml('prismicio_post.date.posted'); ?></div>
-    <div>Last updated: <?php echo $block->getChildHtml('prismicio_post.date.updated'); ?></div>
+    <div>Date created: <?php echo $block->getChildHtml('post.date.posted'); ?></div>
+    <div>Last updated: <?php echo $block->getChildHtml('post.date.updated'); ?></div>
 
     <div>
-        <?php echo $block->getChildHtml('prismicio_post.body'); ?>
+        <?php echo $block->getChildHtml('post.body'); ?>
     </div>
 </div>

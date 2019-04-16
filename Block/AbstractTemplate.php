@@ -14,7 +14,7 @@ use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Framework\View\Element\Template;
 
-abstract class AbstractTemplate extends Template
+abstract class AbstractTemplate extends Template implements BlockInterface
 {
     const CONTEXT_DELIMITER = '.';
 
@@ -56,7 +56,7 @@ abstract class AbstractTemplate extends Template
      */
     public function getContext()
     {
-        $reference = $this->_getData('document_reference') ?: '*';
+        $reference = $this->_getData(BlockInterface::REFERENCE_KEY) ?: '*';
         return $this->getDocumentResolver()
                 ->getContext($reference);
     }

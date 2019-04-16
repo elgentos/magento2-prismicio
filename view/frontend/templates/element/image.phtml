@@ -1,0 +1,18 @@
+<?php declare(strict_types=1);
+/**
+ * Created by PhpStorm.
+ * User: jeroen
+ * Date: 11-4-19
+ * Time: 21:03
+ */
+
+/** @var $block \Elgentos\PrismicIO\Block\Template */
+
+$image = $block->getContext();
+?>
+
+<picture class="image">
+    <source srcset="<?php echo $image->url; ?>" media="(min-width: 800px)">
+    <img src="<?php echo $image->url; ?>" alt="<?php echo $image->alt; ?>" class="image">
+</picture>
+

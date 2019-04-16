@@ -12,5 +12,9 @@ namespace Elgentos\PrismicIO\Block;
 interface BlockInterface
 {
 
-    public const REFERENCE_KEY = 'reference';
+    const REFERENCE_KEY = 'reference';
+
+    public function getReference(): string;
+    public function setReference(string $reference): void;
+
 }

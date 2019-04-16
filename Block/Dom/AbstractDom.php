@@ -57,13 +57,21 @@ abstract class AbstractDom extends AbstractBlock implements BlockInterface
      */
     public function getContext()
     {
-        $reference = $this->_getData(BlockInterface::REFERENCE_KEY) ?:
-                    // Fallback on template parameter
-                    $this->_getData('template') ?:
-                    '*';
-
         return $this->getDocumentResolver()
-                ->getContext($reference);
+                ->getContext($this->getReference());
+    }
+
+    public function getReference(): string
+    {
+        return $this->_getData(BlockInterface::REFERENCE_KEY) ?:
+            // Fallback on template parameter
+            $this->_getData('template') ?:
+                '*';
+    }
+
+    public function setReference(string $reference): void
+    {
+        $this->setData(BlockInterface::REFERENCE_KEY, $reference);
     }
 
     protected function _toHtml()

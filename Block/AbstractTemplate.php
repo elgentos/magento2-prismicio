@@ -56,9 +56,18 @@ abstract class AbstractTemplate extends Template implements BlockInterface
      */
     public function getContext()
     {
-        $reference = $this->_getData(BlockInterface::REFERENCE_KEY) ?: '*';
         return $this->getDocumentResolver()
-                ->getContext($reference);
+                ->getContext($this->getReference());
+    }
+
+    public function getReference(): string
+    {
+        return $this->_getData(BlockInterface::REFERENCE_KEY) ?: '*';
+    }
+
+    public function setReference(string $reference): void
+    {
+        $this->setData(BlockInterface::REFERENCE_KEY, $reference);
     }
 
 }

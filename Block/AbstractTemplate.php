@@ -56,7 +56,7 @@ abstract class AbstractTemplate extends Template
      */
     public function getContext()
     {
-        $reference = $this->_getData('document_reference') ?? '*';
+        $reference = $this->_getData('document_reference') ?: '*';
         return $this->getDocumentResolver()
                 ->getContext($reference);
     }

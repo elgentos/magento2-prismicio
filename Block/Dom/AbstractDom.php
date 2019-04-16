@@ -56,7 +56,9 @@ abstract class AbstractDom extends AbstractBlock
      */
     public function getContext()
     {
-        $reference = $this->_getData('template') ?? '*';
+        $reference = $this->_getData('document_reference') ?:
+                    $this->_getData('template') ?:
+                    '*';
 
         return $this->getDocumentResolver()
                 ->getContext($reference);

@@ -24,10 +24,10 @@
                     </arguments>
                 </block>
 
-                <block name="date_posted" as="post.date.posted" class="Elgentos\PrismicIO\Block\Dom\Date" template="data.date-posted" />
-                <block name="date_updated" as="post.date.updated" class="Elgentos\PrismicIO\Block\Dom\Date" template="data.date_last_updated" />
+                <block name="post.date.posted" class="Elgentos\PrismicIO\Block\Dom\Date" template="data.date-posted" />
+                <block name="post.date.updated" class="Elgentos\PrismicIO\Block\Dom\Date" template="data.date_last_updated" />
 
-                <block name="body" as="post.body" class="Elgentos\PrismicIO\Block\Dom\Slices" template="data.body">
+                <block name="post.body" class="Elgentos\PrismicIO\Block\Dom\Slices" template="data.body">
                     <block name="text" class="Elgentos\PrismicIO\Block\Dom\Debug" />
                     <block name="quote" class="Elgentos\PrismicIO\Block\Dom\Debug" />
                     <block name="image_with_caption" class="Elgentos\PrismicIO\Block\Dom\Debug" />

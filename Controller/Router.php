@@ -20,6 +20,7 @@ use Magento\Framework\App\ActionFactory;
 use Magento\Framework\App\ActionInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\RouterInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 
 class Router implements RouterInterface
@@ -71,9 +72,10 @@ class Router implements RouterInterface
      * Match application action by request
      *
      * @param RequestInterface $request
-     * @return ActionInterface
+     * @return ActionInterface|null
+     * @throws NoSuchEntityException
      */
-    public function match(RequestInterface $request)
+    public function match(RequestInterface $request): ?ActionInterface
     {
         $store = $this->storeManager->getStore();
         if (! $this->configuration->getApiEnabled($store)) {

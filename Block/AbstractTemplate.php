@@ -10,60 +10,42 @@ namespace Elgentos\PrismicIO\Block;
 
 use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
 use Elgentos\PrismicIO\Exception\ContextNotFoundException;
-use Elgentos\PrismicIO\Registry\CurrentDocument;
+use Elgentos\PrismicIO\ViewModel\DocumentResolver;
+use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Framework\View\Element\Template;
 
 abstract class AbstractTemplate extends Template
 {
+    const CONTEXT_DELIMITER = '.';
 
     /** @var LinkResolver */
     private $linkResolver;
-    /** @var CurrentDocument */
-    private $currentDocument;
-    /** @var string */
-    private $documentReference = '';
+    /** @var DocumentResolver */
+    private $documentResolver;
 
     public function __construct(
         Template\Context $context,
+        DocumentResolver $documentResolver,
         LinkResolver $linkResolver,
-        CurrentDocument $currentDocument,
         array $data = []
     ) {
-        parent::__construct($context, $data);
         $this->linkResolver = $linkResolver;
-        $this->currentDocument = $currentDocument;
+        $this->documentResolver = $documentResolver;
+
+        parent::__construct($context, $data);
     }
 
-    public function hasDocument(): bool
+    public function getLinkResolver(): LinkResolver
     {
-        return null !== $this->currentDocument->getDocument();
+        return $this->linkResolver;
     }
 
-    public function getDocument(): \stdClass
+    /**
+     * @return DocumentResolver
+     */
+    public function getDocumentResolver(): DocumentResolver
     {
-        if (! $this->hasDocument()) {
-            throw new DocumentNotFoundException;
-        }
-
-        return $this->currentDocument->getDocument();
-    }
-
-    public function setDocumentReference(string $reference): void
-    {
-        $this->documentReference = $reference;
-    }
-
-    public function hasContext(): bool
-    {
-        try {
-            $this->getContext();
-        } catch (DocumentNotFoundException $e) {
-            return false;
-        } catch (ContextNotFoundException $e) {
-            return false;
-        }
-
-        return true;
+        return $this->documentResolver;
     }
 
     /**
@@ -74,39 +56,9 @@ abstract class AbstractTemplate extends Template
      */
     public function getContext()
     {
-        $document = $this->getDocument();
-
-        if ($this->documentReference === '*') {
-            return $document;
-        }
-
-        $references = explode('.', $this->documentReference);
-
-        $context = array_reduce($references, function($data, $reference) {
-            if (null === $data) {
-                return $data;
-            }
-
-            if (is_numeric($reference) && is_array($data)) {
-                return $data[$reference] ?? null;
-            }
-
-            return $data->{$reference} ?? null;
-        }, $document);
-
-        if (null === $context) {
-            throw new ContextNotFoundException;
-        }
-
-        return $context;
-    }
-
-    /**
-     * @return LinkResolver
-     */
-    public function getLinkResolver(): LinkResolver
-    {
-        return $this->linkResolver;
+        $reference = $this->_getData('document_reference') ?? '*';
+        return $this->getDocumentResolver()
+                ->getContext($reference);
     }
 
 }

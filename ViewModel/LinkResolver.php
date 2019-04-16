@@ -6,7 +6,7 @@
  * Time: 11:45
  */
 
-namespace Elgentos\PrismicIO\Block;
+namespace Elgentos\PrismicIO\ViewModel;
 
 use Elgentos\PrismicIO\Api\RouteRepositoryInterface;
 use Elgentos\PrismicIO\Exception\RouteNotFoundException;
@@ -96,7 +96,6 @@ class LinkResolver extends LinkResolverAbstract
         } catch (\Exception $e) {
             return null;
         }
-
     }
 
 }

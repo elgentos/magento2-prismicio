@@ -7,7 +7,11 @@
 
         <referenceContainer name="prismicio_content">
 
-            <block name="prismicio_page_title" class="Elgentos\PrismicIO\Block\PageTitle" template="data.title" />
+            <block name="prismicio_page_title" class="Elgentos\PrismicIO\Block\PageTitle">
+                <arguments>
+                    <argument name="document_reference" xsi:type="string">data.title</argument>
+                </arguments>
+            </block>
 
             <block name="prismicio_post" class="Elgentos\PrismicIO\Block\Template" template="Elgentos_PrismicIO::post.phtml">
 
@@ -15,19 +19,25 @@
                 <block name="prismicio_post_category" as="prismicio_post.category" class="Elgentos\PrismicIO\Block\Dom\Plain" template="data.post_category" />
 
                 <block name="prismicio_post_poster_image" as="prismicio_post.poster_image" class="Elgentos\PrismicIO\Block\Template" template="Elgentos_PrismicIO::element/image.phtml">
-                    <action method="setDocumentReference">
-                        <argument name="reference" xsi:type="string">data.poster_image</argument>
-                    </action>
+                    <arguments>
+                        <argument name="document_reference" xsi:type="string">data.poster_image</argument>
+                    </arguments>
                 </block>
 
                 <block name="prismicio_post_date_posted" as="prismicio_post.date.posted" class="Elgentos\PrismicIO\Block\Dom\Date" template="data.date-posted" />
                 <block name="prismicio_post_date_updated" as="prismicio_post.date.updated" class="Elgentos\PrismicIO\Block\Dom\Date" template="data.date_last_updated" />
 
-                <block name="prismicio_post_body" as="prismicio_post.body" class="Elgentos\PrismicIO\Block\Dom\RichText" template="data.body.1.primary.body-text" />
+                <block name="prismicio_post_body" as="prismicio_post.body" class="Elgentos\PrismicIO\Block\Dom\Slices" template="data.body">
+                    <block name="prismicio_post_body_text" class="Elgentos\PrismicIO\Block\Dom\Debug" />
+                    <block name="prismicio_post_body_quote" class="Elgentos\PrismicIO\Block\Dom\Debug" />
+                    <block name="prismicio_post_body_image_with_caption" class="Elgentos\PrismicIO\Block\Dom\Debug" />
+                    <block name="prismicio_post_body_section_header" class="Elgentos\PrismicIO\Block\Dom\Debug" />
+                    <block name="prismicio_post_body_sub-section_header_-_h3" class="Elgentos\PrismicIO\Block\Dom\Debug" />
+                </block>
 
             </block>
 
-            <block name="prismicio_debug" class="Elgentos\PrismicIO\Block\Dom\Debug" template="*" />
+            <block name="prismicio_debug" class="Elgentos\PrismicIO\Block\Dom\Debug" template="data.body" />
 
         </referenceContainer>
 

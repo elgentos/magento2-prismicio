@@ -8,23 +8,18 @@
 
 namespace Elgentos\PrismicIO\Block;
 
-use Elgentos\PrismicIO\Block\Dom\AbstractDom;
 use Prismic\Dom\RichText;
 
-class PageTitle extends AbstractDom
+class PageTitle extends AbstractTemplate
 {
 
     protected function _prepareLayout()
     {
-        $this->fetchView(false);
+        $this->pageConfig
+                ->getTitle()
+                ->set(RichText::asText($this->getContext()));
 
-        $this->pageConfig->getTitle()->set(RichText::asText($this->getContext()));
         return $this;
-    }
-
-    public function fetchDocumentView(): string
-    {
-        return '';
     }
 
 }

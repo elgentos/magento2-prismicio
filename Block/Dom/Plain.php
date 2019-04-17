@@ -8,7 +8,9 @@
 
 namespace Elgentos\PrismicIO\Block\Dom;
 
-class Plain extends AbstractDom
+use Elgentos\PrismicIO\Block\AbstractBlock;
+
+class Plain extends AbstractBlock
 {
 
     public function fetchDocumentView(): string

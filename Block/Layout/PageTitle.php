@@ -6,9 +6,9 @@
  * Time: 23:39
  */
 
-namespace Elgentos\PrismicIO\Block;
+namespace Elgentos\PrismicIO\Block\Layout;
 
-use Prismic\Dom\RichText;
+use Elgentos\PrismicIO\Block\AbstractTemplate;
 
 class PageTitle extends AbstractTemplate
 {
@@ -17,7 +17,7 @@ class PageTitle extends AbstractTemplate
     {
         $this->pageConfig
                 ->getTitle()
-                ->set(RichText::asText($this->getContext()));
+                ->set($this->getChildHtml());
 
         return $this;
     }

@@ -9,9 +9,10 @@
 namespace Elgentos\PrismicIO\Block\Dom;
 
 
+use Elgentos\PrismicIO\Block\AbstractBlock;
 use Prismic\Dom\RichText;
 
-class Text extends AbstractDom
+class Text extends AbstractBlock
 {
 
     public function fetchDocumentView(): string

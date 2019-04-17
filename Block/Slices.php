@@ -8,9 +8,10 @@
 
 namespace Elgentos\PrismicIO\Block\Dom;
 
+use Elgentos\PrismicIO\Block\AbstractBlock;
 use Elgentos\PrismicIO\Block\BlockInterface;
 
-class Slices extends AbstractDom
+class Slices extends AbstractBlock
 {
 
     public function fetchDocumentView(): string
@@ -20,28 +21,22 @@ class Slices extends AbstractDom
             return '';
         }
 
-        $documentResolver = $this->getDocumentResolver();
-        $baseReference = $this->_getData('template');
-
         $html = '';
-        foreach ($slices as $index => $slice) {
-            $sliceReference = $baseReference
-                    . $documentResolver::CONTEXT_DELIMITER
-                    . $index;
-            $html .= $this->fetchSlice($slice, $sliceReference);
+        foreach ($slices as $slice) {
+            $html .= $this->fetchSlice($slice);
         }
 
         return $html;
     }
 
-    public function fetchSlice(\stdClass $slice, string $reference): string
+    public function fetchSlice(\stdClass $slice): string
     {
         $sliceTypeBlock = $this->getSliceTypeBlock($slice->slice_type);
         if (null === $sliceTypeBlock) {
             return '';
         }
 
-        $sliceTypeBlock->setData(BlockInterface::REFERENCE_KEY, $reference);
+        $sliceTypeBlock->setDocument($slice);
         return $sliceTypeBlock->toHtml();
     }
 

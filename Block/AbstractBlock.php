@@ -6,17 +6,14 @@
  * Time: 23:34
  */
 
-namespace Elgentos\PrismicIO\Block\Dom;
+namespace Elgentos\PrismicIO\Block;
 
-use Elgentos\PrismicIO\Block\BlockInterface;
-use Elgentos\PrismicIO\Block\DocumentResolverTrait;
-use Elgentos\PrismicIO\Block\LinkResolverTrait;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
-use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\AbstractBlock as FrameworkAbstractBlock;
 use Magento\Framework\View\Element\Context;
 
-abstract class AbstractDom extends AbstractBlock implements BlockInterface
+abstract class AbstractBlock extends FrameworkAbstractBlock implements BlockInterface
 {
     use LinkResolverTrait;
     use DocumentResolverTrait;

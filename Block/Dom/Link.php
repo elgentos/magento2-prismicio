@@ -9,9 +9,10 @@
 namespace Elgentos\PrismicIO\Block\Dom;
 
 
+use Elgentos\PrismicIO\Block\AbstractBlock;
 use Prismic\Dom\Link as PrismicLink;
 
-class Link extends AbstractDom
+class Link extends AbstractBlock
 {
 
     public function fetchDocumentView(): string

@@ -8,9 +8,10 @@
 
 namespace Elgentos\PrismicIO\Block\Dom;
 
+use Elgentos\PrismicIO\Block\AbstractBlock;
 use Prismic\Dom\Date as PrismicDate;
 
-class Date extends AbstractDom
+class Date extends AbstractBlock
 {
 
     public function fetchDocumentView(): string

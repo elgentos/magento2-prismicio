@@ -6,7 +6,7 @@
  * Time: 23:32
  */
 
-namespace Elgentos\PrismicIO\Block\Dom;
+namespace Elgentos\PrismicIO\Block;
 
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
@@ -14,7 +14,7 @@ use Magento\Framework\App\ObjectManager\Environment\Developer;
 use Magento\Framework\App\State;
 use Magento\Framework\View\Element\Context;
 
-class Debug extends AbstractDom
+class Debug extends AbstractBlock
 {
 
     /** @var State */

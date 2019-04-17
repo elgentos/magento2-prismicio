@@ -9,6 +9,8 @@
 namespace Elgentos\PrismicIO\Block\Dom;
 
 use Elgentos\PrismicIO\Block\BlockInterface;
+use Elgentos\PrismicIO\Block\DocumentResolverTrait;
+use Elgentos\PrismicIO\Block\LinkResolverTrait;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Framework\View\Element\AbstractBlock;
@@ -16,15 +18,8 @@ use Magento\Framework\View\Element\Context;
 
 abstract class AbstractDom extends AbstractBlock implements BlockInterface
 {
-
-    /**
-     * @var DocumentResolver
-     */
-    private $documentResolver;
-    /**
-     * @var LinkResolver
-     */
-    private $linkResolver;
+    use LinkResolverTrait;
+    use DocumentResolverTrait;
 
     public function __construct(
         Context $context,
@@ -39,39 +34,12 @@ abstract class AbstractDom extends AbstractBlock implements BlockInterface
         parent::__construct($context, $data);
     }
 
-    public function getLinkResolver(): LinkResolver
-    {
-        return $this->linkResolver;
-    }
-
-    public function getDocumentResolver(): DocumentResolver
-    {
-        return $this->documentResolver;
-    }
-
-    /**
-     *
-     * @return array|\stdClass|string
-     * @throws \Elgentos\PrismicIO\Exception\ContextNotFoundException
-     * @throws \Elgentos\PrismicIO\Exception\DocumentNotFoundException
-     */
-    public function getContext()
-    {
-        return $this->getDocumentResolver()
-                ->getContext($this->getReference());
-    }
-
     public function getReference(): string
     {
         return $this->_getData(BlockInterface::REFERENCE_KEY) ?:
             // Fallback on template parameter
             $this->_getData('template') ?:
                 '*';
-    }
-
-    public function setReference(string $reference): void
-    {
-        $this->setData(BlockInterface::REFERENCE_KEY, $reference);
     }
 
     protected function _toHtml()

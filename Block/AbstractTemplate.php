@@ -8,20 +8,14 @@
 
 namespace Elgentos\PrismicIO\Block;
 
-use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
-use Elgentos\PrismicIO\Exception\ContextNotFoundException;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Framework\View\Element\Template;
 
 abstract class AbstractTemplate extends Template implements BlockInterface
 {
-    const CONTEXT_DELIMITER = '.';
-
-    /** @var LinkResolver */
-    private $linkResolver;
-    /** @var DocumentResolver */
-    private $documentResolver;
+    use LinkResolverTrait;
+    use DocumentResolverTrait;
 
     public function __construct(
         Template\Context $context,
@@ -35,39 +29,27 @@ abstract class AbstractTemplate extends Template implements BlockInterface
         parent::__construct($context, $data);
     }
 
-    public function getLinkResolver(): LinkResolver
+    public function getChildHtml($alias = '', $useCache = true)
     {
-        return $this->linkResolver;
+        $this->updateChildDocument($alias);
+        return parent::getChildHtml($alias, $useCache);
     }
 
     /**
-     * @return DocumentResolver
-     */
-    public function getDocumentResolver(): DocumentResolver
-    {
-        return $this->documentResolver;
-    }
-
-    /**
+     * Update child document to use relative paths
      *
-     * @return array|\stdClass|string
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
+     * @param string $alias
+     * @throws \Elgentos\PrismicIO\Exception\ContextNotFoundException
+     * @throws \Elgentos\PrismicIO\Exception\DocumentNotFoundException
      */
-    public function getContext()
+    public function updateChildDocument(string $alias): void
     {
-        return $this->getDocumentResolver()
-                ->getContext($this->getReference());
-    }
+        $block = $this->getChildBlock($alias);
+        if (! $block) {
+            return;
+        }
 
-    public function getReference(): string
-    {
-        return $this->_getData(BlockInterface::REFERENCE_KEY) ?: '*';
-    }
-
-    public function setReference(string $reference): void
-    {
-        $this->setData(BlockInterface::REFERENCE_KEY, $reference);
+        $block->setDocument($this->getContext());
     }
 
 }

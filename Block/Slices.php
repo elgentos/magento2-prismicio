@@ -6,30 +6,12 @@
  * Time: 15:56
  */
 
-namespace Elgentos\PrismicIO\Block\Dom;
+namespace Elgentos\PrismicIO\Block;
 
-use Elgentos\PrismicIO\Block\AbstractBlock;
-use Elgentos\PrismicIO\Block\BlockInterface;
-
-class Slices extends AbstractBlock
+class Slices extends Group
 {
 
-    public function fetchDocumentView(): string
-    {
-        $slices = $this->getContext();
-        if (! is_array($slices)) {
-            return '';
-        }
-
-        $html = '';
-        foreach ($slices as $slice) {
-            $html .= $this->fetchSlice($slice);
-        }
-
-        return $html;
-    }
-
-    public function fetchSlice(\stdClass $slice): string
+    public function fetchItem(\stdClass $slice): string
     {
         $sliceTypeBlock = $this->getSliceTypeBlock($slice->slice_type);
         if (null === $sliceTypeBlock) {

@@ -39,10 +39,10 @@ class DocumentResolver
         return $this->currentDocument->getDocument();
     }
 
-    public function hasContext(): bool
+    public function hasContext(string $documentReference, \stdClass $document = null): bool
     {
         try {
-            $this->getContext();
+            $this->getContext($documentReference, $document);
         } catch (DocumentNotFoundException $e) {
             return false;
         } catch (ContextNotFoundException $e) {
@@ -55,13 +55,14 @@ class DocumentResolver
     /**
      *
      * @param string $documentReference
+     * @param \stdClass|null $document
      * @return array|\stdClass|string
      * @throws ContextNotFoundException
      * @throws DocumentNotFoundException
      */
-    public function getContext(string $documentReference)
+    public function getContext(string $documentReference, \stdClass $document = null)
     {
-        $document = $this->getDocument();
+        $document = $document ?? $this->getDocument();
         if ($documentReference === '*') {
             return $document;
         }

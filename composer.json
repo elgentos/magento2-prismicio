@@ -1,5 +1,5 @@
 {
-    "name": "elgentos/prismic-io",
+    "name": "elgentos/module-prismicio",
     "description": "Magento 2 - Prismic.io integration",
     "type": "magento2-module",
     "license": "OSL-3.0",
@@ -13,6 +13,9 @@
     "require": {
         "php": ">=7.2",
         "prismic/php-sdk": "dev-master"
+    },
+    "replace": {
+        "elgentos/prismic-io": "*"
     },
     "autoload": {
         "psr-4": { "Elgentos\\PrismicIO\\": "" },

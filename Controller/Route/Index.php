@@ -8,6 +8,7 @@
 
 namespace Elgentos\PrismicIO\Controller\Route;
 
+use Elgentos\PrismicIO\Registry\CurrentRoute;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\Action\HttpGetActionInterface;
@@ -17,14 +18,19 @@ use Magento\Framework\View\Result\PageFactory;
 class Index extends Action implements HttpGetActionInterface, HttpPostActionInterface
 {
 
+    /** @var PageFactory */
     private $pageFactory;
+    /** @var CurrentRoute */
+    private $currentRoute;
 
     public function __construct(
         Context $context,
+        CurrentRoute $currentRoute,
         PageFactory $pageFactory
     ) {
         parent::__construct($context);
 
+        $this->currentRoute = $currentRoute;
         $this->pageFactory = $pageFactory;
     }
 
@@ -40,6 +46,14 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
     public function execute()
     {
         $page = $this->pageFactory->create();
+
+        $route = $this->currentRoute->getRoute();
+        $page->addHandle([
+            'prismic_default',
+            'prismic_route_index',
+            'prismic_route_index_' . $route->getContentType()
+        ]);
+
         return $page;
     }
 

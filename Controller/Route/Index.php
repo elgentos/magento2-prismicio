@@ -49,9 +49,9 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
 
         $route = $this->currentRoute->getRoute();
         $page->addHandle([
-            'prismic_default',
-            'prismic_route_index',
-            'prismic_route_index_' . $route->getContentType()
+            'prismicio_default',
+            'prismicio_route_index',
+            'prismicio_route_index_' . $route->getContentType()
         ]);
 
         return $page;

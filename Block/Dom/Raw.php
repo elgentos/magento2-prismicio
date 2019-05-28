@@ -3,21 +3,19 @@
  * Created by PhpStorm.
  * User: jeroen
  * Date: 15-4-19
- * Time: 22:43
+ * Time: 23:32
  */
 
 namespace Elgentos\PrismicIO\Block\Dom;
 
-
 use Elgentos\PrismicIO\Block\AbstractBlock;
-use Prismic\Dom\Link as PrismicLink;
 
-class Link extends AbstractBlock
+class Raw extends AbstractBlock
 {
 
     public function fetchDocumentView(): string
     {
-        return $this->escapeUrl(PrismicLink::asUrl($this->getContext(), $this->getLinkResolver()));
+        return $this->getContext() . '';
     }
 
 }

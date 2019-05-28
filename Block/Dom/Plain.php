@@ -8,14 +8,12 @@
 
 namespace Elgentos\PrismicIO\Block\Dom;
 
-use Elgentos\PrismicIO\Block\AbstractBlock;
-
-class Plain extends AbstractBlock
+class Plain extends Raw
 {
 
     public function fetchDocumentView(): string
     {
-        return $this->getContext() . '';
+        return $this->escapeHtml(parent::fetchDocumentView());
     }
 
 }

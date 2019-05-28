@@ -39,7 +39,7 @@ class Debug extends AbstractBlock
             return '';
         }
 
-        return '<pre>' . print_r($this->getContext(), true) . '</pre>';
+        return '<pre>' . $this->escapeHtml(print_r($this->getContext(), true)) . '</pre>';
     }
 
 }

@@ -17,7 +17,7 @@ class Text extends AbstractBlock
 
     public function fetchDocumentView(): string
     {
-        return RichText::asText($this->getContext());
+        return $this->escapeHtml(RichText::asText($this->getContext()));
     }
 
 }

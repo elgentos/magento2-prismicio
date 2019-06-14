@@ -11,6 +11,7 @@ namespace Elgentos\PrismicIO\Model;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Prismic\Api as PrismicApi;
 
@@ -35,7 +36,7 @@ class Api
      * Tell wheter the API is enabled
      *
      * @return bool
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws NoSuchEntityException
      */
     public function isActive(): bool
     {
@@ -44,15 +45,35 @@ class Api
     }
 
     /**
-     * Get content language for api
+     * Get API options
+     *
+     * @param array $options
+     * @return array
+     * @throws NoSuchEntityException
+     */
+    public function getOptions(array $options = []): array
+    {
+        $store = $this->storeManager->getStore();
+
+        if (!isset($options['lang'])) {
+            $options['lang'] = $this->configuration->getContentLanguage($store);
+        }
+        if (!isset($options['fetchLinks'])) {
+            $options['fetchLinks'] = $this->configuration->getFetchLinks($store);
+        }
+
+        return array_filter($options);
+    }
+
+    /**
+     * Get default content type
      *
      * @return string
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws NoSuchEntityException
      */
-    public function getLanguage(): string
+    public function getDefaultContentType(): string
     {
-        return $this->configuration
-                ->getContentLanguage($this->storeManager->getStore());
+        return $this->configuration->getContentType($this->storeManager->getStore());
     }
 
     /**
@@ -60,7 +81,7 @@ class Api
      *
      * @return PrismicApi
      * @throws ApiNotEnabledException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws NoSuchEntityException
      */
     public function create(): PrismicApi
     {

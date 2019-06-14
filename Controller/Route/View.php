@@ -18,6 +18,7 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\Controller\Result\ForwardFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\View\Result\PageFactory;
+use Prismic\Predicates;
 
 
 class View extends Action implements HttpGetActionInterface, HttpPostActionInterface
@@ -83,8 +84,7 @@ class View extends Action implements HttpGetActionInterface, HttpPostActionInter
         $api = $this->api;
 
         $document = $api->create()
-                ->getByUID($route->getContentType(), $uid, ['lang' => $api->getLanguage()]);
-
+                ->getByUID($route->getContentType(), $uid, $api->getOptions());
         if (! $document) {
             return $this->forwardNoRoute();
         }

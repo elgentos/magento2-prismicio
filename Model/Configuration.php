@@ -55,11 +55,28 @@ class Configuration implements ConfigurationInterface
 
     public function getContentLanguage(StoreInterface $store): string
     {
-        return (string)$this->config->getValue(
+        return (string)($this->config->getValue(
                 self::XML_PATH_CONTENT_LANGUAGE,
                 ScopeInterface::SCOPE_STORE,
                 $store
-        ) ?? '*';
+        ) ?? '*');
     }
 
+    public function getFetchLinks(StoreInterface $store): string
+    {
+        return (string)($this->config->getValue(
+                self::XML_PATH_CONTENT_FETCHLINKS,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            ) ?? '');
+    }
+
+    public function getContentType(StoreInterface $store): string
+    {
+        return (string)($this->config->getValue(
+                self::XML_PATH_CONTENT_CONTENT_TYPE,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            ) ?? '');
+    }
 }

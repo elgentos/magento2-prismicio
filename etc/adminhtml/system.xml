@@ -34,6 +34,14 @@
                     <label>Language</label>
                     <source_model>Elgentos\PrismicIO\Model\Source\Languages</source_model>
                 </field>
+                <field id="content_type" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="select">
+                    <label>Default Content type</label>
+                    <source_model>Elgentos\PrismicIO\Model\Source\ContentTypes</source_model>
+                </field>
+                <field id="fetchlinks" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
+                    <label>Fetchlinks</label>
+                    <comment><![CDATA[Which related fields should we try to fetch from Prismic in one call]]></comment>
+                </field>
             </group>
 
         </section>

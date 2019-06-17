@@ -52,5 +52,4 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     {
         $this->addFieldToFilter('status', $enabled ? '1' : '0');
     }
-
 }

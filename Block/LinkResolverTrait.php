@@ -8,7 +8,6 @@
 
 namespace Elgentos\PrismicIO\Block;
 
-
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 
 trait LinkResolverTrait
@@ -21,5 +20,4 @@ trait LinkResolverTrait
     {
         return $this->linkResolver;
     }
-
 }

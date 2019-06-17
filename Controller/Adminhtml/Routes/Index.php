@@ -25,8 +25,7 @@ class Index extends Action
     public function __construct(
         Action\Context $context,
         PageFactory $pageFactory
-    )
-    {
+    ) {
         parent::__construct($context);
         $this->pageFactory = $pageFactory;
     }
@@ -43,5 +42,4 @@ class Index extends Action
     {
         return $this->pageFactory->create();
     }
-
 }

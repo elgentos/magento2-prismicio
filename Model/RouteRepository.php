@@ -34,8 +34,7 @@ class RouteRepository implements RouteRepositoryInterface
 
     public function __construct(
         CollectionFactory $collectionFactory
-    )
-    {
+    ) {
         $this->collectionFactory = $collectionFactory;
     }
 
@@ -94,5 +93,4 @@ class RouteRepository implements RouteRepositoryInterface
             }
         }
     }
-
 }

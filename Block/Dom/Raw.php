@@ -12,10 +12,8 @@ use Elgentos\PrismicIO\Block\AbstractBlock;
 
 class Raw extends AbstractBlock
 {
-
     public function fetchDocumentView(): string
     {
         return $this->getContext() . '';
     }
-
 }

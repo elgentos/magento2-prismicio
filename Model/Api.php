@@ -8,7 +8,6 @@
 
 namespace Elgentos\PrismicIO\Model;
 
-
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -26,8 +25,7 @@ class Api
     public function __construct(
         ConfigurationInterface $configuration,
         StoreManagerInterface $storeManager
-    )
-    {
+    ) {
         $this->configuration = $configuration;
         $this->storeManager = $storeManager;
     }
@@ -100,5 +98,4 @@ class Api
             $apiSecret
         );
     }
-
 }

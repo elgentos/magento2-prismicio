@@ -10,5 +10,4 @@ namespace Elgentos\PrismicIO\Block;
 
 class Template extends AbstractTemplate
 {
-
 }

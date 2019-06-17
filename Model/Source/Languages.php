@@ -21,9 +21,8 @@ class Languages implements OptionSourceInterface
     private $api;
 
     public function __construct(
-            Api $api
+        Api $api
     ) {
-
         $this->api = $api;
     }
 
@@ -37,7 +36,8 @@ class Languages implements OptionSourceInterface
         $languages = $this->languages
                 = $this->languages ?? $this->getLanguages();
 
-        return array_map(function(Language $language) {
+        return array_map(
+            function (Language $language) {
                 return [
                     'value' => $language->getId(),
                     'label' => $language->getName()
@@ -54,16 +54,12 @@ class Languages implements OptionSourceInterface
         }
 
         try {
-
             return $this->api->create()
                     ->getData()
                     ->getLanguages();
-
         } catch (\Exception $e) {
-
         }
 
         return [];
     }
-
 }

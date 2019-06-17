@@ -69,7 +69,7 @@ class DocumentResolver
 
         $references = explode(self::CONTEXT_DELIMITER, $documentReference);
 
-        $context = array_reduce($references, function($data, $reference) {
+        $context = array_reduce($references, function ($data, $reference) {
             if (null === $data) {
                 return $data;
             }
@@ -87,5 +87,4 @@ class DocumentResolver
 
         return $context;
     }
-
 }

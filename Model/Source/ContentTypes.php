@@ -20,9 +20,8 @@ class ContentTypes implements OptionSourceInterface
     private $api;
 
     public function __construct(
-         Api $api
+        Api $api
     ) {
-
         $this->api = $api;
     }
 
@@ -36,7 +35,8 @@ class ContentTypes implements OptionSourceInterface
         $types = $this->types
                 = $this->types ?? $this->getTypes();
 
-        return array_map(function($label, $value) {
+        return array_map(
+            function ($label, $value) {
                 return [
                     'value' => $value,
                     'label' => $label
@@ -54,17 +54,12 @@ class ContentTypes implements OptionSourceInterface
         }
 
         try {
-
             return $this->api->create()
                     ->getData()
                     ->getTypes();
-
         } catch (\Exception $e) {
-
         }
 
         return [];
-
     }
-
 }

@@ -8,8 +8,6 @@
 
 namespace Elgentos\PrismicIO\Model\ResourceModel\Routes;
 
-
 class DataProvider
 {
-
 }

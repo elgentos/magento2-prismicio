@@ -8,7 +8,6 @@
 
 namespace Elgentos\PrismicIO\Registry;
 
-
 use Elgentos\PrismicIO\Api\Data\RouteInterface;
 
 class CurrentRoute
@@ -26,5 +25,4 @@ class CurrentRoute
     {
         return $this->route;
     }
-
 }

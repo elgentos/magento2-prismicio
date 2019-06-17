@@ -116,7 +116,7 @@ class Route extends \Magento\Framework\Model\AbstractModel implements \Elgentos\
 
             $collection->addRouteFilter($this);
 
-            $storeIds = array_map(function(StoreInterface $store) {
+            $storeIds = array_map(function (StoreInterface $store) {
                 return $store->getStoreId();
             }, $collection->getItems());
 
@@ -130,5 +130,4 @@ class Route extends \Magento\Framework\Model\AbstractModel implements \Elgentos\
 
         return $storeIds;
     }
-
 }

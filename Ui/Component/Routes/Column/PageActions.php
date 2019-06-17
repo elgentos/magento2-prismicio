@@ -15,7 +15,9 @@ class PageActions extends \Magento\Ui\Component\Listing\Columns\Column
                 }
                 $item[$name]["view"] = [
                     "href" => $this->getContext()->getUrl(
-                        "prismicio/routes/edit", ["route_id" => $id]),
+                        "prismicio/routes/edit",
+                        ["route_id" => $id]
+                    ),
                     "label" => __("Edit")
                 ];
             }
@@ -23,5 +25,4 @@ class PageActions extends \Magento\Ui\Component\Listing\Columns\Column
 
         return $dataSource;
     }
-
 }

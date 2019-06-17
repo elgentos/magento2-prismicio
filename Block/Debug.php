@@ -41,5 +41,4 @@ class Debug extends AbstractBlock
 
         return '<pre>' . $this->escapeHtml(print_r($this->getContext(), true)) . '</pre>';
     }
-
 }

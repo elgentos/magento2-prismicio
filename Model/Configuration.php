@@ -21,62 +21,61 @@ class Configuration implements ConfigurationInterface
 
     public function __construct(
         ScopeConfigInterface $config
-    )
-    {
+    ) {
         $this->config = $config;
     }
 
     public function getApiEndpoint(StoreInterface $store): string
     {
         return (string)$this->config->getValue(
-                self::XML_PATH_API_ENDPOINT,
-                ScopeInterface::SCOPE_STORE,
-                $store
+            self::XML_PATH_API_ENDPOINT,
+            ScopeInterface::SCOPE_STORE,
+            $store
         );
     }
 
     public function getApiSecret(StoreInterface $store): string
     {
         return (string)$this->config->getValue(
-                self::XML_PATH_API_SECRET,
-                ScopeInterface::SCOPE_STORE,
-                $store
+            self::XML_PATH_API_SECRET,
+            ScopeInterface::SCOPE_STORE,
+            $store
         );
     }
 
     public function getApiEnabled(StoreInterface $store): bool
     {
-        return !! $this->config->getValue(
-                self::XML_PATH_API_ENABLED,
-                ScopeInterface::SCOPE_STORE,
-                $store
-        );;
+        return (bool)$this->config->getValue(
+            self::XML_PATH_API_ENABLED,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
     }
 
     public function getContentLanguage(StoreInterface $store): string
     {
         return (string)($this->config->getValue(
-                self::XML_PATH_CONTENT_LANGUAGE,
-                ScopeInterface::SCOPE_STORE,
-                $store
+            self::XML_PATH_CONTENT_LANGUAGE,
+            ScopeInterface::SCOPE_STORE,
+            $store
         ) ?? '*');
     }
 
     public function getFetchLinks(StoreInterface $store): string
     {
         return (string)($this->config->getValue(
-                self::XML_PATH_CONTENT_FETCHLINKS,
-                ScopeInterface::SCOPE_STORE,
-                $store
+            self::XML_PATH_CONTENT_FETCHLINKS,
+            ScopeInterface::SCOPE_STORE,
+            $store
             ) ?? '');
     }
 
     public function getContentType(StoreInterface $store): string
     {
         return (string)($this->config->getValue(
-                self::XML_PATH_CONTENT_CONTENT_TYPE,
-                ScopeInterface::SCOPE_STORE,
-                $store
+            self::XML_PATH_CONTENT_CONTENT_TYPE,
+            ScopeInterface::SCOPE_STORE,
+            $store
             ) ?? '');
     }
 }

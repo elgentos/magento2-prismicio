@@ -10,5 +10,4 @@ namespace Elgentos\PrismicIO\Exception;
 
 class ApiNotEnabledException extends GeneralException
 {
-
 }

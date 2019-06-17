@@ -12,7 +12,6 @@ use Elgentos\PrismicIO\Block\AbstractTemplate;
 
 class PageTitle extends AbstractTemplate
 {
-
     protected function _prepareLayout()
     {
         $this->pageConfig
@@ -21,5 +20,4 @@ class PageTitle extends AbstractTemplate
 
         return $this;
     }
-
 }

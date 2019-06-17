@@ -56,5 +56,4 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
 
         return $page;
     }
-
 }

@@ -8,16 +8,13 @@
 
 namespace Elgentos\PrismicIO\Block\Dom;
 
-
 use Elgentos\PrismicIO\Block\AbstractBlock;
 use Prismic\Dom\Link as PrismicLink;
 
 class Link extends AbstractBlock
 {
-
     public function fetchDocumentView(): string
     {
         return $this->escapeUrl(PrismicLink::asUrl($this->getContext(), $this->getLinkResolver()));
     }
-
 }

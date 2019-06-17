@@ -8,10 +8,8 @@
 
 namespace Elgentos\PrismicIO\Registry;
 
-
 class CurrentDocument
 {
-
     private $document;
 
     public function setDocument(\stdClass $document): void
@@ -23,5 +21,4 @@ class CurrentDocument
     {
         return $this->document;
     }
-
 }

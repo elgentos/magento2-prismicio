@@ -51,5 +51,4 @@ abstract class AbstractTemplate extends Template implements BlockInterface
 
         $block->setDocument($this->getContext());
     }
-
 }

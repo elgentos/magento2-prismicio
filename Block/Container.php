@@ -8,10 +8,8 @@
 
 namespace Elgentos\PrismicIO\Block;
 
-
 class Container extends AbstractBlock
 {
-
     public function fetchDocumentView(): string
     {
         $context = $this->getContext();
@@ -27,5 +25,4 @@ class Container extends AbstractBlock
 
         return $html;
     }
-
 }

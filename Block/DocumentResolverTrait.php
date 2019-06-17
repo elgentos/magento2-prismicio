@@ -59,5 +59,4 @@ trait DocumentResolverTrait
     {
         $this->setData(BlockInterface::REFERENCE_KEY, $reference);
     }
-
 }

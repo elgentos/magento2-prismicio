@@ -13,10 +13,8 @@ use Prismic\Dom\Date as PrismicDate;
 
 class Date extends AbstractBlock
 {
-
     public function fetchDocumentView(): string
     {
         return $this->_localeDate->formatDate(PrismicDate::asDate($this->getContext()), \IntlDateFormatter::LONG);
     }
-
 }

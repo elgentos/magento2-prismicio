@@ -8,7 +8,6 @@
 
 namespace Elgentos\PrismicIO\Api;
 
-
 use Elgentos\PrismicIO\Api\Data\RouteInterface;
 use Elgentos\PrismicIO\Exception\RouteNotFoundException;
 
@@ -34,5 +33,4 @@ interface RouteRepositoryInterface
      * @throws RouteNotFoundException
      */
     public function getByContentType(string $contentType, int $storeId): RouteInterface;
-
 }

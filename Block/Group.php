@@ -8,10 +8,8 @@
 
 namespace Elgentos\PrismicIO\Block;
 
-
 class Group extends AbstractBlock
 {
-
     public function fetchDocumentView(): string
     {
         $items = $this->getContext();
@@ -41,5 +39,4 @@ class Group extends AbstractBlock
 
         return $html;
     }
-
 }

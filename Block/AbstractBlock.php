@@ -23,8 +23,7 @@ abstract class AbstractBlock extends FrameworkAbstractBlock implements BlockInte
         DocumentResolver $documentResolver,
         LinkResolver $linkResolver,
         array $data = []
-    )
-    {
+    ) {
         $this->documentResolver = $documentResolver;
         $this->linkResolver = $linkResolver;
 
@@ -45,5 +44,4 @@ abstract class AbstractBlock extends FrameworkAbstractBlock implements BlockInte
     }
 
     abstract public function fetchDocumentView(): string;
-
 }

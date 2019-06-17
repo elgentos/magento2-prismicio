@@ -8,7 +8,6 @@
 
 namespace Elgentos\PrismicIO\Controller;
 
-
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\Api\Data\RouteInterface;
 use Elgentos\PrismicIO\Model\ResourceModel\Route\Collection;
@@ -58,8 +57,7 @@ class Router implements RouterInterface
         CurrentRoute $currentRoute,
         ActionFactory $actionFactory,
         ConfigurationInterface $configuration
-    )
-    {
+    ) {
         $this->storeManager = $storeManager;
         $this->collection = $collection;
         $this->searchCriteria = $searchCriteria;
@@ -114,5 +112,4 @@ class Router implements RouterInterface
 
         return $this->actionFactory->create(Forward::class);
     }
-
 }

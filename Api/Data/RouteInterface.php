@@ -4,7 +4,6 @@ namespace Elgentos\PrismicIO\Api\Data;
 
 interface RouteInterface
 {
-
     public function getId(): ?int;
 
     public function getTitle(): string;
@@ -31,5 +30,4 @@ interface RouteInterface
      * @return string
      */
     public function getUidForRequestPath(string $requestPath): string;
-
 }

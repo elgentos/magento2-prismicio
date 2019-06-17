@@ -8,12 +8,10 @@
 
 namespace Elgentos\PrismicIO\Api;
 
-
 use \Magento\Store\Api\Data\StoreInterface;
 
 interface ConfigurationInterface
 {
-
     const XML_PATH_API_ENABLED = 'prismicio/general/enabled';
     const XML_PATH_API_ENDPOINT = 'prismicio/general/enpoint';
     const XML_PATH_API_SECRET = 'prismicio/general/token';
@@ -29,5 +27,4 @@ interface ConfigurationInterface
     public function getContentLanguage(StoreInterface $store): string;
     public function getFetchLinks(StoreInterface $store): string;
     public function getContentType(StoreInterface $store): string;
-
 }

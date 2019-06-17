@@ -20,7 +20,6 @@ use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\View\Result\PageFactory;
 use Prismic\Predicates;
 
-
 class View extends Action implements HttpGetActionInterface, HttpPostActionInterface
 {
 
@@ -127,8 +126,9 @@ class View extends Action implements HttpGetActionInterface, HttpPostActionInter
 
         $redirectUrl = trim($this->currentRoute->getRoute()->getRoute(), '/') . '/' . $uid;
 
-        $resultRedirect->setPath('',
-             [
+        $resultRedirect->setPath(
+            '',
+            [
                  '_use_rewrite' => false,
                  '_direct' => $redirectUrl
              ]
@@ -151,5 +151,4 @@ class View extends Action implements HttpGetActionInterface, HttpPostActionInter
 
         return $page;
     }
-
 }

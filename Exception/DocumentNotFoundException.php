@@ -8,7 +8,6 @@
 
 namespace Elgentos\PrismicIO\Exception;
 
-
 class DocumentNotFoundException extends GeneralException
 {
 }

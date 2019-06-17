@@ -34,8 +34,7 @@ class LinkResolver extends LinkResolverAbstract
         UrlInterface $urlBuilder,
         StoreManagerInterface $storeManager,
         RouteRepositoryInterface $routeRepository
-    )
-    {
+    ) {
         $this->urlBuilder = $urlBuilder;
         $this->storeManager = $storeManager;
         $this->routeRepository = $routeRepository;
@@ -62,7 +61,6 @@ class LinkResolver extends LinkResolverAbstract
             default:
                 return $this->urlBuilder->getBaseUrl();
         }
-
     }
 
     public function getMediaUrl(\stdClass $link): ?string
@@ -97,5 +95,4 @@ class LinkResolver extends LinkResolverAbstract
             return null;
         }
     }
-
 }

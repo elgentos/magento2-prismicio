@@ -8,11 +8,8 @@
 
 namespace Elgentos\PrismicIO\Api\Data\Route;
 
-
 interface StoreInterface
 {
-
     public function getRouteId(): int;
     public function getStoreId(): int;
-
 }

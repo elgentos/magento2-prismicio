@@ -10,7 +10,6 @@ namespace Elgentos\PrismicIO\Block;
 
 class Slices extends Group
 {
-
     public function fetchItem(\stdClass $slice): string
     {
         $sliceTypeBlock = $this->getSliceTypeBlock($slice->slice_type);
@@ -27,5 +26,4 @@ class Slices extends Group
         $childReference = $this->getNameInLayout() . '.' . $sliceType;
         return $this->getChildBlock($childReference) ?: null;
     }
-
 }

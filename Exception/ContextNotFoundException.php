@@ -8,8 +8,6 @@
 
 namespace Elgentos\PrismicIO\Exception;
 
-
 class ContextNotFoundException extends GeneralException
 {
-
 }

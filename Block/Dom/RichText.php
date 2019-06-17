@@ -13,10 +13,8 @@ use Prismic\Dom\RichText as PrismicRichText;
 
 class RichText extends AbstractBlock
 {
-
     public function fetchDocumentView(): string
     {
         return PrismicRichText::asHtml($this->getContext(), $this->getLinkResolver());
     }
-
 }

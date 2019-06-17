@@ -40,7 +40,7 @@
                 </field>
                 <field id="fetchlinks" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
                     <label>Fetchlinks</label>
-                    <comment><![CDATA[Which related fields should we try to fetch from Prismic in one call]]></comment>
+                    <comment><![CDATA[Which related fields should we try to fetch from Prismic in one call, format <code>customtype.field,customtype.field</code>]]></comment>
                 </field>
             </group>
 

@@ -31,7 +31,9 @@ abstract class AbstractTemplate extends Template implements BlockInterface
 
     public function getChildHtml($alias = '', $useCache = true)
     {
-        $this->updateChildDocument($alias);
+        if ($this->updateChildDocument($alias)) {
+            $useCache = false;
+        }
         return parent::getChildHtml($alias, $useCache);
     }
 
@@ -39,16 +41,18 @@ abstract class AbstractTemplate extends Template implements BlockInterface
      * Update child document to use relative paths
      *
      * @param string $alias
+     * @return bool
      * @throws \Elgentos\PrismicIO\Exception\ContextNotFoundException
      * @throws \Elgentos\PrismicIO\Exception\DocumentNotFoundException
      */
-    public function updateChildDocument(string $alias): void
+    public function updateChildDocument(string $alias): bool
     {
         $block = $this->getChildBlock($alias);
         if (! $block) {
-            return;
+            return false;
         }
 
         $block->setDocument($this->getContext());
+        return true;
     }
 }

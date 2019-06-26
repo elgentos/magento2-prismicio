@@ -58,7 +58,7 @@ class Page
             return $this->redirectUid($uid);
         }
 
-        return $this->createPage($contentType, $document);
+        return $this->createPage($document);
     }
 
     public function forwardNoRoute(): ResultInterface
@@ -85,14 +85,14 @@ class Page
         return $resultRedirect;
     }
 
-    private function createPage(string $contentType, \stdClass $document): ResultInterface
+    private function createPage(\stdClass $document): ResultInterface
     {
         $this->currentDocument->setDocument($document);
 
         $page = $this->pageFactory->create();
         $page->addHandle([
             'prismicio_default',
-            'prismicio_by_type_' . $contentType,
+            'prismicio_by_type_' . $document->type,
             'prismicio_by_uid_' . $document->uid,
         ]);
 

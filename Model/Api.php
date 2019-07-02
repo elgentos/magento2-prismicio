@@ -43,6 +43,18 @@ class Api
     }
 
     /**
+     * Tell wetter preview mode is allowed
+     *
+     * @return bool
+     * @throws NoSuchEntityException
+     */
+    public function isPreviewAllowed(): bool
+    {
+        return $this->configuration
+            ->allowDebugInFrontend($this->storeManager->getStore());
+    }
+
+    /**
      * Get API options
      *
      * @param array $options

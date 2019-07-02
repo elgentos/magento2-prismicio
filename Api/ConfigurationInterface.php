@@ -19,7 +19,9 @@ interface ConfigurationInterface
     public const XML_PATH_CONTENT_LANGUAGE = 'prismicio/content/language';
     public const XML_PATH_CONTENT_FETCHLINKS = 'prismicio/content/fetchlinks';
     public const XML_PATH_CONTENT_CONTENT_TYPE = 'prismicio/content/content_type';
+
     public const XML_PATH_CONTENT_CONTENT_ALLOW_DEBUG = 'prismicio/content/allow_debug';
+    public const XML_PATH_CONTENT_CONTENT_ALLOW_PREVIEW = 'prismicio/content/allow_preview';
 
     public function getApiEnabled(StoreInterface $store): bool;
     public function getApiEndpoint(StoreInterface $store): string;
@@ -28,5 +30,7 @@ interface ConfigurationInterface
     public function getContentLanguage(StoreInterface $store): string;
     public function getFetchLinks(StoreInterface $store): string;
     public function getContentType(StoreInterface $store): string;
+
     public function allowDebugInFrontend(StoreInterface $store): bool;
+    public function allowPreviewInFrontend(StoreInterface $store): bool;
 }

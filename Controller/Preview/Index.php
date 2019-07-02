@@ -12,8 +12,6 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\Controller\Result\ForwardFactory;
-use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
-use Magento\Framework\Stdlib\Cookie\PhpCookieManager;
 
 class Index extends Action implements HttpGetActionInterface, HttpPostActionInterface
 {
@@ -26,29 +24,19 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
     private $redirectFactory;
     /** @var ForwardFactory */
     private $forwardFactory;
-    /** @var PhpCookieManager */
-    private $cookieManager;
-    /**
-     * @var CookieMetadataFactory
-     */
-    private $cookieMetadataFactory;
 
     public function __construct(
         Context $context,
         Api $api,
         LinkResolver $linkResolver,
         RedirectFactory $redirectFactory,
-        ForwardFactory $forwardFactory,
-        PhpCookieManager $cookieManager,
-        CookieMetadataFactory $cookieMetadataFactory
+        ForwardFactory $forwardFactory
     ) {
         parent::__construct($context);
         $this->api = $api;
         $this->linkResolver = $linkResolver;
         $this->redirectFactory = $redirectFactory;
         $this->forwardFactory = $forwardFactory;
-        $this->cookieManager = $cookieManager;
-        $this->cookieMetadataFactory = $cookieMetadataFactory;
     }
 
 
@@ -57,6 +45,11 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
      */
     public function execute()
     {
+        if (! $this->api->isPreviewAllowed()) {
+            return $this->forwardFactory->create()
+                    ->forward('noroute');
+        }
+
         $token = $this->getRequest()
                 ->getParam('token');
 
@@ -70,17 +63,6 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
                 ->create()
                 ->forward('noroute');
         }
-
-        // Set cookie for token
-        $metadata = $this->cookieMetadataFactory
-                ->createSensitiveCookieMetadata()
-                ->setPath('/');
-
-        $this->cookieManager->setSensitiveCookie(
-            $api::PREVIEW_COOKIE,
-            $token,
-            $metadata
-        );
 
         $redirect = $this->redirectFactory
                 ->create();

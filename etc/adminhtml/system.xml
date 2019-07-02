@@ -48,6 +48,11 @@
                     <comment><![CDATA[Allow displaying Elgentos\Prismicio\Block\Debug in frontend, this only works if developer mode is also enabled</code>]]></comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="allow_preview" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment" type="select">
+                    <label>Preview</label>
+                    <comment><![CDATA[Allow using preview features from Prismic</code>]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
             </group>
         </section>
     </system>

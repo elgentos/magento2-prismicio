@@ -97,4 +97,13 @@ class Configuration implements ConfigurationInterface
                 $store
             ) ?? '');
     }
+
+    public function allowPreviewInFrontend(StoreInterface $store): bool
+    {
+        return (bool)($this->config->getValue(
+                self::XML_PATH_CONTENT_CONTENT_ALLOW_PREVIEW,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            ) ?? '');
+    }
 }

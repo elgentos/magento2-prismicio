@@ -27,6 +27,7 @@
                     </depends>
                 </field>
             </group>
+
             <group id="content" translate="label" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Content</label>
 
@@ -42,8 +43,12 @@
                     <label>Fetchlinks</label>
                     <comment><![CDATA[Which related fields should we try to fetch from Prismic in one call, format <code>customtype.field,customtype.field</code>]]></comment>
                 </field>
+                <field id="allow_debug" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment" type="select">
+                    <label>Debugging</label>
+                    <comment><![CDATA[Allow displaying Elgentos\Prismicio\Block\Debug in frontend, this only works if developer mode is also enabled</code>]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
             </group>
-
         </section>
     </system>
 </config>

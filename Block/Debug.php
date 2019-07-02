@@ -8,33 +8,38 @@
 
 namespace Elgentos\PrismicIO\Block;
 
+use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
-use Magento\Framework\App\ObjectManager\Environment\Developer;
-use Magento\Framework\App\State;
 use Magento\Framework\View\Element\Context;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Debug extends AbstractBlock
 {
 
-    /** @var State */
-    private $appState;
+    /** @var ConfigurationInterface */
+    private $configuration;
+    /** var StoreManagerInterface */
+    private $storeManager;
 
     public function __construct(
         Context $context,
         DocumentResolver $documentResolver,
         LinkResolver $linkResolver,
-        State $appState,
+        ConfigurationInterface $configuration,
+        StoreManagerInterface $storeManager,
         array $data = []
     ) {
-        $this->appState = $appState;
+
+        $this->configuration = $configuration;
+        $this->storeManager = $storeManager;
 
         parent::__construct($context, $documentResolver, $linkResolver, $data);
     }
 
     public function fetchDocumentView(): string
     {
-        if ($this->appState->getMode() !== Developer::MODE) {
+        if (! $this->configuration->allowDebugInFrontend($this->storeManager->getStore())) {
             // Only allow debug in developer mode
             return '';
         }

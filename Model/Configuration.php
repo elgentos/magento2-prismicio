@@ -10,6 +10,7 @@ namespace Elgentos\PrismicIO\Model;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\State;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\ScopeInterface;
 
@@ -18,11 +19,15 @@ class Configuration implements ConfigurationInterface
 
     /** @var ScopeConfigInterface */
     private $config;
+    /** @var State */
+    private $state;
 
     public function __construct(
-        ScopeConfigInterface $config
+        ScopeConfigInterface $config,
+        State $state
     ) {
         $this->config = $config;
+        $this->state = $state;
     }
 
     public function getApiEndpoint(StoreInterface $store): string
@@ -76,6 +81,20 @@ class Configuration implements ConfigurationInterface
             self::XML_PATH_CONTENT_CONTENT_TYPE,
             ScopeInterface::SCOPE_STORE,
             $store
+            ) ?? '');
+    }
+
+    public function allowDebugInFrontend(StoreInterface $store): bool
+    {
+        // Only allow in developer mode
+        if ($this->state->getMode() !== $this->state::MODE_DEVELOPER) {
+            return false;
+        }
+
+        return (bool)($this->config->getValue(
+                self::XML_PATH_CONTENT_CONTENT_ALLOW_DEBUG,
+                ScopeInterface::SCOPE_STORE,
+                $store
             ) ?? '');
     }
 }

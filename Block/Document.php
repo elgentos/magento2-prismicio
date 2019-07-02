@@ -64,6 +64,8 @@ class Document extends AbstractBlock implements BlockInterface
             return;
         }
 
+        // Needed to correctly resolve url's
+        $document->link_type = 'Document';
         $this->setDocument($document);
     }
 

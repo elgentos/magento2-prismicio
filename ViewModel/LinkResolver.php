@@ -50,17 +50,11 @@ class LinkResolver extends LinkResolverAbstract
      */
     public function resolve($link): ?string
     {
-        switch ($link->link_type) {
-            case 'Document':
+        $linkType = $link->link_type ?? 'Document';
 
-                return $this->getDocumentUrl($link);
-
-            case 'Media':
-                return $this->getMediaUrl($link);
-
-            default:
-                return $this->urlBuilder->getBaseUrl();
-        }
+        return $linkType === 'Media' ?
+            $this->getMediaUrl($link) :
+            $this->resolveRouteUrl($link);
     }
 
     public function getMediaUrl(\stdClass $link): ?string
@@ -68,15 +62,14 @@ class LinkResolver extends LinkResolverAbstract
         return $link->url ?? null;
     }
 
-    public function getDocumentUrl(\stdClass $link): ?string
+    public function resolveRouteUrl(\stdClass $link): ?string
     {
         $uid = $link->uid ?? null;
         $contentType = $link->type ?? null;
 
         if (! $uid || !$contentType) {
-            return null;
+            return $this->resolveDirectPage($link);
         }
-
 
         try {
             $store = $this->storeManager->getStore();
@@ -90,9 +83,34 @@ class LinkResolver extends LinkResolverAbstract
                 '_direct' => $url
             ]);
         } catch (RouteNotFoundException $e) {
-            return $this->urlBuilder->getBaseUrl();
+            // Return direct page
+            return $this->resolveDirectPage($link);
         } catch (\Exception $e) {
             return null;
         }
+    }
+
+    public function resolveDirectPage(\stdClass $link): ?string
+    {
+        $store = $this->storeManager->getStore();
+
+        $id = $link->id;
+        $uid = $link->uid ?? null;
+        $contentType = $link->type ?? null;
+
+        $routeParams = [
+            '_scope' => $store,
+            '_use_rewrite' => true,
+        ];
+
+        // Assign parameters
+        if ($uid) {
+            $contentType && ($routeParams['type'] = $contentType);
+            $routeParams['uid'] = $uid;
+        } else {
+            $routeParams['id'] = $id;
+        }
+
+        return $this->urlBuilder->getUrl('prismicio/direct/page', $routeParams);
     }
 }

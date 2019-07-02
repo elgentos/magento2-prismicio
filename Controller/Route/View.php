@@ -51,6 +51,6 @@ class View extends Action implements HttpGetActionInterface, HttpPostActionInter
         }
 
         $contentType = $route->getContentType();
-        return $this->page->renderPage($uid, $contentType);
+        return $this->page->renderPageByUid($uid, $contentType);
     }
 }

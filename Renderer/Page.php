@@ -39,7 +39,7 @@ class Page
         $this->currentDocument = $currentDocument;
     }
 
-    public function renderPage(string $uid, string $contentType = null): ResultInterface
+    public function renderPageByUid(string $uid, string $contentType = null): ResultInterface
     {
         if (! $this->api->isActive()) {
             return $this->forwardNoRoute();
@@ -49,13 +49,31 @@ class Page
             return $this->forwardNoRoute();
         }
 
-        $document = $this->getDocumentFromApi($uid, $contentType);
+        $document = $this->getDocumentFromApiByUid($uid, $contentType);
         if (! $document) {
             return $this->forwardNoRoute();
         }
 
         if ($document->uid !== $uid) {
             return $this->redirectUid($uid);
+        }
+
+        return $this->createPage($document);
+    }
+
+    public function renderPageById(string $id): ResultInterface
+    {
+        if (! $this->api->isActive()) {
+            return $this->forwardNoRoute();
+        }
+
+        if (! $id) {
+            return $this->forwardNoRoute();
+        }
+
+        $document = $this->getDocumentFromApiById($id);
+        if (! $document) {
+            return $this->forwardNoRoute();
         }
 
         return $this->createPage($document);
@@ -99,7 +117,7 @@ class Page
         return $page;
     }
 
-    private function getDocumentFromApi(string $uid, string $contentType = null): ?\stdClass
+    private function getDocumentFromApiByUid(string $uid, string $contentType = null): ?\stdClass
     {
         $contentType = $contentType ?? $this->api->getDefaultContentType();
         $api = $this->api->create();
@@ -111,5 +129,11 @@ class Page
         }
 
         return $api->getByUID($contentType, $uid, $this->api->getOptions());
+    }
+
+    private function getDocumentFromApiById(string $id): ?\stdClass
+    {
+        $api = $this->api->create();
+        return $api->getByID($id, $this->api->getOptions());
     }
 }

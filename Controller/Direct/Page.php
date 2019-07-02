@@ -35,13 +35,20 @@ class Page extends Action implements HttpGetActionInterface, HttpPostActionInter
      */
     public function execute()
     {
+        $id = $this->getRequest()
+                ->getParam('id', '');
+
+        if ($id) {
+            return $this->page->renderPageById($id);
+        }
+
         $uid = $this->getRequest()
-                ->getParam('uid', '');
+            ->getParam('uid', '');
 
         $contentType = $this->getRequest()
             ->getParam('type');
 
-        return $this->page->renderPage($uid, $contentType);
+        return $this->page->renderPageByUid($uid, $contentType);
     }
 
 }

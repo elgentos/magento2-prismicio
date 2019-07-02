@@ -55,4 +55,16 @@ abstract class AbstractTemplate extends Template implements BlockInterface
         $block->setDocument($this->getContext());
         return true;
     }
+
+    /**
+     * @inheritDoc
+     */
+    protected function _toHtml()
+    {
+        if (! $this->hasContext()) {
+            return '';
+        }
+
+        return parent::_toHtml();
+    }
 }

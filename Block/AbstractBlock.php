@@ -30,6 +30,11 @@ abstract class AbstractBlock extends FrameworkAbstractBlock implements BlockInte
         parent::__construct($context, $data);
     }
 
+    /**
+     * Get reference key
+     *
+     * @return string
+     */
     public function getReference(): string
     {
         return $this->_getData(BlockInterface::REFERENCE_KEY) ?:
@@ -38,10 +43,22 @@ abstract class AbstractBlock extends FrameworkAbstractBlock implements BlockInte
                 '*';
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function _toHtml()
     {
+        if (! $this->hasContext()) {
+            return '';
+        }
+
         return $this->fetchDocumentView();
     }
 
+    /**
+     * Fetch document view
+     *
+     * @return string
+     */
     abstract public function fetchDocumentView(): string;
 }

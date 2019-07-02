@@ -40,6 +40,12 @@ trait DocumentResolverTrait
                 ->getContext($this->getReference(), $this->getDocument());
     }
 
+    public function hasContext(): bool
+    {
+        return $this->getDocumentResolver()
+                ->hasContext($this->getReference(), $this->getDocument());
+    }
+
     public function setDocument(\stdClass $document): void
     {
         $this->document = $document;

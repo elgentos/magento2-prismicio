@@ -51,7 +51,7 @@ class Api
     public function isPreviewAllowed(): bool
     {
         return $this->configuration
-            ->allowDebugInFrontend($this->storeManager->getStore());
+            ->allowPreviewInFrontend($this->storeManager->getStore());
     }
 
     /**

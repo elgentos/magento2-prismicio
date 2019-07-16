@@ -106,9 +106,15 @@ class Router implements RouterInterface
         $prismicRouteUid = $route->getUidForRequestPath($requestPath);
 
         $request->setModuleName('prismicio')
+            ->setControllerName('route')
+            ->setActionName('view')
+            ->setParam('uid', $prismicRouteUid);
+
+        if (! $prismicRouteUid) {
+            $request->setModuleName('prismicio')
                 ->setControllerName('route')
-                ->setActionName('view')
-                ->setParam('uid', $prismicRouteUid);
+                ->setActionName('index');
+        }
 
         return $this->actionFactory->create(Forward::class);
     }

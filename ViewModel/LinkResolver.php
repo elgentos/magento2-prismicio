@@ -101,7 +101,7 @@ class LinkResolver extends LinkResolverAbstract
     {
         $store = $this->getStore($link);
 
-        $id = $link->id;
+        $id = $link->id ?? null;
         $uid = $link->uid ?? null;
         $contentType = $link->type ?? null;
 
@@ -115,6 +115,9 @@ class LinkResolver extends LinkResolverAbstract
         if ($uid) {
             $contentType && ($routeParams['type'] = $contentType);
             $routeParams['uid'] = $uid;
+        } elseif (!$id) {
+            // No id to match on
+            return '';
         } else {
             $routeParams['id'] = $id;
         }

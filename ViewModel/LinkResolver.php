@@ -83,12 +83,12 @@ class LinkResolver extends LinkResolverAbstract
             $route = $this->routeRepository->getByContentType((string)$contentType, +$store->getId());
 
             $url = trim($route->getRoute(), '/') . '/' . $uid;
-
-            return $this->urlBuilder->getUrl('', [
+            return trim($this->urlBuilder->getUrl($url, [
                 '_scope' => $store,
-                '_rewrite' => false,
-                '_direct' => $url
-            ]);
+                '_use_rewrite' => true,
+                '_nosid' => true
+            ]), '/');
+
         } catch (RouteNotFoundException $e) {
             // Return direct page
             return $this->resolveDirectPage($link);
@@ -108,6 +108,7 @@ class LinkResolver extends LinkResolverAbstract
         $routeParams = [
             '_scope' => $store,
             '_use_rewrite' => true,
+            '_nosid' => true
         ];
 
         // Assign parameters

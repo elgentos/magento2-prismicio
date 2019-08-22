@@ -11,6 +11,7 @@ namespace Elgentos\PrismicIO\ViewModel;
 use Elgentos\PrismicIO\Api\RouteRepositoryInterface;
 use Elgentos\PrismicIO\Exception\RouteNotFoundException;
 use Magento\Framework\UrlInterface;
+use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Prismic\LinkResolver as LinkResolverAbstract;
 
@@ -62,6 +63,12 @@ class LinkResolver extends LinkResolverAbstract
         return $link->url ?? null;
     }
 
+    public function getStore(\stdClass $link): StoreInterface
+    {
+        $storeId = $link->store ?? $link->store_id ?? null;
+        return $this->storeManager->getStore($storeId);
+    }
+
     public function resolveRouteUrl(\stdClass $link): ?string
     {
         $uid = $link->uid ?? null;
@@ -72,7 +79,7 @@ class LinkResolver extends LinkResolverAbstract
         }
 
         try {
-            $store = $this->storeManager->getStore();
+            $store = $this->getStore($link);
             $route = $this->routeRepository->getByContentType((string)$contentType, +$store->getId());
 
             $url = trim($route->getRoute(), '/') . '/' . $uid;
@@ -92,7 +99,7 @@ class LinkResolver extends LinkResolverAbstract
 
     public function resolveDirectPage(\stdClass $link): ?string
     {
-        $store = $this->storeManager->getStore();
+        $store = $this->getStore($link);
 
         $id = $link->id;
         $uid = $link->uid ?? null;

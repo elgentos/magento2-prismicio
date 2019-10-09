@@ -46,8 +46,10 @@ class Document extends AbstractBlock implements BlockInterface
     {
         $context = $this->getContext();
 
-        $isBroken = (bool)($context->isBroken ?? true);
+        // We need to update the document to the current context to change scope for children
+        $this->setDocument($context);
 
+        $isBroken = (bool)($context->isBroken ?? true);
         if ($isBroken) {
             // We can only query existing pages
             return;

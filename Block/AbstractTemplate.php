@@ -32,7 +32,7 @@ abstract class AbstractTemplate extends Template implements BlockInterface
 
     public function getChildHtml($alias = '', $useCache = true)
     {
-        if ($this->updateChildDocument($alias)) {
+        if ($this->updateChildDocumentWithContext($alias)) {
             $useCache = false;
         }
         return parent::getChildHtml($alias, $useCache);

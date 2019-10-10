@@ -68,6 +68,9 @@ class Document extends AbstractBlock
 
         // Needed to correctly resolve url's
         $document->link_type = 'Document';
+
+        // Update reference because we overwrite the current document
+        $this->setReference('*');
         $this->setDocument($document);
     }
 

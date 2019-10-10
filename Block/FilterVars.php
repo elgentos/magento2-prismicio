@@ -43,7 +43,7 @@ class FilterVars extends AbstractBlock
     public function fetchDocumentView(): string
     {
         foreach ($this->getChildNames() as $alias) {
-            $this->updateChildDocument($alias);
+            $this->updateChildDocumentWithContext($alias);
         }
 
         // Replace

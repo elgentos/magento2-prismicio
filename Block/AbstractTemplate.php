@@ -16,6 +16,7 @@ abstract class AbstractTemplate extends Template implements BlockInterface
 {
     use LinkResolverTrait;
     use DocumentResolverTrait;
+    use UpdateChildBlockWithDocumentTrait;
 
     public function __construct(
         Template\Context $context,
@@ -35,25 +36,6 @@ abstract class AbstractTemplate extends Template implements BlockInterface
             $useCache = false;
         }
         return parent::getChildHtml($alias, $useCache);
-    }
-
-    /**
-     * Update child document to use relative paths
-     *
-     * @param string $alias
-     * @return bool
-     * @throws \Elgentos\PrismicIO\Exception\ContextNotFoundException
-     * @throws \Elgentos\PrismicIO\Exception\DocumentNotFoundException
-     */
-    public function updateChildDocument(string $alias): bool
-    {
-        $block = $this->getChildBlock($alias);
-        if (! $block) {
-            return false;
-        }
-
-        $block->setDocument($this->getContext());
-        return true;
     }
 
     /**

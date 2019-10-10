@@ -17,6 +17,7 @@ abstract class AbstractBlock extends FrameworkAbstractBlock implements BlockInte
 {
     use LinkResolverTrait;
     use DocumentResolverTrait;
+    use UpdateChildBlockWithDocumentTrait;
 
     public function __construct(
         Context $context,

@@ -88,7 +88,6 @@ class LinkResolver extends LinkResolverAbstract
                 '_use_rewrite' => true,
                 '_nosid' => true
             ]), '/');
-
         } catch (RouteNotFoundException $e) {
             // Return direct page
             return $this->resolveDirectPage($link);

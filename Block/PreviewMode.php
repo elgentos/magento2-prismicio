@@ -44,5 +44,4 @@ class PreviewMode extends Template
     {
         return $this->configuration->getApiEndpoint($this->storeManager->getStore());
     }
-
 }

@@ -3,7 +3,6 @@
 
 namespace Elgentos\PrismicIO\Block;
 
-
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Email\Model\Template\Filter;
@@ -51,4 +50,3 @@ class FilterVars extends AbstractBlock
         return $this->filter->filter($html);
     }
 }
-

@@ -50,5 +50,4 @@ class Page extends Action implements HttpGetActionInterface, HttpPostActionInter
 
         return $this->page->renderPageByUid($uid, $contentType);
     }
-
 }

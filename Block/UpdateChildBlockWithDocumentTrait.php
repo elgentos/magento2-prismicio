@@ -3,7 +3,6 @@
 
 namespace Elgentos\PrismicIO\Block;
 
-
 trait UpdateChildBlockWithDocumentTrait
 {
 
@@ -43,6 +42,4 @@ trait UpdateChildBlockWithDocumentTrait
         $block->setDocument($document);
         return true;
     }
-
-
 }

@@ -9,7 +9,6 @@ use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\View\Result\PageFactory;
 
-
 class Page
 {
     /** @var ForwardFactory */

@@ -3,7 +3,6 @@
 
 namespace Elgentos\PrismicIO\Controller\Preview;
 
-
 use Elgentos\PrismicIO\Model\Api;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Backend\Model\View\Result\RedirectFactory;
@@ -70,5 +69,4 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
 
         return $redirect;
     }
-
 }

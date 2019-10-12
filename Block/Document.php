@@ -70,5 +70,4 @@ class Document extends AbstractBlock
         $document->link_type = 'Document';
         $this->setDocument($document);
     }
-
 }

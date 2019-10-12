@@ -30,7 +30,6 @@ class Debug extends AbstractBlock
         StoreManagerInterface $storeManager,
         array $data = []
     ) {
-
         $this->configuration = $configuration;
         $this->storeManager = $storeManager;
 

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Elgentos\PrismicIO\Block;
-
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
@@ -66,7 +64,6 @@ class AlternateLanguage extends AbstractTemplate
         $alternateData = [];
         /** @var ScopeInterface $store */
         foreach ($this->storeManager->getStores() as $store) {
-
             if (! $store->getIsActive()) {
                 // Skip inactive store
                 continue;
@@ -106,5 +103,4 @@ class AlternateLanguage extends AbstractTemplate
 
         return $alternateData;
     }
-
 }

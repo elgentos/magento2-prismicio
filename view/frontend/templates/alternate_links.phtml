@@ -1,0 +1,12 @@
+<?php
+/**
+ * Copyright © 2019 Elgentos All rights reserved.
+ *
+ * @var $block \Elgentos\PrismicIO\Block\AlternateLanguage
+ */
+
+foreach ($block->getAlternateData() as $alternateConfig) {
+?>
+<link rel="alternate" hreflang="<?= $alternateConfig['hreflang'] ?>" href="<?= $alternateConfig['href'] ?>" type="<?= $alternateConfig['type'] ?>" /> <?= PHP_EOL ?>
+<?php
+}

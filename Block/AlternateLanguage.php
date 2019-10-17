@@ -33,6 +33,15 @@ class AlternateLanguage extends AbstractTemplate
         $this->configuration = $configuration;
     }
 
+    public function toHtml()
+    {
+        if ($this->storeManager->isSingleStoreMode()) {
+            return '';
+        }
+
+        return parent::toHtml();
+    }
+
     public function mapContextWithLanguage()
     {
         $context = $this->getDocumentResolver()

@@ -31,6 +31,13 @@ class LinkResolver extends LinkResolverAbstract
      */
     private $routeRepository;
 
+    /**
+     * @var bool
+     *
+     * Whether or not to force a trailing slash
+     */
+    private $forceTrailingSlash = true;
+
     public function __construct(
         UrlInterface $urlBuilder,
         StoreManagerInterface $storeManager,
@@ -69,6 +76,11 @@ class LinkResolver extends LinkResolverAbstract
         return $this->storeManager->getStore($storeId);
     }
 
+    public function isTrailingSlashForced() : bool
+    {
+        return $this->forceTrailingSlash;
+    }
+
     public function resolveRouteUrl(\stdClass $link): ?string
     {
         $uid = $link->uid ?? null;
@@ -83,11 +95,17 @@ class LinkResolver extends LinkResolverAbstract
             $route = $this->routeRepository->getByContentType((string)$contentType, +$store->getId());
 
             $url = trim($route->getRoute(), '/') . '/' . $uid;
-            return trim($this->urlBuilder->getUrl($url, [
+            $builtUrl = trim($this->urlBuilder->getUrl($url, [
                 '_scope' => $store,
                 '_use_rewrite' => true,
                 '_nosid' => true
             ]), '/');
+
+            if ($this->isTrailingSlashForced()) {
+                $builtUrl .= '/';
+            }
+
+            return $builtUrl;
         } catch (RouteNotFoundException $e) {
             // Return direct page
             return $this->resolveDirectPage($link);
@@ -121,6 +139,12 @@ class LinkResolver extends LinkResolverAbstract
             $routeParams['id'] = $id;
         }
 
-        return $this->urlBuilder->getUrl('prismicio/direct/page', $routeParams);
+        $builtUrl = trim($this->urlBuilder->getUrl('prismicio/direct/page', $routeParams), '/');
+
+        if ($this->isTrailingSlashForced()) {
+            $builtUrl .= '/';
+        }
+
+        return $builtUrl;
     }
 }

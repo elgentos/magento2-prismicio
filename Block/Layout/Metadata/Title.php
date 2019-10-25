@@ -14,7 +14,7 @@ class Title extends AbstractTemplate
 {
     protected function _prepareLayout()
     {
-        $this->pageConfig->setMetadata('title',  $this->getChildHtml());
+        $this->pageConfig->setMetadata('title', $this->getChildHtml());
 
         return $this;
     }

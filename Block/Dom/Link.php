@@ -15,12 +15,6 @@ class Link extends AbstractBlock
 {
     public function fetchDocumentView(): string
     {
-        $linkResolver = $this->getLinkResolver();
-
-        if ($linkResolver->isTrailingSlashForced() && is_string($this->getContext())) {
-            return trim($this->getContext(), '/') . '/';
-        }
-
-        return $this->escapeUrl(PrismicLink::asUrl($this->getContext(), $linkResolver));
+        return $this->escapeUrl(PrismicLink::asUrl($this->getContext(), $this->getLinkResolver()));
     }
 }

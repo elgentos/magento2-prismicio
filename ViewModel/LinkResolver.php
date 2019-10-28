@@ -157,13 +157,15 @@ class LinkResolver extends LinkResolverAbstract
             ]);
         }
 
-        // Set route params and merge with requested parameters
-        $routeParams = array_merge($routeParams, $data);
-
         if ($rewriteUrl) {
-            $routeParams['_direct'] = $rewriteUrl->getRequestPath();
+            // Magento's url resolver is so stupid Framework/Url.php:748
+            // Talking about single responsibility I would love to give this to Magento's URL resolver
+            // I just cant because they forgot to forward a few parameters
+            return $store->getBaseUrl() . $rewriteUrl->getRequestPath();
         }
 
+        // Set route params and merge with requested parameters
+        $routeParams = array_merge($routeParams, $data);
         return trim($this->urlBuilder->getUrl($routePath, $routeParams), '/');
     }
 

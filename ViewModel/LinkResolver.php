@@ -137,7 +137,6 @@ class LinkResolver extends LinkResolverAbstract
     public function getUrl(StoreInterface $store, array $data, $routePath = 'prismicio/direct/page'): string
     {
         $routeParams = [
-            '_use_rewrite' => true,
             '_nosid' => true,
             '_scope' => $store
         ];
@@ -158,10 +157,11 @@ class LinkResolver extends LinkResolverAbstract
             ]);
         }
 
+        // Set route params and merge with requested parameters
+        $routeParams = array_merge($routeParams, $data);
+
         if ($rewriteUrl) {
             $routeParams['_direct'] = $rewriteUrl->getRequestPath();
-        } else {
-            $routeParams = array_merge($routeParams, $data);
         }
 
         return trim($this->urlBuilder->getUrl($routePath, $routeParams), '/');

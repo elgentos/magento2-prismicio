@@ -97,7 +97,8 @@ class AlternateLanguage extends AbstractTemplate
                 'lang' => $language,
                 'hreflang' => $magentoLanguage,
                 'href' => $href,
-                'type' => 'text/html'
+                'type' => 'text/html',
+                'link' => $link
             ];
 
             if ($isDefault) {
@@ -105,7 +106,8 @@ class AlternateLanguage extends AbstractTemplate
                     'lang' => $language,
                     'hreflang' => 'x-default',
                     'href' => $href,
-                    'type' => 'text/html'
+                    'type' => 'text/html',
+                    'link' => $link
                 ];
             }
         }

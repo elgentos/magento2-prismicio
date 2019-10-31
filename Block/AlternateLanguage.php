@@ -95,6 +95,7 @@ class AlternateLanguage extends AbstractTemplate
 
             $alternateData[] = [
                 'lang' => $language,
+                'store_code' => $store->getCode(),
                 'hreflang' => $magentoLanguage,
                 'href' => $href,
                 'type' => 'text/html',

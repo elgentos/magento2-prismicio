@@ -90,6 +90,7 @@ class AlternateLanguage extends AbstractTemplate
             $link = $context[$language];
 
             $link->store = $store;
+            $link->link_type = 'Document';
             $href = $this->getLinkResolver()
                     ->resolve($link);
 

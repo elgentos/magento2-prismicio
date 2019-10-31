@@ -165,6 +165,11 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
             return rtrim($store->getBaseUrl() . $rewriteUrl->getRequestPath(), '/');
         }
 
+        if (isset($data['_direct'])) {
+            // See above statement
+            return rtrim($store->getBaseUrl() . $data['_direct'], '/');
+        }
+
         // Set route params and merge with requested parameters
         $routeParams = array_merge($routeParams, $data);
         return rtrim($this->urlBuilder->getUrl($routePath, $routeParams), '/');

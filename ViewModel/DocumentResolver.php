@@ -11,8 +11,9 @@ namespace Elgentos\PrismicIO\ViewModel;
 use Elgentos\PrismicIO\Exception\ContextNotFoundException;
 use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
 use Elgentos\PrismicIO\Registry\CurrentDocument;
+use Magento\Framework\View\Element\Block\ArgumentInterface;
 
-class DocumentResolver
+class DocumentResolver implements ArgumentInterface
 {
     const CONTEXT_DELIMITER = '.';
 

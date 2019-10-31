@@ -11,13 +11,14 @@ namespace Elgentos\PrismicIO\ViewModel;
 use Elgentos\PrismicIO\Api\RouteRepositoryInterface;
 use Elgentos\PrismicIO\Exception\RouteNotFoundException;
 use Magento\Framework\UrlInterface;
+use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\UrlRewrite\Model\UrlFinderInterface;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Prismic\LinkResolver as LinkResolverAbstract;
 
-class LinkResolver extends LinkResolverAbstract
+class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
 {
 
     /**

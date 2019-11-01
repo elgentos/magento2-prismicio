@@ -6,6 +6,6 @@ class LinkWithTrailingSlash extends Link
 {
     public function fetchDocumentView(): string
     {
-        return $this->escapeUrl(parent::fetchDocumentView() . '/');
+        return $this->escapeUrl(rtrim(parent::fetchDocumentView(), '/') . '/');
     }
 }

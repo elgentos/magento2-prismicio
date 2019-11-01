@@ -87,7 +87,7 @@ class AlternateLanguage extends AbstractTemplate
             $isDefault = $defaultStoreId === $store->getId();
             $magentoLanguage = str_replace('_', '-', $store->getConfig('general/locale/code'));
 
-            $link = $context[$language];
+            $link = clone $context[$language];
 
             $link->store = $store;
             $link->link_type = 'Document';

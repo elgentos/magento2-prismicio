@@ -43,7 +43,7 @@ class FilterVars extends AbstractBlock
     {
         $useCache = true;
         foreach ($this->getChildNames() as $alias) {
-            $useCache = $this->updateChildDocumentWithContext($alias) ? $useCache : false;
+            $useCache = $this->updateChildDocumentWithContext($alias) ? false : $useCache;
         }
 
         // Replace

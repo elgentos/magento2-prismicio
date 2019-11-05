@@ -35,8 +35,8 @@ class Document extends AbstractBlock
 
         $html = '';
         foreach ($this->getChildNames() as $childName) {
-            $this->updateChildDocumentWithDocument($childName);
-            $html .= $this->getChildHtml($childName, false);
+            $useCache = $this->updateChildDocumentWithDocument($childName);
+            $html .= $this->getChildHtml($childName, $useCache);
         }
 
         return $html;

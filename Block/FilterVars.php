@@ -41,12 +41,13 @@ class FilterVars extends AbstractBlock
      */
     public function fetchDocumentView(): string
     {
+        $useCache = true;
         foreach ($this->getChildNames() as $alias) {
-            $this->updateChildDocumentWithContext($alias);
+            $useCache = $this->updateChildDocumentWithContext($alias) ? $useCache : false;
         }
 
         // Replace
-        $html = preg_replace('/{{([^ }]+)}}/', '{{customvar code=\\1}}', $this->getChildHtml());
+        $html = preg_replace('/{{([^ }]+)}}/', '{{customvar code=\\1}}', $this->getChildHtml('', $useCache));
         return $this->filter->filter($html);
     }
 }

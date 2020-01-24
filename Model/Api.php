@@ -10,6 +10,7 @@ namespace Elgentos\PrismicIO\Model;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
+use Elgentos\PrismicIO\Model\Api\CacheProxy;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Prismic\Api as PrismicApi;
@@ -21,13 +22,17 @@ class Api
     private $configuration;
     /** @var StoreManagerInterface */
     private $storeManager;
+    /** @var CacheProxy */
+    private $cacheProxy;
 
     public function __construct(
         ConfigurationInterface $configuration,
-        StoreManagerInterface $storeManager
+        StoreManagerInterface $storeManager,
+        CacheProxy $cacheProxy
     ) {
         $this->configuration = $configuration;
         $this->storeManager = $storeManager;
+        $this->cacheProxy = $cacheProxy;
     }
 
     /**
@@ -107,7 +112,9 @@ class Api
 
         return PrismicApi::get(
             $apiEndpoint,
-            $apiSecret
+            $apiSecret,
+            null,
+            $this->cacheProxy
         );
     }
 }

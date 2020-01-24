@@ -75,6 +75,7 @@ class RouteRepository implements RouteRepositoryInterface
         if ($this->initialized) {
             return;
         }
+        $this->initialized = true;
 
         /** @var Collection $collection */
         $collection = $this->collectionFactory->create();

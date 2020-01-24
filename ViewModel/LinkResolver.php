@@ -39,6 +39,11 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
      */
     private $urlFinder;
 
+    /**
+     * @var array
+     */
+    private $urlCache = [];
+
     public function __construct(
         UrlInterface $urlBuilder,
         StoreManagerInterface $storeManager,
@@ -92,8 +97,18 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
             $store = $this->getStore($link);
             $route = $this->routeRepository->getByContentType((string)$contentType, +$store->getId());
 
+            $cacheKey = implode('|', [
+                '_ROUTED_',
+                $route->getId(),
+                $store->getId(),
+                $uid
+            ]);
+            if (isset($this->urlCache[$cacheKey])) {
+                return $this->urlCache[$cacheKey];
+            }
+
             $data = ['_direct' => trim($route->getRoute(), '/') . '/' . $uid];
-            return $this->getUrl($store, $data, '');
+            return $this->urlCache[$cacheKey] = $this->getUrl($store, $data, '');
         } catch (RouteNotFoundException $e) {
             // Return direct page
             return $this->resolveDirectPage($link);
@@ -124,7 +139,18 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
             $data['id'] = $uid;
         }
 
-        return $this->getUrl($store, $data);
+        $cacheKey = implode('|', [
+            '_DIRECT_',
+            $store->getId(),
+            $contentType,
+            $uid,
+            $id
+        ]);
+        if (isset($this->urlCache[$cacheKey])) {
+            return $this->urlCache[$cacheKey];
+        }
+
+        return $this->urlCache[$cacheKey] = $this->getUrl($store, $data);
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace Elgentos\PrismicIO\Model\Api;
 
-use Magento\Framework\Serialize\SerializerInterface;
 use \Prismic\Cache\CacheInterface;
 use \Magento\Framework\App\CacheInterface as MagentoCache;
 
@@ -17,17 +16,11 @@ class CacheProxy implements CacheInterface
      * @var MagentoCache
      */
     private $magentoCache;
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
 
     public function __construct(
-        MagentoCache $magentoCache,
-        SerializerInterface $serializer
+        MagentoCache $magentoCache
     ) {
         $this->magentoCache = $magentoCache;
-        $this->serializer = $serializer;
     }
 
     /*
@@ -53,7 +46,7 @@ class CacheProxy implements CacheInterface
             return null;
         }
 
-        return $this->serializer->unserialize($this->magentoCache->getFrontend()->load($key));
+        return \json_decode($this->magentoCache->getFrontend()->load($key));
     }
 
     /**
@@ -66,7 +59,7 @@ class CacheProxy implements CacheInterface
      */
     public function set($key, $value, $ttl = 0)
     {
-        $this->magentoCache->getFrontend()->save($this->serializer->serialize($value), $key, static::CACHE_TAGS, $ttl);
+        $this->magentoCache->getFrontend()->save(\json_encode($value), $key, static::CACHE_TAGS, $ttl);
     }
 
     /**
@@ -89,5 +82,4 @@ class CacheProxy implements CacheInterface
     {
         $this->magentoCache->getFrontend()->clean(\Zend_Cache::CLEANING_MODE_MATCHING_TAG, static::CACHE_TAGS);
     }
-
 }

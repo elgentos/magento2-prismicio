@@ -14,6 +14,10 @@ class PageTitle extends AbstractTemplate
 {
     protected function _prepareLayout()
     {
+        if (! $this->getDocumentResolver()->hasDocument()) {
+            return $this;
+        }
+
         $this->pageConfig
                 ->getTitle()
                 ->set($this->getChildHtml());

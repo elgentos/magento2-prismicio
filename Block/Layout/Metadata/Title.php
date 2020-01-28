@@ -14,6 +14,10 @@ class Title extends AbstractTemplate
 {
     protected function _prepareLayout()
     {
+        if (! $this->getDocumentResolver()->hasDocument()) {
+            return $this;
+        }
+
         $this->pageConfig->setMetadata('title',  $this->getChildHtml());
 
         return $this;

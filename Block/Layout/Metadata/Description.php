@@ -14,6 +14,10 @@ class Description extends AbstractTemplate
 {
     protected function _prepareLayout()
     {
+        if (! $this->getDocumentResolver()->hasDocument()) {
+            return $this;
+        }
+
         $this->pageConfig->setMetadata('description', $this->getChildHtml());
         return $this;
     }

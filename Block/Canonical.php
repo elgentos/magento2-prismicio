@@ -10,25 +10,34 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class Canonical extends AbstractTemplate
 {
-
     /**
-     * @var StoreManagerInterface
+     * Get canonical url
+     *
+     * @return string
      */
-    public $storeManager;
-
-    public function __construct(
-        Template\Context $context,
-        DocumentResolver $documentResolver,
-        LinkResolver $linkResolver,
-        StoreManagerInterface $storeManager,
-        array $data = []
-    ) {
-        parent::__construct($context, $documentResolver, $linkResolver, $data);
-        $this->storeManager = $storeManager;
+    public function getCanonicalUrl(): string
+    {
+        return $this->getCanonical()['url'];
     }
 
-    public function getCanonicalUrl()
+    /**
+     * Get canical url
+     *
+     * @return array
+     * @throws \Elgentos\PrismicIO\Exception\ContextNotFoundException
+     * @throws \Elgentos\PrismicIO\Exception\DocumentNotFoundException
+     */
+    public function getCanonical(): array
     {
-        return $this->storeManager->getStore()->getCurrentUrl(false);
+        $link = $this->getContext();
+
+        $link->link_type = 'Document';
+        $href = $this->getLinkResolver()
+            ->resolve($link);
+
+        return [
+            'url' => $href,
+            'link' => $link
+        ];
     }
 }

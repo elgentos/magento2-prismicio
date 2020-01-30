@@ -7,6 +7,7 @@
 
         <referenceBlock name="head.additional">
             <block name="prismicio_alternate_links" class="Elgentos\PrismicIO\Block\AlternateLanguage" template="Elgentos_PrismicIO::alternate_links.phtml" />
+            <block name="prismicio_canonical" class="Elgentos\PrismicIO\Block\Canonical" template="Elgentos_PrismicIO::canonical.phtml" />
         </referenceBlock>
     </body>
 </page>

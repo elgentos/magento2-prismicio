@@ -31,7 +31,9 @@ class Document extends AbstractBlock
      */
     public function fetchDocumentView(): string
     {
-        $this->fetchChildDocument();
+        if (! $this->fetchChildDocument()) {
+            return '';
+        }
 
         $html = '';
         foreach ($this->getChildNames() as $childName) {
@@ -42,7 +44,7 @@ class Document extends AbstractBlock
         return $html;
     }
 
-    private function fetchChildDocument(): void
+    private function fetchChildDocument(): bool
     {
         $context = $this->getContext();
 
@@ -52,7 +54,7 @@ class Document extends AbstractBlock
         $isBroken = (bool)($context->isBroken ?? true);
         if ($isBroken) {
             // We can only query existing pages
-            return;
+            return false;
         }
         $options = $this->api->getOptions();
 
@@ -63,11 +65,13 @@ class Document extends AbstractBlock
 
         $document = $api->getByID($id, $options);
         if (! $document) {
-            return;
+            return false;
         }
 
         // Needed to correctly resolve url's
         $document->link_type = 'Document';
         $this->setDocument($document);
+
+        return true;
     }
 }

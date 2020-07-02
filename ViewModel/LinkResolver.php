@@ -33,12 +33,10 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
      * @var RouteRepositoryInterface
      */
     private $routeRepository;
-
     /**
      * @var UrlFinderInterface
      */
     private $urlFinder;
-
     /**
      * @var array
      */
@@ -178,17 +176,28 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
             // Magento's url resolver is so stupid Framework/Url.php:748
             // Talking about single responsibility I would love to give this to Magento's URL resolver
             // I just cant because they forgot to forward a few parameters
-            return rtrim($store->getBaseUrl() . $rewriteUrl->getRequestPath(), '/');
+            return $this->getFormattedUrl($store->getBaseUrl() . $rewriteUrl->getRequestPath());
         }
 
         if (isset($data['_direct'])) {
             // See above statement
-            return rtrim($store->getBaseUrl() . $data['_direct'], '/');
+            return $this->getFormattedUrl($store->getBaseUrl() . $data['_direct']);
         }
 
         // Set route params and merge with requested parameters
         $routeParams = array_merge($routeParams, $data);
-        return rtrim($this->urlBuilder->getUrl($routePath, $routeParams), '/');
+        return $this->getFormattedUrl($this->urlBuilder->getUrl($routePath, $routeParams));
+    }
+
+    /**
+     * Format url
+     *
+     * @param string $url
+     * @return string
+     */
+    public function getFormattedUrl(string $url): string
+    {
+        return rtrim($url, '/');
     }
 
     /**

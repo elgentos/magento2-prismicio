@@ -15,6 +15,7 @@
             </general>
             <content>
                 <language />
+                <language_fallback />
                 <content_type />
                 <fetchlinks />
                 <allow_debug>1</allow_debug>

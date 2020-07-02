@@ -9,6 +9,7 @@
 namespace Elgentos\PrismicIO\Model;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
+use Elgentos\PrismicIO\Exception\ConfigLanguageFallbackIsNotSetException;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\State;
 use Magento\Store\Api\Data\StoreInterface;
@@ -64,6 +65,28 @@ class Configuration implements ConfigurationInterface
             ScopeInterface::SCOPE_STORE,
             $store
         ) ?? '*');
+    }
+
+    public function hasContentLanguageFallback(StoreInterface $store): bool
+    {
+        return (bool)$this->config->getValue(
+                self::XML_PATH_CONTENT_LANGUAGE_FALLBACK,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            );
+    }
+
+    public function getContentLanguageFallback(StoreInterface $store): string
+    {
+        if (! $this->hasContentLanguageFallback($store)) {
+            throw new ConfigLanguageFallbackIsNotSetException('No config language fallback is set for this store');
+        }
+
+        return (string)($this->config->getValue(
+                self::XML_PATH_CONTENT_LANGUAGE_FALLBACK,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            ) ?? '*');
     }
 
     public function getFetchLinks(StoreInterface $store): string

@@ -35,6 +35,12 @@
                     <label>Language</label>
                     <source_model>Elgentos\PrismicIO\Model\Source\Languages</source_model>
                 </field>
+                <field id="language_fallback" showInDefault="0" showInWebsite="1" showInStore="1" translate="label comment" type="select">
+                    <label>Language fallback</label>
+                    <comment>If a document cannot be found in the language, try again in fallback language</comment>
+                    <source_model>Elgentos\PrismicIO\Model\Source\Languages\Fallback</source_model>
+                </field>
+
                 <field id="content_type" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="select">
                     <label>Default Content type</label>
                     <source_model>Elgentos\PrismicIO\Model\Source\ContentTypes</source_model>

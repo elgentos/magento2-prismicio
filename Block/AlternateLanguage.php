@@ -6,6 +6,7 @@ use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Framework\View\Element\Template;
+use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
 class AlternateLanguage extends AbstractTemplate
@@ -67,20 +68,28 @@ class AlternateLanguage extends AbstractTemplate
     public function getAlternateData(): array
     {
         $context = $this->mapContextWithLanguage();
-        $defaultStoreId = $this->storeManager->getDefaultStoreView()
-                ->getId();
+        $configuration = $this->configuration;
+
+        $defaultStoreView = $this->storeManager->getDefaultStoreView();
+        $defaultStoreId = $defaultStoreView ? $defaultStoreView->getId() : -1;
 
         $alternateData = [];
-        /** @var ScopeInterface $store */
+        /** @var StoreInterface $store */
         foreach ($this->storeManager->getStores() as $store) {
             if (! $store->getIsActive()) {
                 // Skip inactive store
                 continue;
             }
 
-            $language = $this->configuration->getContentLanguage($store);
-            if (!isset($context[$language])) {
-                // Not found
+            $language = $configuration->getContentLanguage($store);
+            $hasFallback = $configuration->hasContentLanguageFallback($store);
+            if ($hasFallback && ! isset($context[$language])) {
+                // Overwrite with fallback language
+                $language = $configuration->getContentLanguageFallback($store);
+            }
+
+            if (! isset($context[$language])) {
+                // Not found in language and fallback language
                 continue;
             }
 

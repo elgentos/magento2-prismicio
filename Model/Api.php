@@ -147,4 +147,47 @@ class Api
             $this->cacheProxy
         );
     }
+
+    /**
+     * Get document by uid
+     *
+     * @param string $uid
+     * @param string|null $contentType
+     * @return \stdClass|null
+     * @throws ApiNotEnabledException
+     * @throws NoSuchEntityException
+     */
+    public function getDocumentByUid(string $uid, string $contentType = null): ?\stdClass
+    {
+        $contentType = $contentType ?? $this->getDefaultContentType();
+        $api = $this->create();
+
+        $allowedContentTypes = $api->getData()
+                ->getTypes();
+        if (! isset($allowedContentTypes[$contentType])) {
+            return null;
+        }
+
+        $document = $api->getByUID($contentType, $uid, $this->getOptions());
+        if ($document || ! $this->api->isFallbackAllowed()) {
+            return $document;
+        }
+
+        return $api->getByUID($contentType, $uid, $this->getOptionsLanguageFallback());
+    }
+
+    /**
+     * Get document by id
+     *
+     * @param string $id
+     * @return \stdClass|null
+     * @throws ApiNotEnabledException
+     * @throws NoSuchEntityException
+     */
+    public function getDocumentById(string $id): ?\stdClass
+    {
+        $api = $this->create();
+        return $api->getByID($id, $this->getOptions());
+    }
+
 }

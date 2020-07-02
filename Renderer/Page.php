@@ -40,15 +40,15 @@ class Page
 
     public function renderPageByUid(string $uid, string $contentType = null): ResultInterface
     {
-        if (! $this->api->isActive()) {
-            return $this->forwardNoRoute();
-        }
-
         if (! $uid) {
             return $this->forwardNoRoute();
         }
 
-        $document = $this->getDocumentFromApiByUid($uid, $contentType);
+        if (! $this->api->isActive()) {
+            return $this->forwardNoRoute();
+        }
+
+        $document = $this->api->getDocumentByUid($uid, $contentType);
         if (! $document) {
             return $this->forwardNoRoute();
         }
@@ -62,15 +62,15 @@ class Page
 
     public function renderPageById(string $id): ResultInterface
     {
-        if (! $this->api->isActive()) {
-            return $this->forwardNoRoute();
-        }
-
         if (! $id) {
             return $this->forwardNoRoute();
         }
 
-        $document = $this->getDocumentFromApiById($id);
+        if (! $this->api->isActive()) {
+            return $this->forwardNoRoute();
+        }
+
+        $document = $this->api->getDocumentById($id);
         if (! $document) {
             return $this->forwardNoRoute();
         }
@@ -116,28 +116,4 @@ class Page
         return $page;
     }
 
-    private function getDocumentFromApiByUid(string $uid, string $contentType = null): ?\stdClass
-    {
-        $contentType = $contentType ?? $this->api->getDefaultContentType();
-        $api = $this->api->create();
-
-        $allowedContentTypes = $api->getData()
-                ->getTypes();
-        if (! isset($allowedContentTypes[$contentType])) {
-            return null;
-        }
-
-        $document = $api->getByUID($contentType, $uid, $this->api->getOptions());
-        if ($document || ! $this->api->isFallbackAllowed()) {
-            return $document;
-        }
-
-        return $api->getByUID($contentType, $uid, $this->api->getOptionsLanguageFallback());
-    }
-
-    private function getDocumentFromApiById(string $id): ?\stdClass
-    {
-        $api = $this->api->create();
-        return $api->getByID($id, $this->api->getOptions());
-    }
 }

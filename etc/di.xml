@@ -16,4 +16,12 @@
     <preference for="\Elgentos\PrismicIO\Api\Data\Route\StoreInterface" type="Elgentos\PrismicIO\Model\Route\Store" />
     <preference for="\Elgentos\PrismicIO\Api\RouteRepositoryInterface" type="Elgentos\PrismicIO\Model\RouteRepository" />
 
+    <!--
+    // Not enabled by default, add this feature in your own project by creating a simple prismic extended module
+    // I didn't want to enable a plugin at all times
+    <type name="Elgentos\PrismicIO\ViewModel\LinkResolver">
+        <plugin name="elgentos_prismicio_appendtrailingslashes" type="Elgentos\PrismicIO\Plugin\ViewModel\LinkResolver\AppendTrailingSlashes" />
+    </type>
+    -->
+
 </config>

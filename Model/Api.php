@@ -81,6 +81,24 @@ class Api
     }
 
     /**
+     * Get API options with fallback language
+     *
+     * @param array $options
+     * @return array
+     * @throws NoSuchEntityException
+     */
+    public function getOptionsLanguageFallback(array $options = []): array
+    {
+        $store = $this->storeManager->getStore();
+
+        if (! isset($options['lang']) && $this->configuration->hasContentLanguageFallback($store)) {
+            $options['lang'] = $this->configuration->getContentLanguageFallback($store);
+        }
+
+        return $this->getOptions($options);
+    }
+
+    /**
      * Get default content type
      *
      * @return string

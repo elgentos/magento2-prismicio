@@ -127,7 +127,12 @@ class Page
             return null;
         }
 
-        return $api->getByUID($contentType, $uid, $this->api->getOptions());
+        $document = $api->getByUID($contentType, $uid, $this->api->getOptions());
+        if ($document || ! $this->api->isFallbackAllowed()) {
+            return $document;
+        }
+
+        return $api->getByUID($contentType, $uid, $this->api->getOptionsLanguageFallback());
     }
 
     private function getDocumentFromApiById(string $id): ?\stdClass

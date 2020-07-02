@@ -60,6 +60,18 @@ class Api
     }
 
     /**
+     * Is fallback allowed
+     *
+     * @return bool
+     * @throws NoSuchEntityException
+     */
+    public function isFallbackAllowed(): bool
+    {
+        return $this->configuration
+                ->hasContentLanguageFallback($this->storeManager->getStore());
+    }
+
+    /**
      * Get API options
      *
      * @param array $options

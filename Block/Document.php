@@ -56,14 +56,16 @@ class Document extends AbstractBlock
             // We can only query existing pages
             return false;
         }
-        $options = $this->api->getOptions();
 
         $id = $context->id ?? '';
-        $options['lang'] = $context->lang;
 
-        $api = $this->api->create();
+        $options = ['lang' => $context->lang];
 
-        $document = $api->getByID($id, $options);
+        $document = $this->api->getDocumentById($id, $options);
+        if ($id = $this->api->getDocumentIdInHomeLanguage($document)) {
+            $document = $this->api->getDocumentById($id);
+        }
+
         if (! $document) {
             return false;
         }

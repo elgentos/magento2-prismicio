@@ -72,6 +72,72 @@ class Api
     }
 
     /**
+     * Get document id for the alternate language
+     *
+     * @param string $language
+     * @param \stdClass $document
+     * @return string
+     * @throws NoSuchEntityException
+     */
+    public function getDocumentIdInLanguage(string $language, \stdClass $document = null): ?string
+    {
+        $alternateLanguages = (array)($document->alternate_languages ?? []);
+        if (empty($alternateLanguages)) {
+            return null;
+        }
+
+        $languageFallback = $this->configuration->getContentLanguageFallback($this->storeManager->getStore());
+        $availableLanguages = array_filter($alternateLanguages, function($lang) use ($language) {
+            return ($lang->lang ?? null) === $language;
+        });
+
+        $available = array_shift($availableLanguages);
+        if (! $available) {
+            return null;
+        }
+
+        return $available->id;
+    }
+
+    /**
+     * Get document id for fallback language
+     *
+     * @param \stdClass|null $document
+     * @return string|null
+     * @throws NoSuchEntityException
+     */
+    public function getDocumentIdInFallbackLanguage(\stdClass $document = null): ?string
+    {
+        if (! $this->isFallbackAllowed()) {
+            return null;
+        }
+
+        return $this->getDocumentIdInLanguage(
+                $this->configuration->getContentLanguageFallback($this->storeManager->getStore()),
+                $document
+        );
+    }
+
+    /**
+     * Get document id for home language
+     *
+     * @param \stdClass|null $document
+     * @return string|null
+     * @throws NoSuchEntityException
+     */
+    public function getDocumentIdInHomeLanguage(\stdClass $document = null): ?string
+    {
+        if (! $this->isFallbackAllowed()) {
+            return null;
+        }
+
+        return $this->getDocumentIdInLanguage(
+                $this->configuration->getContentLanguage($this->storeManager->getStore()),
+                $document
+        );
+    }
+
+    /**
      * Get API options
      *
      * @param array $options
@@ -153,11 +219,12 @@ class Api
      *
      * @param string $uid
      * @param string|null $contentType
+     * @param array $options
      * @return \stdClass|null
      * @throws ApiNotEnabledException
      * @throws NoSuchEntityException
      */
-    public function getDocumentByUid(string $uid, string $contentType = null): ?\stdClass
+    public function getDocumentByUid(string $uid, string $contentType = null, array $options = []): ?\stdClass
     {
         $contentType = $contentType ?? $this->getDefaultContentType();
         $api = $this->create();
@@ -168,26 +235,27 @@ class Api
             return null;
         }
 
-        $document = $api->getByUID($contentType, $uid, $this->getOptions());
-        if ($document || ! $this->api->isFallbackAllowed()) {
+        $document = $api->getByUID($contentType, $uid, $this->getOptions($options));
+        if ($document || ! $this->isFallbackAllowed()) {
             return $document;
         }
 
-        return $api->getByUID($contentType, $uid, $this->getOptionsLanguageFallback());
+        return $api->getByUID($contentType, $uid, $this->getOptionsLanguageFallback($options));
     }
 
     /**
      * Get document by id
      *
      * @param string $id
+     * @param array $options
      * @return \stdClass|null
      * @throws ApiNotEnabledException
      * @throws NoSuchEntityException
      */
-    public function getDocumentById(string $id): ?\stdClass
+    public function getDocumentById(string $id, array $options = []): ?\stdClass
     {
         $api = $this->create();
-        return $api->getByID($id, $this->getOptions());
+        return $api->getByID($id, $this->getOptions($options));
     }
 
 }

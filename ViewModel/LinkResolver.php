@@ -68,7 +68,7 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
 
         return $linkType === 'Media' ?
             $this->getMediaUrl($link) :
-            $this->enhancedUrl($this->resolveRouteUrl($link));
+            $this->resolveRouteUrl($link);
     }
 
     public function getMediaUrl(\stdClass $link): ?string
@@ -228,21 +228,6 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
             UrlRewrite::REDIRECT_TYPE => 0,
             UrlRewrite::STORE_ID => $store->getId()
         ]);
-    }
-
-    public function enhancedUrl(?string $url): ?string
-    {
-        if (! $url) {
-            return $url;
-        }
-
-        $baseUrl = $this->urlBuilder->getBaseUrl();
-        $findAndReplaceBaseUrl = [
-            'http://{{relative}}',
-            'https://{{relative}}',
-        ];
-
-        return str_replace($findAndReplaceBaseUrl, $baseUrl, $url);
     }
 
 }

@@ -16,6 +16,14 @@ class Link extends AbstractBlock
     public function fetchDocumentView(): string
     {
         $url = PrismicLink::asUrl($this->getContext(), $this->getLinkResolver());
+
+        $baseUrl = $this->_urlBuilder->getBaseUrl();
+        $findAndReplaceBaseUrl = [
+            'http://{{relative}}',
+            'https://{{relative}}',
+        ];
+
+        $url = str_replace($findAndReplaceBaseUrl, $baseUrl, $url);
         return $this->escapeUrl($url);
     }
 }

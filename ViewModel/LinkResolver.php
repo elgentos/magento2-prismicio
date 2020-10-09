@@ -8,6 +8,7 @@
 
 namespace Elgentos\PrismicIO\ViewModel;
 
+use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\Api\RouteRepositoryInterface;
 use Elgentos\PrismicIO\Exception\RouteNotFoundException;
 use Magento\Framework\UrlInterface;
@@ -41,17 +42,35 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
      * @var array
      */
     private $urlCache = [];
+    /**
+     * @var ConfigurationInterface
+     */
+    private $configuration;
+    /**
+     * @var array
+     */
+    private $cachedLanguageStoreIds;
 
+    /**
+     * LinkResolver constructor.
+     * @param UrlInterface $urlBuilder
+     * @param StoreManagerInterface $storeManager
+     * @param RouteRepositoryInterface $routeRepository
+     * @param UrlFinderInterface $urlFinder
+     * @param ConfigurationInterface $configuration
+     */
     public function __construct(
         UrlInterface $urlBuilder,
         StoreManagerInterface $storeManager,
         RouteRepositoryInterface $routeRepository,
-        UrlFinderInterface $urlFinder
+        UrlFinderInterface $urlFinder,
+        ConfigurationInterface $configuration
     ) {
         $this->urlBuilder = $urlBuilder;
         $this->storeManager = $storeManager;
         $this->routeRepository = $routeRepository;
         $this->urlFinder = $urlFinder;
+        $this->configuration = $configuration;
     }
 
     /**
@@ -78,7 +97,7 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
 
     public function getStore(\stdClass $link): StoreInterface
     {
-        $storeId = $link->store ?? $link->store_id ?? null;
+        $storeId = $link->store ?? $link->store_id ?? $this->getStoreIdFromLink($link) ?? null;
         return $this->storeManager->getStore($storeId);
     }
 
@@ -228,6 +247,42 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
             UrlRewrite::REDIRECT_TYPE => 0,
             UrlRewrite::STORE_ID => $store->getId()
         ]);
+    }
+
+    /**
+     * Resolve store id from $link->lang to a valid storeId
+     *
+     * @param \stdClass $link
+     * @return int|null
+     */
+    public function getStoreIdFromLink(\stdClass $link): ?int
+    {
+        if (! isset($link->lang)) {
+            return null;
+        }
+
+        return $this->getLanguageStoreIds()[$link->lang] ?? null;
+    }
+
+    /**
+     * Get reversed language code to store id mapping
+     *
+     * @return array
+     */
+    private function getLanguageStoreIds(): array
+    {
+        if (null !== $this->cachedLanguageStoreIds) {
+            return $this->cachedLanguageStoreIds;
+        }
+
+        $languageStoreIds = [];
+        foreach ($this->storeManager->getStores() as $store) {
+            $languageCode = $this->configuration->getContentLanguage($store);
+            $languageStoreIds[$languageCode] = $languageStoreIds[$languageCode] ?? +$store->getId();
+        }
+
+        $this->cachedLanguageStoreIds = $languageStoreIds;
+        return $languageStoreIds;
     }
 
 }

@@ -86,7 +86,6 @@ class Api
             return null;
         }
 
-        $languageFallback = $this->configuration->getContentLanguageFallback($this->storeManager->getStore());
         $availableLanguages = array_filter($alternateLanguages, function($lang) use ($language) {
             return ($lang->lang ?? null) === $language;
         });

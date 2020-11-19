@@ -4,8 +4,8 @@ namespace Elgentos\PrismicIO\Helper;
 
 class Pager extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    public function getPageFromRequest()
+    public function getPageFromRequest() : int
     {
-        return $this->_getRequest()->getParam('page') ?: 1;
+        return +$this->_getRequest()->getParam('page') ?: 1;
     }
 }

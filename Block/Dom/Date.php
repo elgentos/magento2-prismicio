@@ -15,6 +15,6 @@ class Date extends AbstractBlock
 {
     public function fetchDocumentView(): string
     {
-        return $this->_localeDate->formatDate(PrismicDate::asDate($this->getContext()), \IntlDateFormatter::LONG);
+        return $this->_localeDate->formatDate(PrismicDate::asDate($this->getContext()), $this->getData('format') ?: \IntlDateFormatter::LONG, (bool) $this->getData('showTime'));
     }
 }

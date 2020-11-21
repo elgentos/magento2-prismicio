@@ -21,6 +21,9 @@
                 <allow_debug>1</allow_debug>
                 <allow_preview />
             </content>
+            <integration_fields>
+                <attributes>sku,name,description,short_description,price</attributes>
+            </integration_fields>
         </prismicio>
     </default>
 </config>

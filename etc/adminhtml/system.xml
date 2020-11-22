@@ -80,7 +80,7 @@
                  <field id="visibility" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="multiselect">
                     <label>Visibilities to Synchronize</label>
                      <comment><![CDATA[Select which Product Visibilities must been synchronized to Prismic. Select all wil increase your SKU limitation Prismic]]></comment>
-                     <source_model>Elgentos\PrismicIO\Model\Source\Visibility</source_model>
+                     <source_model>Magento\Catalog\Model\Product\Visibility</source_model>
                 </field>
 
                 <field id="access_token" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="text">

@@ -68,7 +68,7 @@
                 <label>Integration Fields</label>
                 <field id="attributes" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="multiselect">
                     <label>Product Attributes</label>
-                    <comment><![CDATA[Attributes to make available in Prismic Integration Fields]]></comment>
+                    <comment><![CDATA[Attributes to make available in Prismic Integration Fields. The following attributes will always be made available: name, image, status, short_description, updated_at]]></comment>
                     <source_model>Elgentos\PrismicIO\Model\Source\Attributes</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>

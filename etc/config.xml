@@ -23,6 +23,8 @@
             </content>
             <integration_fields>
                 <attributes>sku</attributes>
+                <sync_disabled_products>0</sync_disabled_products>
+                <visibility>4</visibility>
             </integration_fields>
         </prismicio>
     </default>

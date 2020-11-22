@@ -73,7 +73,13 @@ class Products implements HttpGetActionInterface
     public function execute()
     {
         $this->protectRoute();
-        $attributes = explode(',', $this->config->getValue('prismicio/integration_fields/attributes'));
+        // Make sure the default attributes needed for Prismic are added
+        $attributes = array_unique(
+            array_merge(
+                ['name', 'image', 'short_description', 'updated_at'],
+                explode(',', $this->config->getValue('prismicio/integration_fields/attributes'))
+            )
+        );
         $productCollection = $this->productCollectionFactory
             ->create()
             ->addAttributeToFilter('status', ['eq' => 1])

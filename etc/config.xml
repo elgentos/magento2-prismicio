@@ -22,7 +22,7 @@
                 <allow_preview />
             </content>
             <integration_fields>
-                <attributes>sku,name,description,short_description,price</attributes>
+                <attributes>sku</attributes>
             </integration_fields>
         </prismicio>
     </default>

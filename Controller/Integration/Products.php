@@ -76,7 +76,7 @@ class Products implements HttpGetActionInterface
         // Make sure the default attributes needed for Prismic are added
         $attributes = array_unique(
             array_merge(
-                ['name', 'image', 'short_description', 'updated_at'],
+                ['name', 'image', 'short_description', 'status', 'updated_at'],
                 explode(',', $this->config->getValue('prismicio/integration_fields/attributes'))
             )
         );

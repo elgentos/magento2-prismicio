@@ -80,9 +80,14 @@ class Products implements HttpGetActionInterface
                 explode(',', $this->config->getValue('prismicio/integration_fields/attributes'))
             )
         );
+        $synchronizeDisabledProducts = $this->config->getValue('prismicio/integration_fields/sync_disabled_products');
+        $visibility = ['in' => explode(',', $this->config->getValue('prismicio/integration_fields/visibility'))];
         $productCollection = $this->productCollectionFactory
-            ->create()
-            ->addAttributeToFilter('status', ['eq' => 1])
+            ->create();
+        if (!$synchronizeDisabledProducts) {
+            $productCollection->addAttributeToFilter('status', 1);
+        }
+        $productCollection->addAttributeToFilter('visibility', $visibility)
             ->addAttributeToSelect($attributes)
             ->addAttributeToSort('updated_at', 'DESC');
 

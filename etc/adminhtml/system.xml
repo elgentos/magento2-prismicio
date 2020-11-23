@@ -68,24 +68,23 @@
                 <label>Integration Fields</label>
                 <field id="attributes" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="multiselect">
                     <label>Product Attributes</label>
-                    <comment><![CDATA[Attributes to make available in Prismic Integration Fields. The following attributes will always be made available: name, image, status, short_description, updated_at]]></comment>
+                    <comment><![CDATA[Attributes to make available in Prismic Integration Fields. The following attributes will always be made available: name, image, status, short_description, updated_at.]]></comment>
                     <source_model>Elgentos\PrismicIO\Model\Source\Attributes</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
                 <field id="sync_disabled_products" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="select">
                     <label>Synchronize Disabled Products?</label>
-                    <comment><![CDATA[When set Yes, products with disabled status would also been synchronized to Prismic. Set to <strong>No</strong> to decrease your SKU limitation in Prismic]]></comment>
+                    <comment><![CDATA[When set to Yes, disabled products will also be synchronized to Prismic. Set to <strong>No</strong> to avoid the SKU limitation in Prismic.]]></comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                  <field id="visibility" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="multiselect">
                     <label>Visibilities to Synchronize</label>
-                     <comment><![CDATA[Select which Product Visibilities must been synchronized to Prismic. Select all wil increase your SKU limitation Prismic]]></comment>
+                     <comment><![CDATA[Select which Product Visibilities will be synchronized to Prismic.]]></comment>
                      <source_model>Magento\Catalog\Model\Product\Visibility</source_model>
                 </field>
-
                 <field id="access_token" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="text">
                     <label>Access Token</label>
-                    <comment><![CDATA[Leave empty for no authentication. See the <a href="https://user-guides.prismic.io/en/articles/1401183-connect-to-a-custom-api#h_4ea9325683">Prismic docs</a> for more info]]></comment>
+                    <comment><![CDATA[Leave empty for no authentication. See the <a href="https://user-guides.prismic.io/en/articles/1401183-connect-to-a-custom-api#h_4ea9325683">Prismic docs</a> for more info.]]></comment>
                 </field>
             </group>
         </section>

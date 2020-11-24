@@ -60,6 +60,20 @@ class Page
         return $this->createPage($document);
     }
 
+    public function renderPageBySingleton(string $contentType = null): ResultInterface
+    {
+        if (! $this->api->isActive()) {
+            return $this->forwardNoRoute();
+        }
+
+        $document = $this->api->getSingleton($contentType);
+        if (! $document) {
+            return $this->forwardNoRoute();
+        }
+
+        return $this->createPage($document);
+    }
+
     public function renderPageById(string $id): ResultInterface
     {
         if (! $id) {

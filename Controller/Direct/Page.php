@@ -1,10 +1,4 @@
 <?php declare(strict_types=1);
-/**
- * Created by PhpStorm.
- * User: jeroen
- * Date: 10-4-19
- * Time: 17:41
- */
 
 namespace Elgentos\PrismicIO\Controller\Direct;
 
@@ -47,6 +41,10 @@ class Page extends Action implements HttpGetActionInterface, HttpPostActionInter
 
         $contentType = $this->getRequest()
             ->getParam('type');
+
+        if ($uid === 'singleton') {
+            return $this->page->renderPageBySingleton($contentType);
+        }
 
         return $this->page->renderPageByUid($uid, $contentType);
     }

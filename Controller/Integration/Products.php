@@ -87,7 +87,7 @@ class Products implements HttpGetActionInterface
             ->addAttributeToSort('updated_at', 'DESC');
 
         $productCollection->setPageSize(50);
-        $productCollection->setCurPage($this->request->getParam('page'));
+        $productCollection->setCurPage((int)$this->request->getParam('page', 1));
 
         $mediaUrl = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
         $results = array_values(array_map(function ($product) use ($mediaUrl) {

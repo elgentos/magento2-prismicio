@@ -96,7 +96,7 @@ class Products implements HttpGetActionInterface
                 'title' => $product->getName(),
                 'description' => $product->getShortDescription() ?? '',
                 'image_url' => $mediaUrl . 'catalog/product/' . $product->getImage(),
-                'last_update' => intval(date('U', strtotime($product->getUpdatedAt()))),
+                'last_update' => (int)date('U', strtotime($product->getUpdatedAt())),
                 'blob' => $product->getData()
             ];
         }, $productCollection->getItems()));

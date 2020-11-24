@@ -243,6 +243,34 @@ class Api
     }
 
     /**
+     * Get document by uid
+     *
+     * @param string|null $contentType
+     * @param array $options
+     * @return \stdClass|null
+     * @throws ApiNotEnabledException
+     * @throws NoSuchEntityException
+     */
+    public function getSingleton(string $contentType = null, array $options = []): ?\stdClass
+    {
+        $contentType = $contentType ?? $this->getDefaultContentType();
+        $api = $this->create();
+
+        $allowedContentTypes = $api->getData()
+                ->getTypes();
+        if (! isset($allowedContentTypes[$contentType])) {
+            return null;
+        }
+
+        $document = $api->getSingle($contentType, $this->getOptions($options));
+        if ($document || ! $this->isFallbackAllowed()) {
+            return $document;
+        }
+
+        return $api->getSingle($contentType, $this->getOptionsLanguageFallback($options));
+    }
+
+    /**
      * Get document by id
      *
      * @param string $id

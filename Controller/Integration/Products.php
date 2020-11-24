@@ -117,18 +117,15 @@ class Products implements HttpGetActionInterface
     {
         $accessToken = $this->config->getValue('prismicio/integration_fields/access_token');
 
-        if ($accessToken) {
-            $isNotAuthenticated = (
-                empty($_SERVER['PHP_AUTH_USER']) ||
-                $_SERVER['PHP_AUTH_USER'] !== $accessToken
-            );
+        if (!$accessToken) {
+            return null;
+        }
 
-            if ($isNotAuthenticated) {
-                header('WWW-Authenticate: Basic realm="Prismic Integration"');
-                header('HTTP/1.0 401 Unauthorized');
-                echo 'Authentication necessary - see Access Token in Prismic under Settings > Integration Fields > your custom integration';
-                exit;
-            }
+        if (empty($_SERVER['PHP_AUTH_USER']) || $_SERVER['PHP_AUTH_USER'] !== $accessToken) {
+            header('WWW-Authenticate: Basic realm="Prismic Integration"');
+            header('HTTP/1.0 401 Unauthorized');
+            echo 'Authentication necessary - see Access Token in Prismic under Settings > Integration Fields > your custom integration';
+            exit;
         }
     }
 }

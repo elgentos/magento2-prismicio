@@ -1,10 +1,4 @@
 <?php declare(strict_types=1);
-/**
- * Created by PhpStorm.
- * User: jeroen
- * Date: 11-3-19
- * Time: 10:29
- */
 
 namespace Elgentos\PrismicIO\Model;
 
@@ -20,6 +14,7 @@ class Configuration implements ConfigurationInterface
 
     /** @var ScopeConfigInterface */
     private $config;
+    
     /** @var State */
     private $state;
 
@@ -115,7 +110,7 @@ class Configuration implements ConfigurationInterface
         }
 
         return (bool)($this->config->getValue(
-                self::XML_PATH_CONTENT_CONTENT_ALLOW_DEBUG,
+                self::XML_PATH_CONTENT_ALLOW_DEBUG,
                 ScopeInterface::SCOPE_STORE,
                 $store
             ) ?? '');
@@ -124,7 +119,43 @@ class Configuration implements ConfigurationInterface
     public function allowPreviewInFrontend(StoreInterface $store): bool
     {
         return (bool)($this->config->getValue(
-                self::XML_PATH_CONTENT_CONTENT_ALLOW_PREVIEW,
+                self::XML_PATH_CONTENT_ALLOW_PREVIEW,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            ) ?? '');
+    }
+
+    public function getIntegrationFieldsAccessToken(StoreInterface $store): string
+    {
+        return (string)($this->config->getValue(
+                self::XML_PATH_INTEGRATION_ACCESS_TOKEN,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            ) ?? '');
+    }
+
+    public function getIntegrationFieldsAttributes(StoreInterface $store): string
+    {
+        return (string)($this->config->getValue(
+                self::XML_PATH_INTEGRATION_ATTRIBUTES,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            ) ?? '');
+    }
+
+    public function getIntegrationFieldsVisibility(StoreInterface $store): string
+    {
+        return (string)($this->config->getValue(
+                self::XML_PATH_INTEGRATION_VISIBILITY,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            ) ?? '');
+    }
+
+    public function allowSyncDisabledProducts(StoreInterface $store): bool
+    {
+        return (bool)($this->config->getValue(
+                self::XML_PATH_INTEGRATION_SYNC_DISABLED_PRODUCTS,
                 ScopeInterface::SCOPE_STORE,
                 $store
             ) ?? '');

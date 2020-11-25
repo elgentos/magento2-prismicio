@@ -2,14 +2,15 @@
 
 namespace Elgentos\PrismicIO\Controller\Integration;
 
+use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
-use Magento\Catalog\Ui\DataProvider\Product\ProductCollectionFactory;
 use Magento\Framework\App\Action\HttpGetActionInterface;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Framework\UrlInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Products implements HttpGetActionInterface
 {
@@ -17,10 +18,6 @@ class Products implements HttpGetActionInterface
      * @var Json
      */
     public $json;
-    /**
-     * @var ScopeConfigInterface
-     */
-    public $config;
     /**
      * @var JsonFactory
      */
@@ -33,6 +30,14 @@ class Products implements HttpGetActionInterface
      * @var Http
      */
     protected $request;
+    /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+    /**
+     * @var ConfigurationInterface
+     */
+    protected $config;
 
     /**
      * Constructor
@@ -41,15 +46,16 @@ class Products implements HttpGetActionInterface
      * @param JsonFactory $jsonFactory
      * @param CollectionFactory $productCollectionFactory
      * @param Json $json
-     * @param ScopeConfigInterface $config
+     * @param ConfigurationInterface $config
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         Http $request,
         JsonFactory $jsonFactory,
         CollectionFactory $productCollectionFactory,
         Json $json,
-        ScopeConfigInterface $config,
-        \Magento\Store\Model\StoreManagerInterface $storeManager
+        ConfigurationInterface $config,
+        StoreManagerInterface $storeManager
     )
     {
         $this->productCollectionFactory = $productCollectionFactory;
@@ -72,14 +78,13 @@ class Products implements HttpGetActionInterface
         $attributes = array_unique(
             array_merge(
                 ['name', 'image', 'short_description', 'status', 'updated_at'],
-                explode(',', $this->config->getValue('prismicio/integration_fields/attributes'))
+                explode(',', $this->config->getIntegrationFieldsAttributes($this->storeManager->getStore()))
             )
         );
-        $synchronizeDisabledProducts = $this->config->getValue('prismicio/integration_fields/sync_disabled_products');
-        $visibility = ['in' => explode(',', $this->config->getValue('prismicio/integration_fields/visibility'))];
+        $visibility = ['in' => explode(',', $this->config->getIntegrationFieldsVisibility($this->storeManager->getStore()))];
         $productCollection = $this->productCollectionFactory
             ->create();
-        if (!$synchronizeDisabledProducts) {
+        if (!$this->config->allowSyncDisabledProducts($this->storeManager->getStore())) {
             $productCollection->addAttributeToFilter('status', 1);
         }
         $productCollection->addAttributeToFilter('visibility', $visibility)
@@ -89,7 +94,7 @@ class Products implements HttpGetActionInterface
         $productCollection->setPageSize(50);
         $productCollection->setCurPage((int)$this->request->getParam('page', 1));
 
-        $mediaUrl = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+        $mediaUrl = $this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA);
         $results = array_values(array_map(function ($product) use ($mediaUrl) {
             return [
                 'id' => $product->getId(),
@@ -115,7 +120,7 @@ class Products implements HttpGetActionInterface
      */
     private function protectRoute()
     {
-        $accessToken = $this->config->getValue('prismicio/integration_fields/access_token');
+        $accessToken = $this->config->getIntegrationFieldsAccessToken($this->storeManager->getStore());
 
         if (!$accessToken) {
             return null;
@@ -129,4 +134,3 @@ class Products implements HttpGetActionInterface
         }
     }
 }
-

@@ -11,8 +11,5 @@ $documentRenderer = $block->getChildBlock('blog.index');
 $documentRenderer->setDocument($documents);
 ?>
 <div class="">
-    <h1><?=__('Blog');?></h1>
-</div>
-<div class="">
     <?= $documentRenderer->toHtml(); ?>
 </div>

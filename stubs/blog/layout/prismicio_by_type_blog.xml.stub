@@ -3,23 +3,17 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="prismicio_content">
-            <block class="Elgentos\PrismicIO\Block\Template">
-                <block name="agenda.title" class="Elgentos\PrismicIO\Block\Layout\PageTitle">
-                    <block class="Elgentos\PrismicIO\Block\Dom\Plain" template="data.title"/>
-                </block>
-
-                <block class="Elgentos\PrismicIO\Block\Dom\Plain" name="agenda.photo" template="data.author" />
-
-                <block class="Elgentos\PrismicIO\Block\Dom\Plain" name="agenda.photo" template="data.photo.url" />
-
-                <block name="agenda.datetime" class="Elgentos\PrismicIO\Block\Container">
-                    <block class="Elgentos\PrismicIO\Block\Dom\Date" template="data.publish_date"/>
-                </block>
-
-                <block name="agenda.content" class="Elgentos\PrismicIO\Block\Container">
-                    <block class="Elgentos\PrismicIO\Block\Dom\RichText" template="data.content"/>
-                </block>
+            <block name="blog.title" class="Elgentos\PrismicIO\Block\Layout\PageTitle">
+                <block class="Elgentos\PrismicIO\Block\Dom\Text" template="data.title"/>
             </block>
+
+            <block class="Elgentos\PrismicIO\Block\Dom\Text" template="data.author" />
+
+            <block class="Elgentos\PrismicIO\Block\Dom\Date" template="data.publish_date"/>
+
+            <block class="Elgentos\PrismicIO\Block\Dom\Image" template="data.image.url" />
+
+            <block class="Elgentos\PrismicIO\Block\Dom\RichText" template="data.content"/>
         </referenceContainer>
     </body>
 </page>

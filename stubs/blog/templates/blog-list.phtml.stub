@@ -1,0 +1,18 @@
+<?php declare(strict_types=1);
+/** @var $block \Elgentos\PrismicIO\Block\Overview */
+
+$contentType = $this->getContentType();
+
+$documents = new \stdClass();
+$documents->results = $block->getDocumentsWithoutLanguage();
+
+/** @var Elgentos\PrismicIO\Block\Group $documentRenderer */
+$documentRenderer = $block->getChildBlock('blog.index');
+$documentRenderer->setDocument($documents);
+?>
+<div class="">
+    <h1><?=__('Blog');?></h1>
+</div>
+<div class="">
+    <?= $documentRenderer->toHtml(); ?>
+</div>

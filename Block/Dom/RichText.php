@@ -35,6 +35,12 @@ class RichText extends AbstractBlock
 
     public function fetchDocumentView(): string
     {
-        return PrismicRichText::asHtml($this->getContext(), $this->getLinkResolver(), [$this->htmlSerializer, 'serialize']);
+        $html = PrismicRichText::asHtml(
+            $this->getContext(),
+            $this->getLinkResolver(),
+            [$this->htmlSerializer, 'serialize']
+        );
+
+        return $this->replaceRelativeUrl($html);
     }
 }

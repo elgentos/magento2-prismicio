@@ -37,7 +37,7 @@ class Wrapper extends Template
     {
         $documentResolver = $this->getDocumentResolver();
         $pageTitle        = $documentResolver->hasContext('data.meta_title')
-            ? $documentResolver->hasContext('data.meta_title')
+            ? $documentResolver->getContext('data.meta_title')
             : $documentResolver->getContext('data.title');
 
         if (is_array($pageTitle)) {

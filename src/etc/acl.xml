@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright - elgentos ecommerce solutions (https://elgentos.nl)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Elgentos_PrismicIO::config_prismicio"
+                                      title="PrismicIO" translate="title"/>
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Elgentos_PrismicIO::routes"
+                          title="PrismicIO Routes" translate="title"/>
+            </resource>
+        </resources>
+    </acl>
+</config>

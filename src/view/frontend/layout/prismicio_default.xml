@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+/**
+ * Copyright - elgentos ecommerce solutions (https://elgentos.nl)
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <container name="prismicio_content"/>
+        </referenceContainer>
+
+        <referenceBlock name="head.additional">
+            <block name="prismicio_alternate_links"
+                   class="Elgentos\PrismicIO\Block\AlternateLanguage"
+                   template="Elgentos_PrismicIO::alternate_links.phtml"/>
+            <block name="prismicio_canonical"
+                   class="Elgentos\PrismicIO\Block\Canonical"
+                   template="Elgentos_PrismicIO::canonical.phtml"/>
+        </referenceBlock>
+    </body>
+</page>

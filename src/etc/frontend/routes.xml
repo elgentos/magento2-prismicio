@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright - elgentos ecommerce solutions (https://elgentos.nl)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="prismicio" frontName="prismicio">
+            <module name="Elgentos_PrismicIO"/>
+        </route>
+    </router>
+</config>

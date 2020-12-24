@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+/**
+ * Copyright - elgentos ecommerce solutions (https://elgentos.nl)
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="before.body.end">
+            <block ifconfig="prismicio/content/allow_preview"
+                   name="prismicio_preview_html"
+                   class="Elgentos\PrismicIO\Block\PreviewMode"
+                   template="Elgentos_PrismicIO::preview-mode.phtml"/>
+        </referenceBlock>
+    </body>
+</page>

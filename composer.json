@@ -7,13 +7,27 @@
         {
             "name": "Jeroen Boersma",
             "email": "jeroen@elgentos.nl"
+        },
+        {
+            "name": "Arjen Miedema",
+            "email": "arjen@elgentos.nl"
         }
     ],
     "minimum-stability": "stable",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    ],
     "require": {
         "php": ">=7.2",
-        "prismic/php-sdk": "^5.1.2",
-        "magento/framework": "*"
+        "ext-intl": "*",
+        "ext-json": "*",
+        "magento/framework": "^103.0",
+        "magento/module-catalog": "^104.0",
+        "magento/module-store": "^101.1",
+        "prismic/php-sdk": "^5.1"
     },
     "replace": {
         "elgentos/prismic-io": "*"
@@ -25,7 +39,35 @@
         }
     ],
     "autoload": {
-        "psr-4": { "Elgentos\\PrismicIO\\": "" },
-        "files": [ "registration.php" ]
+        "files": [
+            "src/registration.php"
+        ],
+        "psr-4": {
+            "Elgentos\\PrismicIO\\": "src"
+        }
+    },
+    "require-dev": {
+        "mediact/testing-suite": "^2.4",
+        "mediact/coding-standard-magento2": "@stable"
+    },
+    "archive": {
+        "exclude": [
+            "/.gitignore",
+            "/grumphp.yml",
+            "/pdepend.xml",
+            "/phpstan.neon",
+            "/phpunit.xml",
+            "/phpcs.xml",
+            "/phpmd.xml",
+            "/package.json",
+            "/.eslintrc.json",
+            "/.eslintignore"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "mediact-testing-suite": {
+            "type": "magento2"
+        }
     }
 }

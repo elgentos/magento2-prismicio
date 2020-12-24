@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright - elgentos ecommerce solutions (https://elgentos.nl)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <prismicio>
+            <general>
+                <enabled>0</enabled>
+                <enpoint/>
+                <token/>
+            </general>
+            <content>
+                <language/>
+                <language_fallback/>
+                <content_type/>
+                <fetchlinks/>
+                <allow_debug>1</allow_debug>
+                <allow_preview/>
+            </content>
+            <integration_fields>
+                <attributes>sku</attributes>
+                <sync_disabled_products>0</sync_disabled_products>
+                <visibility>4</visibility>
+            </integration_fields>
+        </prismicio>
+        <sitemap>
+            <prismic>
+                <priority>0.25</priority>
+                <changefreq>daily</changefreq>
+            </prismic>
+        </sitemap>
+    </default>
+</config>

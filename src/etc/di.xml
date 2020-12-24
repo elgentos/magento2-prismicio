@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright - elgentos ecommerce solutions (https://elgentos.nl)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="prismicio_routes_listing_data_source"
+                      xsi:type="string">
+                    Elgentos\PrismicIO\Model\ResourceModel\Routes\Grid\Collection
+                </item>
+                <item name="prismicio_routes_form_data_source"
+                      xsi:type="string">
+                    Elgentos\PrismicIO\Model\ResourceModel\Routes\DataProvider
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Elgentos\PrismicIO\Api\ConfigurationInterface"
+                type="Elgentos\PrismicIO\Model\Configuration"/>
+    <preference for="\Elgentos\PrismicIO\Api\Data\RouteInterface"
+                type="Elgentos\PrismicIO\Model\Route"/>
+    <preference for="\Elgentos\PrismicIO\Api\Data\Route\StoreInterface"
+                type="Elgentos\PrismicIO\Model\Route\Store"/>
+    <preference for="\Elgentos\PrismicIO\Api\RouteRepositoryInterface"
+                type="Elgentos\PrismicIO\Model\RouteRepository"/>
+
+    <!--
+    // Not enabled by default, add this feature in your own project by creating a simple prismic extended module
+    // I didn't want to enable a plugin at all times
+    <type name="Elgentos\PrismicIO\ViewModel\LinkResolver">
+        <plugin name="elgentos_prismicio_appendtrailingslashes"
+                type="Elgentos\PrismicIO\Plugin\ViewModel\LinkResolver\AppendTrailingSlashes" />
+    </type>
+    -->
+
+</config>

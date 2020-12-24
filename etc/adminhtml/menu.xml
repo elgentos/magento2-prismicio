@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
-    <menu>
-        <add id="Elgentos_PrismicIO::routes" title="PrismicIO" module="Elgentos_PrismicIO" resource="Elgentos_PrismicIO::routes" parent="Magento_Backend::content" sortOrder="50" />
-        <add id="Elgentos_PrismicIO::routes_index" title="Routes" module="Elgentos_PrismicIO" resource="Elgentos_PrismicIO::routes" parent="Elgentos_PrismicIO::routes" sortOrder="10" action="prismicio/route/index" />
-    </menu>
-</config>

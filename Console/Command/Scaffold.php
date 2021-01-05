@@ -208,11 +208,15 @@ class Scaffold extends Command
     private function createPrismicRoute()
     {
         $defaultRoutePrefix = '/' . $this->customType;
-        $question = new Question('Route prefix: [' . $defaultRoutePrefix . '] ', $defaultRoutePrefix);
+        $routePrefixQuestion = new Question('Route prefix: [' . $defaultRoutePrefix . '] ', $defaultRoutePrefix);
+
+        $defaultStoreId = 1;
+        $storeIdQuestion = new Question('Store ID: [' . $defaultStoreId . '] ', $defaultStoreId);
 
             /** @var $questionHelper QuestionHelper */
         $questionHelper = $this->getHelper('question');
-        $routePrefix = $questionHelper->ask($this->input, $this->output, $question);
+        $routePrefix = $questionHelper->ask($this->input, $this->output, $routePrefixQuestion);
+        $storeId = (int) $questionHelper->ask($this->input, $this->output, $storeIdQuestion);
 
         $routePrefix = '/' . trim($routePrefix, '/');
         $route = $this->routeFactory->create();
@@ -224,7 +228,7 @@ class Scaffold extends Command
         }
 
         $routeStore = $this->routeStoreFactory->create();
-        $routeStore->setData(['route_id' => $route->getId(), 'store_id' => 1]);
+        $routeStore->setData(['route_id' => $route->getId(), 'store_id' => $storeId]);
         try {
             $routeStore->save();
             $this->output->writeln('Route ' . $routePrefix . ' created for store 1');

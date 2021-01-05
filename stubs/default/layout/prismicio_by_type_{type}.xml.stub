@@ -3,7 +3,7 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="prismicio_content">
-            <block name="blog.title" class="Elgentos\PrismicIO\Block\Layout\PageTitle">
+            <block name="{type}.title" class="Elgentos\PrismicIO\Block\Layout\PageTitle">
                 <block class="Elgentos\PrismicIO\Block\Dom\Text" template="data.title"/>
             </block>
 

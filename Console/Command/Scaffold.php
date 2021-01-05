@@ -30,6 +30,8 @@ use Elgentos\PrismicIO\Model\Route\StoreFactory as RouteStoreFactory;
 class Scaffold extends Command
 {
     const CUSTOM_TYPE_ARGUMENT = 'custom-type';
+    const REPLACE_NAME = '{type}';
+
     /**
      * @var ThemeList
      */
@@ -114,15 +116,8 @@ class Scaffold extends Command
         $this->input = $input;
         $this->output = $output;
 
-        $customType = $input->getArgument(self::CUSTOM_TYPE_ARGUMENT);
-        if ($customType !== 'blog') {
-            $output->writeln('Scaffolding a custom type is not supported yet - we welcome PR\'s! Only "blog" is supported at this moment.');
-            return 0;
-        }
-
-        $this->stubDir = $this->moduleReader->getModuleDir(Dir::MODULE_ETC_DIR, 'Elgentos_PrismicIO') . '/../stubs/';
-
-        $this->customType = $customType;
+        $this->customType = $input->getArgument(self::CUSTOM_TYPE_ARGUMENT);
+        $this->stubDir = $this->moduleReader->getModuleDir('', 'Elgentos_PrismicIO') . '/stubs/';
 
         $this->askThemeCode();
         $this->copyLayoutStubs();
@@ -197,12 +192,18 @@ class Scaffold extends Command
     private function copyStubs($type, $fileTypeMask): void
     {
         $destinationDir = $this->directoryList->getPath(AppDirectoryList::APP) . '/design/frontend/' . $this->theme . '/Elgentos_PrismicIO/' . $type . '/';
-        foreach (glob($this->stubDir . $this->customType . '/' . $type . '/' . $fileTypeMask) as $file) {
+        foreach (glob($this->stubDir . 'default/' . $type . '/' . $fileTypeMask) as $file) {
             $this->io->mkdir($destinationDir, 0770, true);
-            $destinationFilename = substr(basename($file), 0, -5);
+            $destinationFilename = str_replace(static::REPLACE_NAME, $this->customType, substr(basename($file), 0, -5));
             $this->io->cp($file, $destinationDir . $destinationFilename);
             $this->output->writeln('Copied ' . $destinationFilename . ' into ' . $destinationDir);
+            $this->replaceTypeWihtinFile($destinationDir . $destinationFilename);
         }
+    }
+
+    private function replaceTypeWihtinFile($file): void
+    {
+        file_put_contents($file, str_replace(static::REPLACE_NAME, $this->customType, file_get_contents($file)));
     }
 
     private function createPrismicRoute()
@@ -239,8 +240,9 @@ class Scaffold extends Command
 
     private function showPrismicJson()
     {
-        $this->output->writeln('Create a new custom type called \'blog\' in Prismic and paste the following JSON into the JSON editor field');
+        $this->output->writeln('Create a new custom type called \'' . $this->customType . '\' in Prismic and paste the following JSON into the JSON editor field');
         $this->output->writeln('');
-        $this->output->writeln(file_get_contents($this->stubDir . $this->customType . '/json/' . $this->customType . '.json.stub'));
+
+        $this->output->writeln(file_get_contents($this->stubDir . 'default/json/json.stub'));
     }
 }

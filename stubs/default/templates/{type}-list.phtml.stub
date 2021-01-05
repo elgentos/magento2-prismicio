@@ -7,7 +7,7 @@ $documents = new \stdClass();
 $documents->results = $block->getDocumentsWithoutLanguage();
 
 /** @var Elgentos\PrismicIO\Block\Group $documentRenderer */
-$documentRenderer = $block->getChildBlock('blog.index');
+$documentRenderer = $block->getChildBlock('{type}.index');
 $documentRenderer->setDocument($documents);
 ?>
 <div class="">

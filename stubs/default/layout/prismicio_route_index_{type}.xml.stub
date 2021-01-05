@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <page layout="1column" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <title>Blog</title>
+        <title>{type}</title>
     </head>
     <body>
         <referenceContainer name="content">
-            <block class="Elgentos\PrismicIO\Block\Overview" template="Elgentos_PrismicIO::blog-list.phtml" name="blog.list">
+            <block class="Elgentos\PrismicIO\Block\Overview" template="Elgentos_PrismicIO::{type}-list.phtml" name="{type}.list">
                 <action method="setDocumentType">
-                    <argument name="documentType" xsi:type="string">blog</argument>
+                    <argument name="documentType" xsi:type="string">{type}</argument>
                 </action>
                 <action method="setOptions">
                     <argument name="options" xsi:type="array">
-                        <item name="orderings" xsi:type="string">[my.blog.publish_date desc]</item>
+                        <item name="orderings" xsi:type="string">[my.{type}.publish_date desc]</item>
                         <item name="pageSize" xsi:type="string">20</item>
                         <item name="page" xsi:type="helper" helper="Elgentos\PrismicIO\Helper\Pager::getPageFromRequest" />
                     </argument>
                 </action>
 
-                <block class="Elgentos\PrismicIO\Block\Group" name="blog.index" template="results">
+                <block class="Elgentos\PrismicIO\Block\Group" name="{type}.index" template="results">
                     <block class="Elgentos\PrismicIO\Block\Container">
                         <block class="Elgentos\PrismicIO\Block\Dom\Text" template="data.title" />
                         <block class="Elgentos\PrismicIO\Block\Dom\Image" template="data.image.url" />
-                        <block name="blog.datetime" class="Elgentos\PrismicIO\Block\Container">
+                        <block name="{type}.datetime" class="Elgentos\PrismicIO\Block\Container">
                             <block class="Elgentos\PrismicIO\Block\Dom\Date" template="data.publish_date">
                                 <action method="setData">
                                     <argument name="name" xsi:type="string">format</argument>
@@ -36,7 +36,7 @@
                         <block class="Elgentos\PrismicIO\Block\Dom\ClickableLink">
                             <action method="setData">
                                 <argument name="name" xsi:type="string">link_title</argument>
-                                <argument name="value" xsi:type="string">Go to blogpost</argument>
+                                <argument name="value" xsi:type="string">Go to {type} entity</argument>
                             </action>
                         </block>
                     </block>

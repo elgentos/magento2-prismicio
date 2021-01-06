@@ -3,7 +3,7 @@
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
-            <item name="provider" xsi:type="string">prismicio_routes_listing.prismicio_routes_listing_data_source</item>
+            <item name="provider" xsi:type="string">prismicio_route_listing.prismicio_route_listing_data_source</item>
         </item>
     </argument>
     <settings>
@@ -14,12 +14,12 @@
                 <label translate="true">Add New Route</label>
             </button>
         </buttons>
-        <spinner>prismicio_routes_columns</spinner>
+        <spinner>prismicio_route_columns</spinner>
         <deps>
-            <dep>prismicio_routes_listing.prismicio_routes_listing_data_source</dep>
+            <dep>prismicio_route_listing.prismicio_route_listing_data_source</dep>
         </deps>
     </settings>
-    <dataSource name="prismicio_routes_listing_data_source" component="Magento_Ui/js/grid/provider">
+    <dataSource name="prismicio_route_listing_data_source" component="Magento_Ui/js/grid/provider">
         <settings>
             <storageConfig>
                 <param name="indexField" xsi:type="string">block_id</param>
@@ -27,7 +27,7 @@
             <updateUrl path="mui/index/render"/>
         </settings>
         <aclResource>Elgentos_PrismicIO::routes</aclResource>
-        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="prismicio_routes_listing_data_source">
+        <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="prismicio_route_listing_data_source">
             <settings>
                 <requestFieldName>id</requestFieldName>
                 <primaryFieldName>route_id</primaryFieldName>
@@ -79,27 +79,27 @@
         </massaction>
         <paging name="listing_paging"/>
     </listingToolbar>
-    <columns name="prismicio_routes_columns">
+    <columns name="prismicio_route_columns">
         <!--<settings>-->
-            <!--<editorConfig>-->
-                <!--<param name="clientConfig" xsi:type="array">-->
-                    <!--<item name="saveUrl" xsi:type="url" path="prismicio/routes/inlineEdit"/>-->
-                    <!--<item name="validateBeforeSave" xsi:type="boolean">false</item>-->
-                <!--</param>-->
-                <!--<param name="indexField" xsi:type="string">route_id</param>-->
-                <!--<param name="enabled" xsi:type="boolean">true</param>-->
-                <!--<param name="selectProvider" xsi:type="string">prismicio_routes_listing.prismicio_routes_listing.prismicio_routes_columns.ids</param>-->
-            <!--</editorConfig>-->
-            <!--<childDefaults>-->
-                <!--<param name="fieldAction" xsi:type="array">-->
-                    <!--<item name="provider" xsi:type="string">prismicio_routes_listing.prismicio_routes_listing.prismicio_routes_columns_editor</item>-->
-                    <!--<item name="target" xsi:type="string">startEdit</item>-->
-                    <!--<item name="params" xsi:type="array">-->
-                        <!--<item name="0" xsi:type="string">${ $.$data.rowIndex }</item>-->
-                        <!--<item name="1" xsi:type="boolean">true</item>-->
-                    <!--</item>-->
-                <!--</param>-->
-            <!--</childDefaults>-->
+        <!--<editorConfig>-->
+        <!--<param name="clientConfig" xsi:type="array">-->
+        <!--<item name="saveUrl" xsi:type="url" path="prismicio/routes/inlineEdit"/>-->
+        <!--<item name="validateBeforeSave" xsi:type="boolean">false</item>-->
+        <!--</param>-->
+        <!--<param name="indexField" xsi:type="string">route_id</param>-->
+        <!--<param name="enabled" xsi:type="boolean">true</param>-->
+        <!--<param name="selectProvider" xsi:type="string">prismicio_route_listing.prismicio_route_listing.prismicio_route_columns.ids</param>-->
+        <!--</editorConfig>-->
+        <!--<childDefaults>-->
+        <!--<param name="fieldAction" xsi:type="array">-->
+        <!--<item name="provider" xsi:type="string">prismicio_route_listing.prismicio_route_listing.prismicio_route_columns_editor</item>-->
+        <!--<item name="target" xsi:type="string">startEdit</item>-->
+        <!--<item name="params" xsi:type="array">-->
+        <!--<item name="0" xsi:type="string">${ $.$data.rowIndex }</item>-->
+        <!--<item name="1" xsi:type="boolean">true</item>-->
+        <!--</item>-->
+        <!--</param>-->
+        <!--</childDefaults>-->
         <!--</settings>-->
         <selectionsColumn name="ids">
             <settings>

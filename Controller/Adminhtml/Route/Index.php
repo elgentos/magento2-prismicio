@@ -6,7 +6,7 @@
  * Time: 13:59
  */
 
-namespace Elgentos\PrismicIO\Controller\Adminhtml\Routes;
+namespace Elgentos\PrismicIO\Controller\Adminhtml\Route;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Magento\Backend\App\Action;

@@ -12,7 +12,7 @@ use Magento\Framework\Registry;
 
 class Route extends \Magento\Framework\Model\AbstractModel implements \Elgentos\PrismicIO\Api\Data\RouteInterface, \Magento\Framework\DataObject\IdentityInterface
 {
-    const CACHE_TAG = 'elgentos_prismicio_route';
+    const CACHE_TAG = 'prismicio_route';
     const STORE_IDS = '_store_ids';
 
     /** @var CollectionFactory */

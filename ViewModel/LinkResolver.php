@@ -281,6 +281,14 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
             $languageStoreIds[$languageCode] = $languageStoreIds[$languageCode] ?? +$store->getId();
         }
 
+        /**
+         * If locale fallback is enabled, make sure those requests will be directed to this store
+         */
+        $currentStore = $this->storeManager->getStore();
+        if ($this->configuration->hasContentLanguageFallback($this->storeManager->getStore())) {
+            $languageStoreIds[$this->configuration->getContentLanguageFallback($currentStore)] = +$currentStore->getId();
+        }
+
         $this->cachedLanguageStoreIds = $languageStoreIds;
         return $languageStoreIds;
     }

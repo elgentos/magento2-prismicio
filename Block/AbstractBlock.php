@@ -57,6 +57,27 @@ abstract class AbstractBlock extends FrameworkAbstractBlock implements BlockInte
     }
 
     /**
+     * Replace the relative URL in Prismic with the actual URL in Magento.
+     *
+     * @param string $context
+     * @return string
+     */
+    protected function replaceRelativeUrl(string $context): string
+    {
+        $baseUrl               = $this->_urlBuilder->getBaseUrl();
+        $findAndReplaceBaseUrl = [
+            'http://{{relative}}/',
+            'https://{{relative}}/',
+            'http://{{relative}}',
+            'https://{{relative}}',
+        ];
+
+        $context = str_replace($findAndReplaceBaseUrl, $baseUrl, $context);
+
+        return $context;
+    }
+
+    /**
      * Fetch document view
      *
      * @return string

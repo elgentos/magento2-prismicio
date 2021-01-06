@@ -10,6 +10,10 @@ namespace Elgentos\PrismicIO\Controller\Adminhtml\Route;
 class Edit extends \Elgentos\PrismicIO\Controller\Adminhtml\Route
 {
 
+    /**
+     * @var \Magento\Framework\App\Request\DataPersistorInterface
+     */
+    public $dataPersistor;
     protected $resultPageFactory;
 
     /**
@@ -20,9 +24,11 @@ class Edit extends \Elgentos\PrismicIO\Controller\Adminhtml\Route
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Registry $coreRegistry,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory
+        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+        \Magento\Framework\App\Request\DataPersistorInterface $dataPersistor
     ) {
         $this->resultPageFactory = $resultPageFactory;
+        $this->dataPersistor = $dataPersistor;
         parent::__construct($context, $coreRegistry);
     }
 
@@ -47,7 +53,7 @@ class Edit extends \Elgentos\PrismicIO\Controller\Adminhtml\Route
                 return $resultRedirect->setPath('*/*/');
             }
         }
-        $this->_coreRegistry->register('prismicio_route', $model);
+        $this->dataPersistor->set('prismicio_route', $model->getData());
 
         // 3. Build edit form
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
@@ -57,7 +63,7 @@ class Edit extends \Elgentos\PrismicIO\Controller\Adminhtml\Route
             $id ? __('Edit Route') : __('New Route')
         );
         $resultPage->getConfig()->getTitle()->prepend(__('Routes'));
-        $resultPage->getConfig()->getTitle()->prepend($model->getId() ? __('Edit Route %1', $model->getId()) : __('New Route'));
+        $resultPage->getConfig()->getTitle()->prepend($model->getId() ? __('Edit Route %1', $model->getTitle()) : __('New Route'));
         return $resultPage;
     }
 }

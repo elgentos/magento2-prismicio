@@ -29,7 +29,7 @@
         <aclResource>Elgentos_PrismicIO::routes</aclResource>
         <dataProvider class="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider" name="prismicio_route_listing_data_source">
             <settings>
-                <requestFieldName>id</requestFieldName>
+                <requestFieldName>route_id</requestFieldName>
                 <primaryFieldName>route_id</primaryFieldName>
             </settings>
         </dataProvider>

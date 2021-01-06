@@ -53,6 +53,7 @@ class Edit extends \Elgentos\PrismicIO\Controller\Adminhtml\Route
                 return $resultRedirect->setPath('*/*/');
             }
         }
+        $model->setData('store_id', implode(',', $model->getStoreIds()));
         $this->dataPersistor->set('prismicio_route', $model->getData());
 
         // 3. Build edit form

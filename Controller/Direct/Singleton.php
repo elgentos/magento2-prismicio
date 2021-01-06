@@ -8,7 +8,7 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Action\Action;
 
-class Page extends Action implements HttpGetActionInterface, HttpPostActionInterface
+class Singleton extends Action implements HttpGetActionInterface, HttpPostActionInterface
 {
 
     /** @var PageRenderer */
@@ -29,19 +29,9 @@ class Page extends Action implements HttpGetActionInterface, HttpPostActionInter
      */
     public function execute()
     {
-        $id = $this->getRequest()
-                ->getParam('id', '');
-
-        if ($id) {
-            return $this->page->renderPageById($id);
-        }
-
-        $uid = $this->getRequest()
-            ->getParam('uid', '');
-
         $contentType = $this->getRequest()
             ->getParam('type');
 
-        return $this->page->renderPageByUid($uid, $contentType);
+        return $this->page->renderPageBySingleton($contentType);
     }
 }

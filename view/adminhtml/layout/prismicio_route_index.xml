@@ -5,7 +5,7 @@
     </head>
     <body>
         <referenceContainer name="content">
-            <uiComponent name="prismicio_routes_listing"/>
+            <uiComponent name="prismicio_route_listing"/>
         </referenceContainer>
     </body>
 </page>

@@ -35,8 +35,6 @@ trait DocumentResolverTrait
      * Get the context of the reference.
      *
      * @return array|stdClass|string
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     public function getContext()
     {

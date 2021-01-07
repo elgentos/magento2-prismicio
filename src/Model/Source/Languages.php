@@ -37,7 +37,6 @@ class Languages implements OptionSourceInterface
      * Return array of options as value-label pairs
      *
      * @return array
-     * @throws NoSuchEntityException
      */
     public function toOptionArray(): array
     {
@@ -59,7 +58,6 @@ class Languages implements OptionSourceInterface
      * Get an array of languages
      *
      * @return array
-     * @throws NoSuchEntityException
      */
     public function getLanguages(): array
     {

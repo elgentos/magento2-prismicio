@@ -70,7 +70,6 @@ class Products implements HttpGetActionInterface
      * Execute view action
      *
      * @return ResultInterface
-     * @throws NoSuchEntityException
      */
     public function execute(): ResultInterface
     {
@@ -144,7 +143,6 @@ class Products implements HttpGetActionInterface
 
     /**
      * @return null
-     * @throws NoSuchEntityException
      *
      * @SuppressWarnings(PHPMD.ExitExpression)
      */

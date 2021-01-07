@@ -19,8 +19,6 @@ class Text extends AbstractBlock
      * Fetch the document as plain text
      *
      * @return string
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     public function fetchDocumentView(): string
     {

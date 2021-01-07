@@ -75,7 +75,6 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
      * @param object $link
      *
      * @return string|null
-     * @throws NoSuchEntityException
      */
     public function resolve($link): ?string
     {
@@ -105,7 +104,6 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
      * @param stdClass $link
      *
      * @return StoreInterface
-     * @throws NoSuchEntityException
      */
     public function getStore(stdClass $link): StoreInterface
     {
@@ -123,7 +121,6 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
      * @param stdClass $link
      *
      * @return string|null
-     * @throws NoSuchEntityException
      */
     public function resolveRouteUrl(stdClass $link): ?string
     {
@@ -144,10 +141,10 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
             $cacheKey = implode(
                 '|',
                 [
-                '_ROUTED_',
-                $route->getId(),
-                $store->getId(),
-                $uid
+                    '_ROUTED_',
+                    $route->getId(),
+                    $store->getId(),
+                    $uid
                 ]
             );
 
@@ -175,7 +172,6 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
      * @param stdClass $link
      *
      * @return string|null
-     * @throws NoSuchEntityException
      */
     public function resolveDirectPage(stdClass $link): ?string
     {
@@ -304,9 +300,9 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
     {
         return $this->urlFinder->findOneByData(
             [
-            UrlRewrite::TARGET_PATH => $targetPath,
-            UrlRewrite::REDIRECT_TYPE => 0,
-            UrlRewrite::STORE_ID => $store->getId()
+                UrlRewrite::TARGET_PATH => $targetPath,
+                UrlRewrite::REDIRECT_TYPE => 0,
+                UrlRewrite::STORE_ID => $store->getId()
             ]
         );
     }
@@ -359,7 +355,8 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
          */
         $currentStore = $this->storeManager->getStore();
         if ($this->configuration->hasContentLanguageFallback($this->storeManager->getStore())) {
-            $languageStoreIds[$this->configuration->getContentLanguageFallback($currentStore)] = +$currentStore->getId();
+            $languageStoreIds[$this->configuration->getContentLanguageFallback($currentStore)]
+                = (int) $currentStore->getId();
         }
 
         $this->cachedLanguageStoreIds = $languageStoreIds;

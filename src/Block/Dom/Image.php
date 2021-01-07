@@ -11,21 +11,16 @@ namespace Elgentos\PrismicIO\Block\Dom;
 use Elgentos\PrismicIO\Exception\ContextNotFoundException;
 use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
 
-/**
- * @deprecated use the provided plugin for this instead
- * @see \Elgentos\PrismicIO\Plugin\ViewModel\LinkResolver\AppendTrailingSlashes
- */
-class LinkWithTrailingSlash extends Link
+class Image extends Raw
 {
     /**
-     * Fetch the URL and add a trailing slash
+     * Get the document view as an image tag.
      *
      * @return string
      */
     public function fetchDocumentView(): string
     {
-        return $this->_escaper->escapeUrl(
-            rtrim(parent::fetchDocumentView(), '/') . '/'
-        );
+        return '<img src="' . $this->_escaper->escapeHtml(parent::fetchDocumentView()) . '"
+            alt="' . $this->getData('alt_text') . '" />';
     }
 }

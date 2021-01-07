@@ -18,8 +18,6 @@ class Raw extends AbstractBlock
      * Return the document view as a plain text string.
      *
      * @return string
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     public function fetchDocumentView(): string
     {

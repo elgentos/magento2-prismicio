@@ -45,10 +45,9 @@ class Api
     }
 
     /**
-     * Tell wheter the API is enabled
+     * Tell whether the API is enabled
      *
      * @return bool
-     * @throws NoSuchEntityException
      */
     public function isActive(): bool
     {
@@ -57,10 +56,9 @@ class Api
     }
 
     /**
-     * Tell wetter preview mode is allowed
+     * Tell whether preview mode is allowed
      *
      * @return bool
-     * @throws NoSuchEntityException
      */
     public function isPreviewAllowed(): bool
     {
@@ -72,7 +70,6 @@ class Api
      * Is fallback allowed
      *
      * @return bool
-     * @throws NoSuchEntityException
      */
     public function isFallbackAllowed(): bool
     {
@@ -118,7 +115,6 @@ class Api
      * @param stdClass|null $document
      *
      * @return string|null
-     * @throws NoSuchEntityException
      */
     public function getDocumentIdInHomeLanguage(stdClass $document = null): ?string
     {
@@ -138,7 +134,6 @@ class Api
      * @param array $options
      *
      * @return array
-     * @throws NoSuchEntityException
      */
     public function getOptions(array $options = []): array
     {
@@ -161,7 +156,6 @@ class Api
      * @param array $options
      *
      * @return array
-     * @throws NoSuchEntityException
      */
     public function getOptionsLanguageFallback(array $options = []): array
     {
@@ -182,7 +176,6 @@ class Api
      * Get default content type
      *
      * @return string
-     * @throws NoSuchEntityException
      */
     public function getDefaultContentType(): string
     {
@@ -224,8 +217,6 @@ class Api
      * @param array       $options
      *
      * @return stdClass|null
-     * @throws ApiNotEnabledException
-     * @throws NoSuchEntityException
      */
     public function getDocumentByUid(
         string $uid,
@@ -260,14 +251,8 @@ class Api
 
     /**
      * Get document by uid
-     *
-     * @param string|null $contentType
-     * @param array $options
-     * @return \stdClass|null
-     * @throws ApiNotEnabledException
-     * @throws NoSuchEntityException
      */
-    public function getSingleton(string $contentType = null, array $options = []): ?\stdClass
+    public function getSingleton(string $contentType = null, array $options = []): ?stdClass
     {
         $contentType = $contentType ?? $this->getDefaultContentType();
         $api = $this->create();
@@ -293,8 +278,6 @@ class Api
      * @param array  $options
      *
      * @return stdClass|null
-     * @throws ApiNotEnabledException
-     * @throws NoSuchEntityException
      */
     public function getDocumentById(string $id, array $options = []): ?stdClass
     {

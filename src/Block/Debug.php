@@ -53,9 +53,6 @@ class Debug extends AbstractBlock
      * Fetch the debuggers document view
      *
      * @return string
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
-     * @throws NoSuchEntityException
      */
     public function fetchDocumentView(): string
     {

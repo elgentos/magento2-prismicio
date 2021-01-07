@@ -49,9 +49,12 @@ class Page
         $this->currentDocument = $currentDocument;
     }
 
+    /**
+     * Render the page by the given UID
+     */
     public function renderPageByUid(
         string $uid,
-        string $contentType = null
+        ?string $contentType = null
     ): ResultInterface {
         if (!$uid) {
             return $this->forwardNoRoute();

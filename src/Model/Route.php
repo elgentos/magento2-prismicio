@@ -21,8 +21,8 @@ use Magento\Framework\Registry;
 
 class Route extends AbstractModel implements RouteInterface, IdentityInterface
 {
-    private const CACHE_TAG = 'elgentos_prismicio_route';
-    public const STORE_IDS  = '_store_ids';
+    public const CACHE_TAG = 'elgentos_prismicio_route',
+        STORE_IDS          = '_store_ids';
 
     /** @var CollectionFactory */
     private $storeCollectionFactory;

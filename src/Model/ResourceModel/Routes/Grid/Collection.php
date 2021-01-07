@@ -27,8 +27,6 @@ class Collection extends SearchResult
      * @param EventManager  $eventManager
      * @param string        $mainTable
      * @param string        $resourceModel
-     *
-     * @throws LocalizedException
      */
     public function __construct(
         EntityFactory $entityFactory,

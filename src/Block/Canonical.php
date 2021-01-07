@@ -22,8 +22,6 @@ class Canonical extends AbstractTemplate
      * Get canonical url
      *
      * @return string
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     public function getCanonicalUrl(): string
     {
@@ -34,8 +32,6 @@ class Canonical extends AbstractTemplate
      * Get canonical url
      *
      * @return array
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     public function getCanonical(): array
     {

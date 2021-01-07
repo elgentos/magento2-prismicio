@@ -46,10 +46,6 @@ class Document extends AbstractBlock
      * Get the document view
      *
      * @return string
-     * @throws ApiNotEnabledException
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
-     * @throws NoSuchEntityException
      */
     public function fetchDocumentView(): string
     {
@@ -71,10 +67,6 @@ class Document extends AbstractBlock
      * Get the child document based on the context of the current document.
      *
      * @return bool
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
-     * @throws ApiNotEnabledException
-     * @throws NoSuchEntityException
      */
     private function fetchChildDocument(): bool
     {

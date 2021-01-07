@@ -62,11 +62,9 @@ class AlternateLanguage extends AbstractTemplate
     }
 
     /**
-     * Map the context with additonal languages
+     * Map the context with additional languages
      *
      * @return array
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     public function mapContextWithLanguage(): array
     {
@@ -88,8 +86,6 @@ class AlternateLanguage extends AbstractTemplate
      * Fetch document view
      *
      * @return array
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     public function getAlternateData(): array
     {

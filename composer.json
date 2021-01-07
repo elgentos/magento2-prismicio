@@ -47,7 +47,7 @@
         }
     },
     "require-dev": {
-        "mediact/testing-suite": "^2.4",
+        "mediact/testing-suite": "@stable",
         "mediact/coding-standard-magento2": "@stable"
     },
     "archive": {

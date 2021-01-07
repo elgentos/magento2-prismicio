@@ -78,7 +78,6 @@ class Collection extends AbstractCollection
      * @param int $storeId
      *
      * @return void
-     * @throws LocalizedException
      */
     public function filterByStoreId(int $storeId): void
     {

@@ -44,8 +44,6 @@ class FilterVars extends AbstractBlock
      * Fetch document view
      *
      * @return string
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     public function fetchDocumentView(): string
     {

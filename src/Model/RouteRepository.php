@@ -13,13 +13,14 @@ use Elgentos\PrismicIO\Api\RouteRepositoryInterface;
 use Elgentos\PrismicIO\Exception\RouteNotFoundException;
 use Elgentos\PrismicIO\Model\ResourceModel\Route\Collection;
 use Elgentos\PrismicIO\Model\ResourceModel\Route\CollectionFactory;
+use Magento\Framework\DataObject;
 
 class RouteRepository implements RouteRepositoryInterface
 {
     /**@var CollectionFactory */
     private $collectionFactory;
 
-    /** @var array */
+    /** @var RouteInterface[]|DataObject[] */
     protected $routes = [];
 
     /** @var array */

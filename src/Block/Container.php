@@ -18,8 +18,6 @@ class Container extends AbstractBlock
      * Fetch the container's document view
      *
      * @return string
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     public function fetchDocumentView(): string
     {

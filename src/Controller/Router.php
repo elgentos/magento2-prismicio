@@ -75,8 +75,6 @@ class Router implements RouterInterface
      * @param RequestInterface $request
      *
      * @return ActionInterface|null
-     * @throws NoSuchEntityException
-     * @throws LocalizedException
      */
     public function match(RequestInterface $request): ?ActionInterface
     {

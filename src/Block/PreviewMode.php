@@ -44,7 +44,6 @@ class PreviewMode extends Template
      * Return the HTML for the given store
      *
      * @return string
-     * @throws NoSuchEntityException
      */
     protected function _toHtml()
     {
@@ -59,7 +58,6 @@ class PreviewMode extends Template
      * Get the API endpoint
      *
      * @return string
-     * @throws NoSuchEntityException
      */
     public function getApiEndpoint(): string
     {

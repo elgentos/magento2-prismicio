@@ -18,8 +18,6 @@ class Group extends AbstractBlock
      * Fetch the document view of the group
      *
      * @return string
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     public function fetchDocumentView(): string
     {

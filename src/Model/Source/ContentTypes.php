@@ -36,7 +36,6 @@ class ContentTypes implements OptionSourceInterface
      * Return array of options as value-label pairs
      *
      * @return array
-     * @throws NoSuchEntityException
      */
     public function toOptionArray(): array
     {
@@ -58,8 +57,6 @@ class ContentTypes implements OptionSourceInterface
      * Return an array with all content types
      *
      * @return array
-     *
-     * @throws NoSuchEntityException
      */
     public function getTypes(): array
     {

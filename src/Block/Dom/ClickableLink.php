@@ -8,24 +8,22 @@ declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Block\Dom;
 
+use Elgentos\PrismicIO\Block\AbstractBlock;
 use Elgentos\PrismicIO\Exception\ContextNotFoundException;
 use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
+use Prismic\Dom\Link as PrismicLink;
 
-/**
- * @deprecated use the provided plugin for this instead
- * @see \Elgentos\PrismicIO\Plugin\ViewModel\LinkResolver\AppendTrailingSlashes
- */
-class LinkWithTrailingSlash extends Link
+class ClickableLink extends Link
 {
     /**
-     * Fetch the URL and add a trailing slash
+     * Get the document view as a clickable link.
      *
      * @return string
      */
     public function fetchDocumentView(): string
     {
-        return $this->_escaper->escapeUrl(
-            rtrim(parent::fetchDocumentView(), '/') . '/'
-        );
+        return '<a href="' . parent::fetchDocumentView() . '">' .
+            ($this->getData('link_title') ?: __('Click here')) .
+            '</a>';
     }
 }

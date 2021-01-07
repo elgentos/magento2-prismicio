@@ -93,8 +93,6 @@ class Overview extends Template
      * Get documents for locale and fallback
      *
      * @return array
-     * @throws ApiNotEnabledException
-     * @throws NoSuchEntityException
      */
     public function getDocuments(): array
     {
@@ -124,8 +122,6 @@ class Overview extends Template
      * Get documents without language, will render links in local store
      *
      * @return array
-     * @throws ApiNotEnabledException
-     * @throws NoSuchEntityException
      */
     public function getDocumentsWithoutLanguage(): array
     {

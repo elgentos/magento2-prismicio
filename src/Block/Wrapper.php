@@ -19,9 +19,6 @@ class Wrapper extends Template
      * Add crumbs to the breadcrumbs block.
      *
      * @return Template
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
-     * @throws LocalizedException
      */
     protected function _prepareLayout(): Template
     {
@@ -40,8 +37,6 @@ class Wrapper extends Template
      * @param Breadcrumbs $breadcrumbsBlock
      *
      * @return void
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     private function addCurrentPageToBreadcrumbs(Breadcrumbs $breadcrumbsBlock): void
     {

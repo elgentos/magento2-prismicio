@@ -20,8 +20,6 @@ class Link extends AbstractBlock
      * Fetch the document view as an escaped URL and solve relative URLs.
      *
      * @return string
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     public function fetchDocumentView(): string
     {

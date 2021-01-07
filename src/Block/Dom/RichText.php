@@ -47,8 +47,6 @@ class RichText extends AbstractBlock
      * Fetch the document as a rich text string and replace relative URLs.
      *
      * @return string
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     public function fetchDocumentView(): string
     {

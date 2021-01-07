@@ -61,8 +61,6 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
 
     /**
      * @return Redirect|ResponseInterface|ResultInterface
-     * @throws ApiNotEnabledException
-     * @throws NoSuchEntityException
      */
     public function execute()
     {

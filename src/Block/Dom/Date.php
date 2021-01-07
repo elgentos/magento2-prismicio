@@ -20,8 +20,6 @@ class Date extends AbstractBlock
      * Get the document view as a formatted string.
      *
      * @return string
-     * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     public function fetchDocumentView(): string
     {

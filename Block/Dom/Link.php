@@ -21,6 +21,10 @@ class Link extends AbstractBlock
         }
         $url = PrismicLink::asUrl($context, $this->getLinkResolver() ?? '');
 
+        if(!$url) {
+            return '';
+        }
+
         return $this->escapeUrl($this->replaceRelativeUrl($url));
     }
 }

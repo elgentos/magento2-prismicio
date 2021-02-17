@@ -50,6 +50,11 @@
         "mediact/testing-suite": "@stable",
         "mediact/coding-standard-magento2": "@stable"
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Elgentos\\PrismicIO\\Tests\\": "tests"
+        }
+    },
     "archive": {
         "exclude": [
             "/.gitignore",

@@ -40,4 +40,9 @@ class Canonical extends AbstractTemplate
             'link' => $link
         ];
     }
+
+    public function setRedirectValue($hoi)
+    {
+        var_dump($hoi);
+    }
 }

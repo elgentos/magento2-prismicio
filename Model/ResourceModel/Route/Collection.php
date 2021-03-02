@@ -35,6 +35,12 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
                 ->where("? like concat(route, '%')", $requestPath);
     }
 
+    public function filterByContentType(string $contentType): void
+    {
+        $this->getSelect()
+            ->where("? like concat(content_type, '%')", $contentType);
+    }
+
     public function filterByStoreId(int $storeId): void
     {
         /** @var Store $storeResource */

@@ -96,9 +96,14 @@ class PrismicPages implements ItemProviderInterface
             $document->store = $store;
             $document->link_type = 'Document';
 
+            $url = $this->getUrl(
+                PrismicLink::asUrl($document, $this->getLinkResolver() ?? ''),
+                $store
+            );
+
             $this->sitemapItems[] = $this->itemFactory->create(
                 [
-                    'url' => PrismicLink::asUrl($document, $this->getLinkResolver() ?? ''),
+                    'url' => $url,
                     'updatedAt' => $document->last_publication_date,
                     'priority' => $this->getPriority((int) $store->getId()),
                     'changeFrequency' => $this->getChangeFrequency((int) $store->getId())
@@ -127,5 +132,10 @@ class PrismicPages implements ItemProviderInterface
     private function getPriority(int $storeId): string
     {
         return $this->configReader->getPriority($storeId);
+    }
+
+    public function getUrl(?string $url, StoreInterface $store): string
+    {
+        return str_replace($store->getBaseUrl(), '', $url);
     }
 }

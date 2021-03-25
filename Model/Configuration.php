@@ -14,7 +14,7 @@ class Configuration implements ConfigurationInterface
 
     /** @var ScopeConfigInterface */
     private $config;
-    
+
     /** @var State */
     private $state;
 
@@ -156,6 +156,15 @@ class Configuration implements ConfigurationInterface
     {
         return (bool)($this->config->getValue(
                 self::XML_PATH_INTEGRATION_SYNC_DISABLED_PRODUCTS,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            ) ?? '');
+    }
+
+    public function getSitemapContentTypes(StoreInterface $store): string
+    {
+        return (string)($this->config->getValue(
+                self::XML_PATH_SITEMAP_CONTENT_TYPES,
                 ScopeInterface::SCOPE_STORE,
                 $store
             ) ?? '');

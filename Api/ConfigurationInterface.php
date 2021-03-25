@@ -24,6 +24,8 @@ interface ConfigurationInterface
     public const XML_PATH_INTEGRATION_SYNC_DISABLED_PRODUCTS = 'prismicio/integration_fields/sync_disabled_products';
     public const XML_PATH_INTEGRATION_VISIBILITY             = 'prismicio/integration_fields/visibility';
 
+    public const XML_PATH_SITEMAP_CONTENT_TYPES              = 'prismicio/sitemap/content_types';
+
     public function getApiEnabled(StoreInterface $store): bool;
     public function getApiEndpoint(StoreInterface $store): string;
     public function getApiSecret(StoreInterface $store): string;
@@ -43,4 +45,6 @@ interface ConfigurationInterface
     public function getIntegrationFieldsAttributes(StoreInterface $store): string;
     public function getIntegrationFieldsVisibility(StoreInterface $store): string;
     public function allowSyncDisabledProducts(StoreInterface $store): bool;
+
+    public function getSitemapContentTypes(StoreInterface $store): string;
 }

@@ -27,5 +27,11 @@
                 <visibility>4</visibility>
             </integration_fields>
         </prismicio>
+        <sitemap>
+            <prismic>
+                <priority>0.25</priority>
+                <changefreq>daily</changefreq>
+            </prismic>
+        </sitemap>
     </default>
 </config>

@@ -12,11 +12,18 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=7.2",
-        "prismic/php-sdk": "dev-master"
+        "prismic/php-sdk": "dev-master",
+        "magento/framework": "*"
     },
     "replace": {
         "elgentos/prismic-io": "*"
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    ],
     "autoload": {
         "psr-4": { "Elgentos\\PrismicIO\\": "" },
         "files": [ "registration.php" ]

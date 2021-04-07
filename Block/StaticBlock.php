@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Elgentos\PrismicIO\Block;
 
 use Elgentos\PrismicIO\Exception\ContextNotFoundException;
@@ -10,7 +9,6 @@ use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Framework\View\Element\Context;
 use stdClass;
-
 
 class StaticBlock extends AbstractBlock
 {

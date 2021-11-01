@@ -13,7 +13,7 @@ use stdClass;
 class CurrentDocument
 {
     /** @var stdClass */
-    private $document;
+    private stdClass $document;
 
     /**
      * Set the current document

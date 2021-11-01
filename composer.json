@@ -21,7 +21,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
+        "php": "^7.4",
         "ext-intl": "*",
         "ext-json": "*",
         "magento/framework": "^103.0",
@@ -32,12 +32,6 @@
     "replace": {
         "elgentos/prismic-io": "*"
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://repo.magento.com/"
-        }
-    ],
     "autoload": {
         "files": [
             "src/registration.php"
@@ -66,7 +60,8 @@
             "/phpmd.xml",
             "/package.json",
             "/.eslintrc.json",
-            "/.eslintignore"
+            "/.eslintignore",
+            "/tests"
         ]
     },
     "config": {

@@ -25,7 +25,7 @@ class Route extends AbstractModel implements RouteInterface, IdentityInterface
         STORE_IDS          = '_store_ids';
 
     /** @var CollectionFactory */
-    private $storeCollectionFactory;
+    private CollectionFactory $storeCollectionFactory;
 
     /**
      * Constructor.

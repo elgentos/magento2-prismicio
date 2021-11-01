@@ -14,7 +14,6 @@ use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\App\Request\Http;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Framework\UrlInterface;
 use Magento\Store\Model\Store;
@@ -23,22 +22,22 @@ use Magento\Store\Model\StoreManagerInterface;
 class Products implements HttpGetActionInterface
 {
     /** @var Json */
-    public $json;
+    public Json $json;
 
     /** @var JsonFactory */
-    protected $jsonFactory;
+    protected JsonFactory $jsonFactory;
 
     /** @var CollectionFactory */
-    protected $productCollectionFactory;
+    protected CollectionFactory $productCollectionFactory;
 
     /** @var Http */
-    protected $request;
+    protected Http $request;
 
     /** @var StoreManagerInterface */
-    protected $storeManager;
+    protected StoreManagerInterface $storeManager;
 
     /** @var ConfigurationInterface */
-    protected $config;
+    protected ConfigurationInterface $config;
 
     /**
      * Constructor
@@ -161,7 +160,7 @@ class Products implements HttpGetActionInterface
             header('HTTP/1.0 401 Unauthorized');
             echo 'Authentication necessary - see Access Token in Prismic under ' .
                 'Settings > Integration Fields > your custom integration';
-            exit;
+            exit(1);
         }
 
         return null;

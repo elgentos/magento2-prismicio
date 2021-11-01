@@ -15,7 +15,7 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 class RouteResolver implements ArgumentInterface
 {
     /** @var CurrentRoute */
-    private $currentRoute;
+    private CurrentRoute $currentRoute;
 
     /**
      * Constructor.

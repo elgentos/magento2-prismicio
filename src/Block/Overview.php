@@ -9,9 +9,7 @@ declare(strict_types=1);
 namespace Elgentos\PrismicIO\Block;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
-use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
 use Elgentos\PrismicIO\Model\Api;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Template;
 use Prismic\Predicates;
 use Prismic\SimplePredicate;
@@ -20,19 +18,19 @@ use stdClass;
 class Overview extends Template
 {
     /** @var array */
-    private $filters = [];
+    private array $filters = [];
 
     /** @var array */
-    private $options = [];
+    private array $options = [];
 
     /** @var string */
-    private $documentType;
+    private string $documentType;
 
     /** @var Api */
-    private $apiFactory;
+    private Api $apiFactory;
 
     /** @var ConfigurationInterface */
-    private $configuration;
+    private ConfigurationInterface $configuration;
 
     /**
      * Overview constructor.

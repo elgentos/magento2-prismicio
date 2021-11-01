@@ -19,10 +19,10 @@ use Magento\Framework\Controller\ResultInterface;
 class View extends Action implements HttpGetActionInterface, HttpPostActionInterface
 {
     /** @var CurrentRoute */
-    private $currentRoute;
+    private CurrentRoute $currentRoute;
 
     /** @var Page */
-    private $page;
+    private Page $page;
 
     /**
      * Constructor.

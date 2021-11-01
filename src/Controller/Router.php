@@ -13,60 +13,42 @@ use Elgentos\PrismicIO\Api\Data\RouteInterface;
 use Elgentos\PrismicIO\Model\ResourceModel\Route\Collection;
 use Elgentos\PrismicIO\Model\ResourceModel\Route\CollectionFactory;
 use Elgentos\PrismicIO\Registry\CurrentRoute;
-use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\App\Action\Forward;
 use Magento\Framework\App\ActionFactory;
 use Magento\Framework\App\ActionInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\RouterInterface;
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 
 class Router implements RouterInterface
 {
     /** @var StoreManagerInterface */
-    private $storeManager;
-
-    /** @var SearchCriteriaInterface */
-    private $searchCriteria;
+    private StoreManagerInterface $storeManager;
 
     /** @var CurrentRoute */
-    private $currentRoute;
+    private CurrentRoute $currentRoute;
 
     /** @var CollectionFactory */
-    private $collection;
+    private CollectionFactory $collection;
 
     /** @var ActionFactory */
-    private $actionFactory;
+    private ActionFactory $actionFactory;
 
     /** @var ConfigurationInterface */
-    private $configuration;
+    private ConfigurationInterface $configuration;
 
-    /**
-     * Constructor.
-     *
-     * @param StoreManagerInterface   $storeManager
-     * @param CollectionFactory       $collection
-     * @param SearchCriteriaInterface $searchCriteria
-     * @param CurrentRoute            $currentRoute
-     * @param ActionFactory           $actionFactory
-     * @param ConfigurationInterface  $configuration
-     */
     public function __construct(
         StoreManagerInterface $storeManager,
         CollectionFactory $collection,
-        SearchCriteriaInterface $searchCriteria,
         CurrentRoute $currentRoute,
         ActionFactory $actionFactory,
         ConfigurationInterface $configuration
     ) {
-        $this->storeManager   = $storeManager;
-        $this->collection     = $collection;
-        $this->searchCriteria = $searchCriteria;
-        $this->currentRoute   = $currentRoute;
-        $this->actionFactory  = $actionFactory;
-        $this->configuration  = $configuration;
+        $this->storeManager  = $storeManager;
+        $this->collection    = $collection;
+        $this->currentRoute  = $currentRoute;
+        $this->actionFactory = $actionFactory;
+        $this->configuration = $configuration;
     }
 
     /**

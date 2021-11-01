@@ -14,12 +14,12 @@ use Zend_Cache;
 
 class CacheProxy implements CacheInterface
 {
-    private const CACHE_TAGS = [
+    public const CACHE_TAGS = [
         'PRISMICIO_API'
     ];
 
     /** @var MagentoCache */
-    private $magentoCache;
+    private MagentoCache $magentoCache;
 
     /**
      * Constructor.

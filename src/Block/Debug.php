@@ -9,21 +9,18 @@ declare(strict_types=1);
 namespace Elgentos\PrismicIO\Block;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
-use Elgentos\PrismicIO\Exception\ContextNotFoundException;
-use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Context;
 use Magento\Store\Model\StoreManagerInterface;
 
 class Debug extends AbstractBlock
 {
     /** @var ConfigurationInterface */
-    private $configuration;
+    private ConfigurationInterface $configuration;
 
     /** @var StoreManagerInterface */
-    private $storeManager;
+    private StoreManagerInterface $storeManager;
 
     /**
      * Constructor.

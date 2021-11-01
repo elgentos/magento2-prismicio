@@ -9,17 +9,16 @@ declare(strict_types=1);
 namespace Elgentos\PrismicIO\Block;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Template;
 use Magento\Store\Model\StoreManager;
 
 class PreviewMode extends Template
 {
     /** @var ConfigurationInterface */
-    private $configuration;
+    private ConfigurationInterface $configuration;
 
     /**  @var StoreManager */
-    private $storeManager;
+    private StoreManager $storeManager;
 
     /**
      * Constructor.
@@ -45,7 +44,7 @@ class PreviewMode extends Template
      *
      * @return string
      */
-    protected function _toHtml()
+    protected function _toHtml(): string
     {
         if ($this->configuration->allowPreviewInFrontend($this->storeManager->getStore())) {
             return '';

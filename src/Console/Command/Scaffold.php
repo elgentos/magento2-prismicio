@@ -11,7 +11,7 @@ namespace Elgentos\PrismicIO\Console\Command;
 use Exception;
 use InvalidArgumentException;
 use Magento\Framework\App\Filesystem\DirectoryList as AppDirectoryList;
-use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Console\Cli;
 use Magento\Framework\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem\Io\File;
 use Magento\Framework\Module\Dir\Reader;
@@ -29,55 +29,43 @@ use Elgentos\PrismicIO\Model\Route\StoreFactory as RouteStoreFactory;
 
 class Scaffold extends Command
 {
-    private const CUSTOM_TYPE_ARGUMENT = 'custom-type',
-        REPLACE_NAME                   = '{type}';
+    public const CUSTOM_TYPE_ARGUMENT = 'custom-type',
+        REPLACE_NAME                  = '{type}';
 
-    /** @var ThemeList */
-    public $themeList;
+    public ThemeList $themeList;
 
     /** @var File */
-    public $io;
+    public File $io;
 
     /** @var Reader */
-    public $moduleReader;
+    public Reader $moduleReader;
 
     /** @var DirectoryList */
-    public $directoryList;
+    public DirectoryList $directoryList;
 
     /** @var RouteFactory */
-    public $routeFactory;
+    public RouteFactory $routeFactory;
 
     /** @var RouteStoreFactory */
-    public $routeStoreFactory;
+    public RouteStoreFactory $routeStoreFactory;
 
     /** @var OutputInterface */
-    protected $output;
+    protected OutputInterface $output;
 
     /** @var InputInterface */
-    protected $input;
+    protected InputInterface $input;
 
     /** @var bool|mixed|string|null */
     protected $theme;
 
     /** @var string */
-    protected $customType;
+    protected string $customType;
 
     /** @var string */
-    protected $stubDir;
+    protected string $stubDir;
 
-    /**
-     * Scaffold constructor.
-     *
-     * @param ListInterface     $themeList
-     * @param DirectoryList     $directoryList
-     * @param File              $io
-     * @param Reader            $moduleReader
-     * @param RouteFactory      $routeFactory
-     * @param RouteStoreFactory $routeStoreFactory
-     * @param string|null       $name
-     */
     public function __construct(
-        ListInterface $themeList,
+        ThemeList $themeList,
         DirectoryList $directoryList,
         File $io,
         Reader $moduleReader,
@@ -94,18 +82,10 @@ class Scaffold extends Command
         $this->routeStoreFactory = $routeStoreFactory;
     }
 
-    /**
-     * Execute the scaffold command.
-     *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int|void
-     */
     protected function execute(
         InputInterface $input,
         OutputInterface $output
-    ) {
+    ): int {
         $this->input      = $input;
         $this->output     = $output;
         $this->customType = $input->getArgument(self::CUSTOM_TYPE_ARGUMENT);
@@ -117,13 +97,10 @@ class Scaffold extends Command
         $this->copyTemplateStubs();
         $this->createPrismicRoute();
         $this->showPrismicJson();
+
+        return Cli::RETURN_SUCCESS;
     }
 
-    /**
-     * Configure the command.
-     *
-     * @return void
-     */
     protected function configure()
     {
         $this->setName('prismic:scaffold');
@@ -140,11 +117,6 @@ class Scaffold extends Command
         parent::configure();
     }
 
-    /**
-     * Add step to ask for the theme to work with.
-     *
-     * @return void
-     */
     private function askThemeCode(): void
     {
         $choices = [];
@@ -174,11 +146,6 @@ class Scaffold extends Command
             ->ask($this->input, $this->output, $question);
     }
 
-    /**
-     * Copy the layout stubs.
-     *
-     * @return void
-     */
     private function copyLayoutStubs(): void
     {
         try {
@@ -188,11 +155,6 @@ class Scaffold extends Command
         }
     }
 
-    /**
-     * Copy the template stubs.
-     *
-     * @return void
-     */
     private function copyTemplateStubs(): void
     {
         try {
@@ -202,14 +164,6 @@ class Scaffold extends Command
         }
     }
 
-    /**
-     * Copy the actual stubs from the given type to the set theme.
-     *
-     * @param string $type
-     * @param string $fileTypeMask
-     *
-     * @return void
-     */
     private function copyStubs(string $type, string $fileTypeMask): void
     {
         $destinationDir = $this->directoryList->getPath(AppDirectoryList::APP) .
@@ -229,13 +183,6 @@ class Scaffold extends Command
         }
     }
 
-    /**
-     * Replace the type placeholder with the type
-     *
-     * @param string $file
-     *
-     * @return void
-     */
     private function replaceTypeWithinFile(string $file): void
     {
         file_put_contents(
@@ -244,11 +191,6 @@ class Scaffold extends Command
         );
     }
 
-    /**
-     * Create a new Prismic route in Magento.
-     *
-     * @return void
-     */
     private function createPrismicRoute(): void
     {
         $defaultRoutePrefix  = '/' . $this->customType;
@@ -307,12 +249,7 @@ class Scaffold extends Command
         }
     }
 
-    /**
-     * Display the JSON for the subs for Prismic.
-     *
-     * @return void
-     */
-    private function showPrismicJson()
+    private function showPrismicJson(): void
     {
         $this->output->writeln(
             'Create a new custom type called \'' . $this->customType .

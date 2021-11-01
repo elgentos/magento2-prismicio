@@ -9,21 +9,21 @@
             <label>Prismic.IO</label>
             <resource>Elgentos_PrismicIO::config_prismicio</resource>
 
-            <group id="general" translate="label" showInDefault="1">
+            <group id="general" translate="label" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General</label>
 
-                <field id="enabled" showInDefault="1" translate="label" type="select">
+                <field id="enabled" showInDefault="1" showInWebsite="0" showInStore="0" translate="label" type="select">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                 </field>
 
-                <field id="enpoint" showInDefault="1" translate="label">
+                <field id="enpoint" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
                     <label>API Endpoint(URL)</label>
                     <depends>
                         <field id="enabled">1</field>
                     </depends>
                 </field>
-                <field id="token" showInDefault="1" translate="label">
+                <field id="token" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
                     <label>Access Token</label>
                     <depends>
                         <field id="enabled">1</field>

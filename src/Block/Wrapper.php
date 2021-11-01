@@ -8,9 +8,6 @@ declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Block;
 
-use Elgentos\PrismicIO\Exception\ContextNotFoundException;
-use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Theme\Block\Html\Breadcrumbs;
 
 class Wrapper extends Template
@@ -24,7 +21,7 @@ class Wrapper extends Template
     {
         $breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs');
 
-        if ($breadcrumbsBlock && $this->getDocumentResolver()->hasDocument()) {
+        if ($breadcrumbsBlock instanceof Breadcrumbs && $this->getDocumentResolver()->hasDocument()) {
             $this->addCurrentPageToBreadcrumbs($breadcrumbsBlock);
         }
 

@@ -13,7 +13,7 @@ use Elgentos\PrismicIO\Api\Data\RouteInterface;
 class CurrentRoute
 {
     /** @var RouteInterface */
-    private $route;
+    private RouteInterface $route;
 
     /**
      * Set the current route

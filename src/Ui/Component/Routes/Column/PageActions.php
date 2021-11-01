@@ -8,7 +8,9 @@ declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Ui\Component\Routes\Column;
 
-class PageActions extends \Magento\Ui\Component\Listing\Columns\Column
+use Magento\Ui\Component\Listing\Columns\Column;
+
+class PageActions extends Column
 {
     /**
      * Prepare the data source
@@ -17,7 +19,7 @@ class PageActions extends \Magento\Ui\Component\Listing\Columns\Column
      *
      * @return array
      */
-    public function prepareDataSource(array $dataSource)
+    public function prepareDataSource(array $dataSource): array
     {
         if (isset($dataSource["data"]["items"])) {
             foreach ($dataSource["data"]["items"] as & $item) {

@@ -8,8 +8,6 @@ declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Block;
 
-use Elgentos\PrismicIO\Exception\ContextNotFoundException;
-use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
 use Magento\Framework\View\Layout\Element;
 
 class Container extends AbstractBlock

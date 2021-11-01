@@ -15,36 +15,21 @@ use Magento\Framework\Option\ArrayInterface;
 
 class Attributes implements ArrayInterface
 {
-    /** @var array|null */
-    protected $options;
+    protected array $options = [];
 
-    /** @var CollectionFactory */
-    protected $attributeCollectionFactory;
+    protected CollectionFactory $attributeCollectionFactory;
 
-    /**
-     * Attributes constructor.
-     *
-     * @param CollectionFactory $collectionFactory
-     */
     public function __construct(CollectionFactory $collectionFactory)
     {
         $this->attributeCollectionFactory = $collectionFactory;
     }
 
-    /**
-     * Return the attributes as an array
-     *
-     * @param bool $isMultiselect
-     *
-     * @return array
-     */
-    public function toOptionArray($isMultiselect = false)
+    public function toOptionArray(): array
     {
         /** @var Collection $attributeCollection */
         $attributeCollection = $this->attributeCollectionFactory->create();
 
         if (!$this->options) {
-            /** @var Attribute $attribute */
             $this->options = array_map(
                 function (Attribute $attribute) {
                     return [
@@ -56,15 +41,6 @@ class Attributes implements ArrayInterface
             );
         }
 
-        $options = $this->options;
-
-        if (!$isMultiselect) {
-            array_unshift(
-                $options,
-                ['value' => '', 'label' => __('Please Select')]
-            );
-        }
-
-        return $options;
+        return $this->options;
     }
 }

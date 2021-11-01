@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Controller\Preview;
 
-use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
 use Elgentos\PrismicIO\Model\Api;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Backend\Model\View\Result\Redirect;
@@ -20,21 +19,20 @@ use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\ForwardFactory;
 use Magento\Framework\Controller\ResultInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
 
 class Index extends Action implements HttpGetActionInterface, HttpPostActionInterface
 {
     /** @var Api */
-    private $api;
+    private Api $api;
 
     /** @var LinkResolver */
-    private $linkResolver;
+    private LinkResolver $linkResolver;
 
     /** @var RedirectFactory */
-    private $redirectFactory;
+    private RedirectFactory $redirectFactory;
 
     /** @var ForwardFactory */
-    private $forwardFactory;
+    private ForwardFactory $forwardFactory;
 
     /**
      * Constructor.

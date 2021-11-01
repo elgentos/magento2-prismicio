@@ -11,29 +11,18 @@ namespace Elgentos\PrismicIO\Model;
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
 use Elgentos\PrismicIO\Model\Api\CacheProxy;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Prismic\Api as PrismicApi;
 use stdClass;
 
 class Api
 {
-    /** @var ConfigurationInterface */
-    private $configuration;
+    private ConfigurationInterface $configuration;
 
-    /** @var StoreManagerInterface */
-    private $storeManager;
+    private StoreManagerInterface $storeManager;
 
-    /** @var CacheProxy */
-    private $cacheProxy;
+    private CacheProxy $cacheProxy;
 
-    /**
-     * Constructor.
-     *
-     * @param ConfigurationInterface $configuration
-     * @param StoreManagerInterface  $storeManager
-     * @param CacheProxy             $cacheProxy
-     */
     public function __construct(
         ConfigurationInterface $configuration,
         StoreManagerInterface $storeManager,
@@ -44,47 +33,24 @@ class Api
         $this->cacheProxy    = $cacheProxy;
     }
 
-    /**
-     * Tell whether the API is enabled
-     *
-     * @return bool
-     */
     public function isActive(): bool
     {
         return $this->configuration
                 ->isApiEnabled($this->storeManager->getStore());
     }
 
-    /**
-     * Tell whether preview mode is allowed
-     *
-     * @return bool
-     */
     public function isPreviewAllowed(): bool
     {
         return $this->configuration
             ->allowPreviewInFrontend($this->storeManager->getStore());
     }
 
-    /**
-     * Is fallback allowed
-     *
-     * @return bool
-     */
     public function isFallbackAllowed(): bool
     {
         return $this->configuration
             ->hasContentLanguageFallback($this->storeManager->getStore());
     }
 
-    /**
-     * Get document id for the alternate language
-     *
-     * @param string        $language
-     * @param stdClass|null $document
-     *
-     * @return string
-     */
     public function getDocumentIdInLanguage(string $language, stdClass $document = null): ?string
     {
         $alternateLanguages = (array)($document->alternate_languages ?? []);
@@ -109,13 +75,6 @@ class Api
         return $available->id;
     }
 
-    /**
-     * Get document id for home language
-     *
-     * @param stdClass|null $document
-     *
-     * @return string|null
-     */
     public function getDocumentIdInHomeLanguage(stdClass $document = null): ?string
     {
         if (!$this->isFallbackAllowed()) {
@@ -128,13 +87,6 @@ class Api
         );
     }
 
-    /**
-     * Get API options
-     *
-     * @param array $options
-     *
-     * @return array
-     */
     public function getOptions(array $options = []): array
     {
         $store = $this->storeManager->getStore();
@@ -150,13 +102,6 @@ class Api
         return array_filter($options);
     }
 
-    /**
-     * Get API options with fallback language
-     *
-     * @param array $options
-     *
-     * @return array
-     */
     public function getOptionsLanguageFallback(array $options = []): array
     {
         $store = $this->storeManager->getStore();
@@ -172,11 +117,6 @@ class Api
         return $this->getOptions($options);
     }
 
-    /**
-     * Get default content type
-     *
-     * @return string
-     */
     public function getDefaultContentType(): string
     {
         return $this->configuration
@@ -184,9 +124,6 @@ class Api
     }
 
     /**
-     * Create a prismic API for reading content
-     *
-     * @return PrismicApi
      * @throws ApiNotEnabledException
      */
     public function create(): PrismicApi
@@ -209,18 +146,9 @@ class Api
         );
     }
 
-    /**
-     * Get document by uid
-     *
-     * @param string      $uid
-     * @param string|null $contentType
-     * @param array       $options
-     *
-     * @return stdClass|null
-     */
     public function getDocumentByUid(
         string $uid,
-        string $contentType = null,
+        ?string $contentType = null,
         array $options = []
     ): ?stdClass {
         $contentType         = $contentType ?? $this->getDefaultContentType();
@@ -249,39 +177,29 @@ class Api
         );
     }
 
-    /**
-     * Get document by uid
-     */
     public function getSingleton(string $contentType = null, array $options = []): ?stdClass
     {
-        $contentType = $contentType ?? $this->getDefaultContentType();
-        $api = $this->create();
+        $contentType         = $contentType ?? $this->getDefaultContentType();
+        $api                 = $this->create();
+        $allowedContentTypes = $api->getData()->getTypes();
 
-        $allowedContentTypes = $api->getData()
-                ->getTypes();
         if (! isset($allowedContentTypes[$contentType])) {
             return null;
         }
 
         $document = $api->getSingle($contentType, $this->getOptions($options));
-        if ($document || ! $this->isFallbackAllowed()) {
+
+        if ($document || !$this->isFallbackAllowed()) {
             return $document;
         }
 
         return $api->getSingle($contentType, $this->getOptionsLanguageFallback($options));
     }
 
-    /**
-     * Get document by id
-     *
-     * @param string $id
-     * @param array  $options
-     *
-     * @return stdClass|null
-     */
     public function getDocumentById(string $id, array $options = []): ?stdClass
     {
         $api = $this->create();
+
         return $api->getByID($id, $this->getOptions($options));
     }
 }

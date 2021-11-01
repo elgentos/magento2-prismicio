@@ -18,19 +18,19 @@ use Magento\Framework\DataObject;
 class RouteRepository implements RouteRepositoryInterface
 {
     /**@var CollectionFactory */
-    private $collectionFactory;
+    private CollectionFactory $collectionFactory;
 
     /** @var RouteInterface[]|DataObject[] */
-    protected $routes = [];
+    protected array $routes = [];
 
     /** @var array */
-    protected $routesById = [];
+    protected array $routesById = [];
 
     /** @var array */
-    protected $routesByContentType = [];
+    protected array $routesByContentType = [];
 
     /** @var bool */
-    protected $initialized = false;
+    protected bool $initialized = false;
 
     /**
      * Constructor.

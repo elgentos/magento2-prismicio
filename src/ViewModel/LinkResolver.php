@@ -12,7 +12,6 @@ use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\Api\RouteRepositoryInterface;
 use Elgentos\PrismicIO\Exception\RouteNotFoundException;
 use Exception;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Block\ArgumentInterface;
 use Magento\Store\Api\Data\StoreInterface;
@@ -25,36 +24,20 @@ use stdClass;
 
 class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
 {
-    /** @var UrlInterface */
-    private $urlBuilder;
+    private UrlInterface $urlBuilder;
 
-    /** @var StoreManagerInterface */
-    private $storeManager;
+    private StoreManagerInterface $storeManager;
 
-    /** @var RouteRepositoryInterface */
-    private $routeRepository;
+    private RouteRepositoryInterface $routeRepository;
 
-    /** @var UrlFinderInterface */
-    private $urlFinder;
+    private UrlFinderInterface $urlFinder;
 
-    /** @var array */
-    private $urlCache = [];
+    private array $urlCache = [];
 
-    /** @var ConfigurationInterface */
-    private $configuration;
+    private ConfigurationInterface $configuration;
 
-    /** @var array */
-    private $cachedLanguageStoreIds;
+    private ?array $cachedLanguageStoreIds;
 
-    /**
-     * LinkResolver constructor.
-     *
-     * @param UrlInterface             $urlBuilder
-     * @param StoreManagerInterface    $storeManager
-     * @param RouteRepositoryInterface $routeRepository
-     * @param UrlFinderInterface       $urlFinder
-     * @param ConfigurationInterface   $configuration
-     */
     public function __construct(
         UrlInterface $urlBuilder,
         StoreManagerInterface $storeManager,
@@ -71,10 +54,6 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
 
     /**
      * Returns the application-specific URL related to this document link
-     *
-     * @param object $link
-     *
-     * @return string|null
      */
     public function resolve($link): ?string
     {
@@ -86,25 +65,11 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
             $this->resolveRouteUrl($link);
     }
 
-    /**
-     * Get the media URL from the link.
-     *
-     * @param stdClass $link
-     *
-     * @return string|null
-     */
     public function getMediaUrl(stdClass $link): ?string
     {
         return $link->url ?? null;
     }
 
-    /**
-     * Get the store from the link
-     *
-     * @param stdClass $link
-     *
-     * @return StoreInterface
-     */
     public function getStore(stdClass $link): StoreInterface
     {
         $storeId = $link->store
@@ -115,13 +80,6 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
         return $this->storeManager->getStore($storeId);
     }
 
-    /**
-     * Resolve the route URL from the link
-     *
-     * @param stdClass $link
-     *
-     * @return string|null
-     */
     public function resolveRouteUrl(stdClass $link): ?string
     {
         $uid         = $link->uid ?? null;
@@ -166,13 +124,6 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
         }
     }
 
-    /**
-     * Resolve the direct page from the link
-     *
-     * @param stdClass $link
-     *
-     * @return string|null
-     */
     public function resolveDirectPage(stdClass $link): ?string
     {
         $store       = $this->getStore($link);
@@ -211,19 +162,10 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
         return $this->urlCache[$cacheKey] = $this->getUrl($store, $data);
     }
 
-    /**
-     * Get direct url
-     *
-     * @param Store  $store
-     * @param array  $data
-     * @param string $routePath
-     *
-     * @return string
-     */
     public function getUrl(
         Store $store,
         array $data,
-        $routePath = 'prismicio/direct/page'
+        string $routePath = 'prismicio/direct/page'
     ): string {
         $routeParams = [
             '_nosid' => true,
@@ -258,25 +200,11 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
         return $this->getFormattedUrl($this->urlBuilder->getUrl($routePath, $routeParams));
     }
 
-    /**
-     * Format url
-     *
-     * @param string $url
-     *
-     * @return string
-     */
     public function getFormattedUrl(string $url): string
     {
         return rtrim($url, '/');
     }
 
-    /**
-     * Generate route params
-     *
-     * @param array $data
-     *
-     * @return string
-     */
     private function createParams(array $data): string
     {
         $params = [];
@@ -288,15 +216,7 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
         return implode('/', $params);
     }
 
-    /**
-     * Get the URL rewrite from the target path
-     *
-     * @param string         $targetPath
-     * @param StoreInterface $store
-     *
-     * @return UrlRewrite|null
-     */
-    public function getUrlRewrite(string $targetPath, StoreInterface $store)
+    public function getUrlRewrite(string $targetPath, StoreInterface $store): ?UrlRewrite
     {
         return $this->urlFinder->findOneByData(
             [
@@ -307,13 +227,6 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
         );
     }
 
-    /**
-     * Resolve store id from $link->lang to a valid storeId
-     *
-     * @param stdClass $link
-     *
-     * @return int|null
-     */
     public function getStoreIdFromLink(stdClass $link): ?int
     {
         if (! isset($link->lang)) {
@@ -323,11 +236,6 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
         return $this->getLanguageStoreIds()[$link->lang] ?? null;
     }
 
-    /**
-     * Get reversed language code to store id mapping
-     *
-     * @return array
-     */
     private function getLanguageStoreIds(): array
     {
         if (null !== $this->cachedLanguageStoreIds) {
@@ -335,6 +243,7 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
         }
 
         $languageStoreIds = [];
+
         foreach ($this->storeManager->getStores() as $store) {
             $languageCode                    = $this->configuration->getContentLanguage($store);
             $languageStoreIds[$languageCode] = $languageStoreIds[$languageCode]

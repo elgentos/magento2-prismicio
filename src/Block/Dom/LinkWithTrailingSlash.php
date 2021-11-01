@@ -8,9 +8,6 @@ declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Block\Dom;
 
-use Elgentos\PrismicIO\Exception\ContextNotFoundException;
-use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
-
 /**
  * @deprecated use the provided plugin for this instead
  * @see \Elgentos\PrismicIO\Plugin\ViewModel\LinkResolver\AppendTrailingSlashes

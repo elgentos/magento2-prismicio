@@ -20,10 +20,10 @@ use Magento\Framework\View\Result\PageFactory;
 class Index extends Action implements HttpGetActionInterface, HttpPostActionInterface
 {
     /** @var PageFactory */
-    private $pageFactory;
+    private PageFactory $pageFactory;
 
     /** @var CurrentRoute */
-    private $currentRoute;
+    private CurrentRoute $currentRoute;
 
     /**
      * Constructor.
@@ -57,9 +57,9 @@ class Index extends Action implements HttpGetActionInterface, HttpPostActionInte
 
         $page->addHandle(
             [
-            'prismicio_default',
-            'prismicio_route_index',
-            'prismicio_route_index_' . $route->getContentType()
+                'prismicio_default',
+                'prismicio_route_index',
+                'prismicio_route_index_' . $route->getContentType()
             ]
         );
 

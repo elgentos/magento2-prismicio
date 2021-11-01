@@ -13,7 +13,6 @@ use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\Framework\Data\Collection\EntityFactoryInterface;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\Event\ManagerInterface;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Psr\Log\LoggerInterface;
@@ -22,7 +21,7 @@ use Zend_Db_Expr;
 class Collection extends AbstractCollection
 {
     /** @var StoreFactory */
-    private $storeFactory;
+    private StoreFactory $storeFactory;
 
     /**
      * Constructor.

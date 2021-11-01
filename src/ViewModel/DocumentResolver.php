@@ -19,7 +19,7 @@ class DocumentResolver implements ArgumentInterface
     private const CONTEXT_DELIMITER = '.';
 
     /** @var CurrentDocument */
-    private $currentDocument;
+    private CurrentDocument $currentDocument;
 
     /**
      * Constructor.
@@ -79,15 +79,13 @@ class DocumentResolver implements ArgumentInterface
     /**
      * Get the context of the document
      *
-     * @param string        $documentReference
-     * @param stdClass|null $document
-     *
      * @return array|stdClass|string
      * @throws ContextNotFoundException
      */
-    public function getContext(string $documentReference, stdClass $document = null)
+    public function getContext(string $documentReference, ?stdClass $document = null)
     {
-        $document = $document ?? $this->getDocument();
+        $document ??= $this->getDocument();
+
         if ($documentReference === '*') {
             return $document;
         }
@@ -95,16 +93,16 @@ class DocumentResolver implements ArgumentInterface
         $references = explode(self::CONTEXT_DELIMITER, $documentReference);
         $context    = array_reduce(
             $references,
-            function ($data, $reference) {
-                if (null === $data || $reference === null) {
-                    return $data;
+            function ($data, string $reference) {
+                if ($data === null) {
+                    return null;
                 }
 
                 if (is_numeric($reference) && is_array($data)) {
                     return $data[$reference] ?? null;
                 }
 
-                return isset($data->{$reference}) ? $data->{$reference} : null;
+                return $data->{$reference} ?? null;
             },
             $document
         );

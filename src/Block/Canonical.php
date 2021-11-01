@@ -8,14 +8,6 @@ declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Block;
 
-use Elgentos\PrismicIO\Api\ConfigurationInterface;
-use Elgentos\PrismicIO\Exception\ContextNotFoundException;
-use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
-use Elgentos\PrismicIO\ViewModel\DocumentResolver;
-use Elgentos\PrismicIO\ViewModel\LinkResolver;
-use Magento\Framework\View\Element\Template;
-use Magento\Store\Model\StoreManagerInterface;
-
 class Canonical extends AbstractTemplate
 {
     /**

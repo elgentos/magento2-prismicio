@@ -8,6 +8,8 @@ declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Exception;
 
-class GeneralException extends \Exception
+use Exception;
+
+class GeneralException extends Exception
 {
 }

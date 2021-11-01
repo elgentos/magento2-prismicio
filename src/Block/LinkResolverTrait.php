@@ -13,7 +13,7 @@ use Elgentos\PrismicIO\ViewModel\LinkResolver;
 trait LinkResolverTrait
 {
     /** @var LinkResolver */
-    private $linkResolver;
+    private LinkResolver $linkResolver;
 
     /**
      * Get the link resolver

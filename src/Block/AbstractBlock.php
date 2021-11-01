@@ -57,7 +57,7 @@ abstract class AbstractBlock extends FrameworkAbstractBlock implements BlockInte
      *
      * @return string
      */
-    protected function _toHtml()
+    protected function _toHtml(): string
     {
         if (!$this->hasContext()) {
             return '';

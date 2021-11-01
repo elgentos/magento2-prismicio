@@ -18,7 +18,7 @@ use Magento\Framework\Controller\ResultInterface;
 class Page extends Action implements HttpGetActionInterface, HttpPostActionInterface
 {
     /** @var PageRenderer */
-    public $page;
+    public PageRenderer $page;
 
     /**
      * Constructor.

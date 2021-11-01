@@ -1,0 +1,34 @@
+name: PHP
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  COMPOSER_AUTH: |
+    {
+      "http-basic": {
+        "repo.magento.com": {
+          "username": "${{ secrets.MAGENTO_PUBLIC_KEY }}",
+          "password": "${{ secrets.MAGENTO_PRIVATE_KEY }}"
+        }
+      }
+    }
+
+jobs:
+  php:
+    name: GrumPHP
+    runs-on: ubuntu-latest
+    container: srcoder/development-php:php74-fpm
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install Composer package
+        run: composer update
+
+      - name: GrumPHP
+        run: vendor/bin/grumphp run

@@ -11,16 +11,15 @@ namespace Elgentos\PrismicIO\Model\Source;
 use Elgentos\PrismicIO\Model\Api;
 use Exception;
 use Magento\Framework\Data\OptionSourceInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Prismic\Language;
 
 class Languages implements OptionSourceInterface
 {
     /** @var array */
-    private $languages;
+    private array $languages;
 
     /** @var Api */
-    private $api;
+    private Api $api;
 
     /**
      * Constructor.

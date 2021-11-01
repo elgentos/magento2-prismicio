@@ -8,32 +8,30 @@ declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Renderer;
 
-use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
 use Elgentos\PrismicIO\Model\Api;
 use Elgentos\PrismicIO\Registry\CurrentDocument;
 use Magento\Framework\Controller\Result\ForwardFactory;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Result\PageFactory;
 use stdClass;
 
 class Page
 {
     /** @var ForwardFactory */
-    protected $forwardFactory;
+    protected ForwardFactory $forwardFactory;
 
     /** @var RedirectFactory */
-    private $redirectFactory;
+    private RedirectFactory $redirectFactory;
 
     /** @var PageFactory */
-    private $pageFactory;
+    private PageFactory $pageFactory;
 
     /** @var Api */
-    private $api;
+    private Api $api;
 
     /** @var CurrentDocument */
-    private $currentDocument;
+    private CurrentDocument $currentDocument;
 
     public function __construct(
         ForwardFactory $forwardFactory,

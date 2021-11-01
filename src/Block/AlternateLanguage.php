@@ -9,22 +9,19 @@ declare(strict_types=1);
 namespace Elgentos\PrismicIO\Block;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
-use Elgentos\PrismicIO\Exception\ContextNotFoundException;
-use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Framework\View\Element\Template;
-use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 
 class AlternateLanguage extends AbstractTemplate
 {
     /** @var StoreManagerInterface */
-    public $storeManager;
+    public StoreManagerInterface $storeManager;
 
     /** @var ConfigurationInterface */
-    private $configuration;
+    private ConfigurationInterface $configuration;
 
     /**
      * Constructor.

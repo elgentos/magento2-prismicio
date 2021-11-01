@@ -8,18 +8,16 @@ declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Block;
 
-use Elgentos\PrismicIO\Exception\ContextNotFoundException;
-use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use stdClass;
 
 trait DocumentResolverTrait
 {
     /** @var DocumentResolver */
-    private $documentResolver;
+    private DocumentResolver $documentResolver;
 
     /** @var stdClass */
-    private $document;
+    private stdClass $document;
 
     /**
      * Get the document resolver

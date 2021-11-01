@@ -9,8 +9,6 @@ declare(strict_types=1);
 namespace Elgentos\PrismicIO\Block\Dom;
 
 use Elgentos\PrismicIO\Block\AbstractBlock;
-use Elgentos\PrismicIO\Exception\ContextNotFoundException;
-use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
 
 class Raw extends AbstractBlock
 {

@@ -11,15 +11,14 @@ namespace Elgentos\PrismicIO\Model\Source;
 use Elgentos\PrismicIO\Model\Api;
 use Exception;
 use Magento\Framework\Data\OptionSourceInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
 
 class ContentTypes implements OptionSourceInterface
 {
     /** @var array */
-    private $types;
+    private array $types;
 
     /** @var Api */
-    private $api;
+    private Api $api;
 
     /**
      * Constructor.

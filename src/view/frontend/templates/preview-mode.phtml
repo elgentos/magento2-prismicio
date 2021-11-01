@@ -1,6 +1,17 @@
+<?php
+
+/**
+ * @var PreviewMode $block
+ * @var Escaper $escaper
+ */
+
+use Elgentos\PrismicIO\Block\PreviewMode;
+use Magento\Framework\Escaper;
+
+?>
 <script>
     window.prismic = {
-        endpoint: '<?= $block->escapeUrl($block->getApiEndpoint()) ?>'
+        endpoint: '<?= $escaper->escapeUrl($block->getApiEndpoint()) ?>'
     };
 </script>
 <script type="text/javascript" src="https://static.cdn.prismic.io/prismic.min.js"></script>

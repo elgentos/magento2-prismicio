@@ -9,8 +9,9 @@ declare(strict_types=1);
 namespace Elgentos\PrismicIO\Model\ResourceModel\Route\Store;
 
 use Elgentos\PrismicIO\Model\Route;
+use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 
-class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
+class Collection extends AbstractCollection
 {
     /**
      * @return void

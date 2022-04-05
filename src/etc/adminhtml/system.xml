@@ -10,19 +10,15 @@
         <tab id="elgentos" translate="label" sortOrder="100">
             <label>Elgentos</label>
         </tab>
-        <section id="prismicio" sortOrder="10" showInDefault="1" showInStore="1"
-                 showInWebsite="1">
+        <section id="prismicio" sortOrder="10" showInDefault="1" showInStore="1" showInWebsite="1">
             <tab>elgentos</tab>
             <label>Prismic.IO</label>
             <resource>Elgentos_PrismicIO::config_prismicio</resource>
             <group id="general" translate="label" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General</label>
-                <field id="enabled" showInDefault="1" showInWebsite="0" showInStore="0" translate="label"
-                       type="select">
+                <field id="enabled" showInDefault="1" showInWebsite="0" showInStore="0" translate="label" type="select">
                     <label>Enabled</label>
-                    <source_model>
-                        Magento\Config\Model\Config\Source\Enabledisable
-                    </source_model>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                 </field>
                 <field id="enpoint" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
                     <label>API Endpoint(URL)</label>
@@ -37,62 +33,45 @@
                     </depends>
                 </field>
             </group>
-            <group id="content" translate="label" showInDefault="1"
-                   showInWebsite="1" showInStore="1">
+            <group id="content" translate="label" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Content</label>
-                <field id="language" showInDefault="1" showInWebsite="1"
-                       showInStore="1" translate="label" type="select">
+                <field id="language" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="select">
                     <label>Language</label>
-                    <source_model>Elgentos\PrismicIO\Model\Source\Languages
-                    </source_model>
+                    <source_model>Elgentos\PrismicIO\Model\Source\Languages</source_model>
                 </field>
-                <field id="language_fallback" showInDefault="0"
-                       showInWebsite="1" showInStore="1"
-                       translate="label comment" type="select">
+                <field id="language_fallback" showInDefault="0" showInWebsite="1" showInStore="1" translate="label comment" type="select">
                     <label>Language fallback</label>
-                    <comment>If a document cannot be found in the language, try
-                        again in fallback language
-                    </comment>
-                    <source_model>
-                        Elgentos\PrismicIO\Model\Source\Languages\Fallback
-                    </source_model>
+                    <comment>If a document cannot be found in the language, try again in fallback language</comment>
+                    <source_model>Elgentos\PrismicIO\Model\Source\Languages\Fallback</source_model>
                 </field>
-                <field id="content_type" showInDefault="1" showInWebsite="1"
-                       showInStore="1" translate="label" type="select">
+                <field id="content_type" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="select">
                     <label>Default Content type</label>
-                    <source_model>Elgentos\PrismicIO\Model\Source\ContentTypes
-                    </source_model>
+                    <source_model>Elgentos\PrismicIO\Model\Source\ContentTypes</source_model>
                 </field>
-                <field id="fetchlinks" showInDefault="1" showInWebsite="1"
-                       showInStore="1" translate="label comment">
+                <field id="fetchlinks" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment">
                     <label>Fetchlinks</label>
                     <comment>
                         <![CDATA[Which related fields should we try to fetch from Prismic in one call, format <code>customtype.field,customtype.field</code>]]>
                     </comment>
                 </field>
-                <field id="allow_debug" showInDefault="1" showInWebsite="1"
-                       showInStore="1" translate="label comment" type="select">
+                <field id="allow_debug" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment" type="select">
                     <label>Debugging</label>
                     <comment>
                         <![CDATA[Allow displaying Elgentos\Prismicio\Block\Debug in frontend, this only works if developer mode is also enabled</code>]]>
                     </comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno
-                    </source_model>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="allow_preview" showInDefault="1" showInWebsite="1"
-                       showInStore="1" translate="label comment" type="select">
+                <field id="allow_preview" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment" type="select">
                     <label>Preview</label>
                     <comment>
                         <![CDATA[Allow using preview features from Prismic</code>]]>
                     </comment>
-                    <source_model>Magento\Config\Model\Config\Source\Yesno
-                    </source_model>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
             </group>
             <group id="integration_fields" translate="true" showInDefault="1">
                 <label>Integration Fields</label>
-                <field id="attributes" showInDefault="1" showInStore="1"
-                       showInWebsite="1" translate="label" type="multiselect">
+                <field id="attributes" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="multiselect">
                     <label>Product Attributes</label>
                     <comment>
                         <![CDATA[Attributes to make available in Prismic Integration Fields. The following attributes will always be made available: name, image, status, short_description, updated_at.]]>
@@ -100,24 +79,21 @@
                     <source_model>Elgentos\PrismicIO\Model\Source\Attributes</source_model>
                     <can_be_empty>1</can_be_empty>
                 </field>
-                <field id="sync_disabled_products" showInDefault="1"
-                       showInStore="1" showInWebsite="1" translate="label"
-                       type="select">
+                <field id="sync_disabled_products" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="select">
                     <label>Synchronize Disabled Products?</label>
                     <comment>
                         <![CDATA[When set to Yes, disabled products will also be synchronized to Prismic. Set to <strong>No</strong> to avoid the SKU limitation in Prismic.]]>
                     </comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
-                <field id="visibility" showInDefault="1" showInStore="1"
-                       showInWebsite="1" translate="label" type="multiselect">
+                <field id="visibility" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="multiselect">
                     <label>Visibilities to Synchronize</label>
                     <comment>
-                        <![CDATA[Select which Product Visibilities will be synchronized to Prismic.]]></comment>
+                        <![CDATA[Select which Product Visibilities will be synchronized to Prismic.]]>
+                    </comment>
                     <source_model>Magento\Catalog\Model\Product\Visibility</source_model>
                 </field>
-                <field id="access_token" showInDefault="1" showInStore="1"
-                       showInWebsite="1" translate="label" type="text">
+                <field id="access_token" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="text">
                     <label>Access Token</label>
                     <comment>
                         <![CDATA[Leave empty for no authentication. See the <a href="https://user-guides.prismic.io/en/articles/1401183-connect-to-a-custom-api#h_4ea9325683">Prismic docs</a> for more info.]]>

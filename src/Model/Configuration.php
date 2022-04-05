@@ -45,7 +45,7 @@ class Configuration implements ConfigurationInterface
 
     public function isApiEnabled(StoreInterface $store): bool
     {
-        return $this->config->getValue(
+        return $this->config->isSetFlag(
             self::XML_PATH_API_ENABLED,
             ScopeInterface::SCOPE_STORE,
             $store
@@ -63,7 +63,7 @@ class Configuration implements ConfigurationInterface
 
     public function hasContentLanguageFallback(StoreInterface $store): bool
     {
-        return (bool) $this->config->getValue(
+        return (bool) $this->config->isSetFlag(
             self::XML_PATH_CONTENT_LANGUAGE_FALLBACK,
             ScopeInterface::SCOPE_STORE,
             $store
@@ -113,20 +113,20 @@ class Configuration implements ConfigurationInterface
             return false;
         }
 
-        return (bool) ($this->config->getValue(
+        return $this->config->isSetFlag(
             self::XML_PATH_CONTENT_ALLOW_DEBUG,
             ScopeInterface::SCOPE_STORE,
             $store
-        ) ?? '');
+        );
     }
 
     public function allowPreviewInFrontend(StoreInterface $store): bool
     {
-        return (bool) ($this->config->getValue(
+        return $this->config->isSetFlag(
             self::XML_PATH_CONTENT_ALLOW_PREVIEW,
             ScopeInterface::SCOPE_STORE,
             $store
-        ) ?? '');
+        );
     }
 
     public function getIntegrationFieldsAccessToken(StoreInterface $store): string
@@ -158,11 +158,11 @@ class Configuration implements ConfigurationInterface
 
     public function allowSyncDisabledProducts(StoreInterface $store): bool
     {
-        return (bool) ($this->config->getValue(
+        return $this->config->isSetFlag(
             self::XML_PATH_INTEGRATION_SYNC_DISABLED_PRODUCTS,
             ScopeInterface::SCOPE_STORE,
             $store
-        ) ?? '');
+        );
     }
 
     public function getSitemapContentTypes(StoreInterface $store): string

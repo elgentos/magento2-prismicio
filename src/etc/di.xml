@@ -9,14 +9,8 @@
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
             <argument name="collections" xsi:type="array">
-                <item name="prismicio_routes_listing_data_source"
-                      xsi:type="string">
-                    Elgentos\PrismicIO\Model\ResourceModel\Routes\Grid\Collection
-                </item>
-                <item name="prismicio_routes_form_data_source"
-                      xsi:type="string">
-                    Elgentos\PrismicIO\Model\ResourceModel\Routes\DataProvider
-                </item>
+                <item name="prismicio_routes_listing_data_source" xsi:type="string">Elgentos\PrismicIO\Model\ResourceModel\Routes\Grid\Collection</item>
+                <item name="prismicio_routes_form_data_source" xsi:type="string">Elgentos\PrismicIO\Model\ResourceModel\Routes\DataProvider</item>
             </argument>
         </arguments>
     </type>
@@ -38,5 +32,4 @@
                 type="Elgentos\PrismicIO\Plugin\ViewModel\LinkResolver\AppendTrailingSlashes" />
     </type>
     -->
-
 </config>

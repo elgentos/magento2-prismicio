@@ -27,5 +27,13 @@
     "autoload": {
         "psr-4": { "Elgentos\\PrismicIO\\": "" },
         "files": [ "registration.php" ]
+    },
+    "config": {
+        "allow-plugins": {
+            "phpro/grumphp": true,
+            "mediact/testing-suite": true,
+            "mediact/coding-standard-phpstorm": true,
+            "mediact/composer-unclog-plugin": true
+        }
     }
 }

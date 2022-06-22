@@ -170,12 +170,17 @@ class Configuration implements ConfigurationInterface
             ) ?? '');
     }
 
-    public function getUrlRewriteContentTypes(StoreInterface $store): string
+    public function getUrlRewriteContentTypes(StoreInterface $store): array
     {
-        return (string)($this->config->getValue(
-            self::XML_PATH_SITEMAP_CONTENT_TYPES,
-            ScopeInterface::SCOPE_STORE,
-            $store
-        ) ?? '');
+        return array_filter(
+            explode(
+                ',',
+                $this->config->getValue(
+                    self::XML_PATH_URL_REWRITE_CONTENT_TYPES,
+                    ScopeInterface::SCOPE_STORE,
+                    $store
+                ) ?? ''
+            )
+        );
     }
 }

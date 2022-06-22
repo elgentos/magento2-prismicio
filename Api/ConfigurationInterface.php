@@ -50,5 +50,5 @@ interface ConfigurationInterface
 
     public function getSitemapContentTypes(StoreInterface $store): string;
 
-    public function getUrlRewriteContentTypes(StoreInterface $store): string;
+    public function getUrlRewriteContentTypes(StoreInterface $store): array;
 }

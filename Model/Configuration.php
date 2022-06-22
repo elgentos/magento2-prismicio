@@ -169,4 +169,13 @@ class Configuration implements ConfigurationInterface
                 $store
             ) ?? '');
     }
+
+    public function getUrlRewriteContentTypes(StoreInterface $store): string
+    {
+        return (string)($this->config->getValue(
+            self::XML_PATH_SITEMAP_CONTENT_TYPES,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        ) ?? '');
+    }
 }

@@ -96,6 +96,15 @@
                     <can_be_empty>1</can_be_empty>
                 </field>
             </group>
+
+            <group id="url_rewrites" translate="true" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Url Rewrites</label>
+                <field id="content_types" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="multiselect">
+                    <label>Content type for automatic url rewrites</label>
+                    <source_model>Elgentos\PrismicIO\Model\Source\ContentTypes</source_model>
+                    <comment><![CDATA[Check the <a href="https://github.com/elgentos/magento2-prismicio">github docs</a> for more info.]]></comment>
+                </field>
+            </group>
         </section>
 
         <section id="sitemap">

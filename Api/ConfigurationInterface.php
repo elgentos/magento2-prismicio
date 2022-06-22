@@ -26,6 +26,8 @@ interface ConfigurationInterface
 
     public const XML_PATH_SITEMAP_CONTENT_TYPES              = 'prismicio/sitemap/content_types';
 
+    public const XML_PATH_URL_REWRITE_CONTENT_TYPES          = 'prismicio/url_rewrites/content_types';
+
     public function getApiEnabled(StoreInterface $store): bool;
     public function getApiEndpoint(StoreInterface $store): string;
     public function getApiSecret(StoreInterface $store): string;
@@ -47,4 +49,6 @@ interface ConfigurationInterface
     public function allowSyncDisabledProducts(StoreInterface $store): bool;
 
     public function getSitemapContentTypes(StoreInterface $store): string;
+
+    public function getUrlRewriteContentTypes(StoreInterface $store): string;
 }

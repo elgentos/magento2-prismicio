@@ -12,7 +12,7 @@
             <group id="general" translate="label" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>General</label>
 
-                <field id="enabled" showInDefault="1" showInWebsite="0" showInStore="0" translate="label" type="select">
+                <field id="enabled" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="select">
                     <label>Enabled</label>
                     <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                 </field>

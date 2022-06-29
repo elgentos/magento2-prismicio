@@ -6,6 +6,7 @@ namespace Elgentos\PrismicIO\Controller\Webhook;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\Model\Api;
+use Exception;
 use Magento\CmsUrlRewrite\Model\CmsPageUrlRewriteGenerator;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\CsrfAwareActionInterface;
@@ -13,12 +14,16 @@ use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\UrlRewrite\Model\ResourceModel\UrlRewrite as UrlRewriteResource;
 use Magento\UrlRewrite\Model\UrlFinderInterface;
 use Magento\UrlRewrite\Model\UrlPersistInterface;
+use Magento\UrlRewrite\Model\UrlRewrite as UrlRewriteModel;
 use Magento\UrlRewrite\Model\UrlRewriteFactory;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Psr\Log\LoggerInterface;
+use stdClass;
 
 class Url implements HttpPostActionInterface, CsrfAwareActionInterface
 {
@@ -38,18 +43,21 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
 
     private UrlPersistInterface $urlPersist;
 
+    private UrlRewriteResource $urlRewriteResource;
+
     private LoggerInterface $logger;
 
     public function __construct(
-        RequestInterface $request,
+        RequestInterface       $request,
         ConfigurationInterface $configuration,
-        StoreManagerInterface $storeManager,
-        Api $apiFactory,
-        ResultFactory $resultFactory,
-        UrlFinderInterface $urlFinder,
-        UrlRewriteFactory $urlRewriteFactory,
-        UrlPersistInterface $urlPersist,
-        LoggerInterface $logger
+        StoreManagerInterface  $storeManager,
+        Api                    $apiFactory,
+        ResultFactory          $resultFactory,
+        UrlFinderInterface     $urlFinder,
+        UrlRewriteFactory      $urlRewriteFactory,
+        UrlPersistInterface    $urlPersist,
+        UrlRewriteResource     $urlRewriteResource,
+        LoggerInterface        $logger
     ) {
         $this->request = $request;
         $this->configuration = $configuration;
@@ -60,18 +68,21 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
         $this->urlFinder = $urlFinder;
         $this->urlRewriteFactory = $urlRewriteFactory;
         $this->urlPersist = $urlPersist;
+        $this->urlRewriteResource = $urlRewriteResource;
     }
 
     public function execute(): ResultInterface
     {
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
 
-        $payload = $this->request->getContent();
-        $this->logger->info($payload);
-        $payload = $this->mockRequestContent();
+        $payload = json_decode($this->request->getContent() ?? '', true);
+        if (!$payload) {
+            return $result->setData([
+                'success' => true
+            ]);
+        }
 
         $store = $this->storeManager->getStore();
-
         $urlRewriteDocumentTypes = $this->configuration->getUrlRewriteContentTypes(
             $store
         );
@@ -82,7 +93,7 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
             ]);
         }
 
-        $documentIds = $payload['documents'];
+        $documentIds = $payload['documents'] ?? [];
         if (empty($documentIds)) {
             return $result->setData([
                 'success' => true
@@ -90,37 +101,54 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
         }
 
         $api = $this->apiFactory->create();
-
         foreach ($documentIds as $documentId) {
             $document = $api->getByID($documentId);
 
-            /** @var \Magento\UrlRewrite\Model\UrlRewrite $urlRewrite */
-            $urlRewrite = $this->urlFinder->findOneByData([
-                UrlRewrite::REQUEST_PATH => $document->uid,
-                UrlRewrite::STORE_ID => $store->getId()
-            ]);
+            $urlRewrite = $this->findUrlRewrite($document, $store);
 
             if ($urlRewrite && $urlRewrite->getEntityType() === CmsPageUrlRewriteGenerator::ENTITY_TYPE) {
-                $this->urlPersist->deleteByData([
-                    UrlRewrite::REQUEST_PATH => $document->uid,
-                    UrlRewrite::STORE_ID => $store->getId()
-                ]);
-
-                $urlRewrite = null;
+                $this->deleteUrlRewrite($document, $store);
             }
 
-            if (!$urlRewrite) {
-                /** @var \Magento\UrlRewrite\Model\UrlRewrite $urlRewrite */
-                $urlRewrite = $this->urlRewriteFactory->create();
-                $urlRewrite->setEntityType('custom');
-                $urlRewrite->setRequestPath($document->uid);
-                $urlRewrite->setTargetPath('prismicio/direct/page/type/' . $document->type . '/uid/' . $document->uid);
-                $urlRewrite->setStoreId($store->getId());
-                $urlRewrite->setIsSystem(0);
-                $urlRewrite->setIsAutogenerated(1);
-
-                $urlRewrite->save();
+            if (!$urlRewrite || $urlRewrite->getEntityType() === CmsPageUrlRewriteGenerator::ENTITY_TYPE) {
+                $this->createUrlRewrite($document, $store);
             }
+        }
+
+        return $result->setData([
+            'success' => true
+        ]);
+    }
+
+    protected function findUrlRewrite(stdClass $document, StoreInterface $store): ?UrlRewrite
+    {
+        return $this->urlFinder->findOneByData([
+            UrlRewrite::REQUEST_PATH => $document->uid,
+            UrlRewrite::STORE_ID => $store->getId()
+        ]);
+    }
+
+    protected function deleteUrlRewrite(stdClass $document, StoreInterface $store): void
+    {
+        $this->urlPersist->deleteByData([
+            UrlRewrite::REQUEST_PATH => $document->uid,
+            UrlRewrite::STORE_ID => $store->getId()
+        ]);
+    }
+
+    protected function createUrlRewrite(stdClass $document, StoreInterface $store): void
+    {
+        $urlRewrite = $this->urlRewriteFactory->create();
+
+        $urlRewrite->setEntityType('custom');
+        $urlRewrite->setRequestPath($document->uid);
+        $urlRewrite->setTargetPath('prismicio/direct/page/type/' . $document->type . '/uid/' . $document->uid);
+        $urlRewrite->setStoreId($store->getId());
+
+        try {
+            $this->urlRewriteResource->save($urlRewrite);
+        } catch (Exception $exception) {
+            $this->logger->error('Could not save url rewrite for published prismic page.');
         }
     }
 
@@ -132,13 +160,5 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
     public function validateForCsrf(RequestInterface $request): ?bool
     {
         return true;
-    }
-
-    private function mockRequestContent(): array
-    {
-        return json_decode(
-            '{"type":"api-update","masterRef":"YrrWixEAACEA7wiR","releases":{},"masks":{},"tags":{},"experiments":{},"documents":["YrWDJxEAACIA2D6V"],"domain":"moma","apiUrl":"https://moma.prismic.io/api","secret":null}',
-            true
-        );
     }
 }

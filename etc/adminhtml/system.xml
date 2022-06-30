@@ -102,7 +102,7 @@
                 <field id="content_types" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="multiselect">
                     <label>Content type for automatic url rewrites</label>
                     <source_model>Elgentos\PrismicIO\Model\Source\ContentTypes</source_model>
-                    <comment><![CDATA[Check the <a href="https://github.com/elgentos/magento2-prismicio">github docs</a> for more info.]]></comment>
+                    <comment><![CDATA[Check the <a href="https://github.com/elgentos/magento2-prismicio/wiki/Setting-up-a-webhook-to-automatically-create-url-rewrites-for-documents" target="_blank">github docs</a> for more info.]]></comment>
                 </field>
             </group>
         </section>

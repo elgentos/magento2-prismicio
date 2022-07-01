@@ -183,4 +183,23 @@ class Configuration implements ConfigurationInterface
             )
         );
     }
+
+    public function getCacheFlushContentTypes(StoreInterface $store): array
+    {
+        var_dump($this->config->getValue(
+            self::XML_PATH_CACHE_FLUSH_CONTENT_TYPES,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        ));
+        return array_filter(
+            explode(
+                ',',
+                $this->config->getValue(
+                    self::XML_PATH_CACHE_FLUSH_CONTENT_TYPES,
+                    ScopeInterface::SCOPE_STORE,
+                    $store
+                ) ?? ''
+            )
+        );
+    }
 }

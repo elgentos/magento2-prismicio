@@ -116,11 +116,11 @@ class Page
         return $resultRedirect;
     }
 
-    private function createPage(\stdClass $document): ResultInterface
+    public function createPage(\stdClass $document, $pageArguments = []): ResultInterface
     {
         $this->currentDocument->setDocument($document);
 
-        $page = $this->pageFactory->create();
+        $page = $this->pageFactory->create(false, $pageArguments);
         $page->addHandle([
             'prismicio_default',
             'prismicio_by_type_' . $document->type,

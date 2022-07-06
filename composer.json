@@ -13,6 +13,7 @@
     "require": {
         "php": ">=7.2",
         "prismic/php-sdk": "^5.1.2",
+        "magento/module-cms-url-rewrite": "*",
         "magento/framework": "*"
     },
     "replace": {

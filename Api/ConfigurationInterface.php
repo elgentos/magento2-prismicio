@@ -24,6 +24,8 @@ interface ConfigurationInterface
     public const XML_PATH_INTEGRATION_SYNC_DISABLED_PRODUCTS = 'prismicio/integration_fields/sync_disabled_products';
     public const XML_PATH_INTEGRATION_VISIBILITY             = 'prismicio/integration_fields/visibility';
 
+    public const XML_PATH_WEBHOOK_SECRET                     = 'prismicio/webhook/secret';
+
     public const XML_PATH_SITEMAP_CONTENT_TYPES              = 'prismicio/sitemap/content_types';
 
     public const XML_PATH_URL_REWRITE_CONTENT_TYPES          = 'prismicio/url_rewrites/content_types';
@@ -49,6 +51,8 @@ interface ConfigurationInterface
     public function getIntegrationFieldsAttributes(StoreInterface $store): string;
     public function getIntegrationFieldsVisibility(StoreInterface $store): string;
     public function allowSyncDisabledProducts(StoreInterface $store): bool;
+
+    public function getWebhookSecret(StoreInterface $store): string;
 
     public function getSitemapContentTypes(StoreInterface $store): string;
 

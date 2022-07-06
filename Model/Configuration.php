@@ -197,4 +197,13 @@ class Configuration implements ConfigurationInterface
             )
         );
     }
+
+    public function getWebhookSecret(StoreInterface $store): string
+    {
+        return (string)($this->config->getValue(
+                self::XML_PATH_WEBHOOK_SECRET,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            ) ?? '');
+    }
 }

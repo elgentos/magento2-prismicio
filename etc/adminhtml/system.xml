@@ -88,6 +88,14 @@
                 </field>
             </group>
 
+            <group id="webhook" translate="true" showInDefault="1">
+                <label>Webhook</label>
+                <field id="secret" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="text">
+                    <label>Secret</label>
+                    <comment><![CDATA[Leave empty for no authentication. See the <a href="https://user-guides.prismic.io/en/articles/790505-webhooks">Prismic docs</a> for more info.]]></comment>
+                </field>
+            </group>
+
             <group id="sitemap" translate="true" showInDefault="1">
                 <label>Sitemap</label>
                 <field id="content_types" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="multiselect">

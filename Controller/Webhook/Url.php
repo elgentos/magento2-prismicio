@@ -72,6 +72,10 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
 
     public function execute(): ResultInterface
     {
+        if (!$this->protectRoute()) {
+            return;
+        }
+
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
 
         $payload = json_decode($this->request->getContent() ?? '', true);
@@ -159,5 +163,14 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
     public function validateForCsrf(RequestInterface $request): ?bool
     {
         return true;
+    }
+
+    private function protectRoute()
+    {
+        $accessToken = $this->configuration->getWebhookSecret($this->storeManager->getStore());
+
+        if ($this->request->getParam('secret') === $accessToken) {
+            return true;
+        }
     }
 }

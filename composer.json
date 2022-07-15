@@ -12,7 +12,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=8.1",
-        "elgentos/prismic-php-sdk": "^6.0",
+        "elgentos/prismic-php-sdk": "^6.1",
         "magento/framework": "*"
     },
     "replace": {

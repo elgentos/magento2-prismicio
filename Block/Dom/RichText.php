@@ -38,7 +38,7 @@ class RichText extends AbstractBlock
         $html = PrismicRichText::asHtml(
             $this->getContext(),
             $this->getLinkResolver(),
-            fn($object, string $content) => $this->htmlSerializer->serialize($object, $content)
+            $this->getHtmlSerializer() ?? fn($object, string $content) => $this->htmlSerializer->serialize($object, $content)
         );
 
         return $this->replaceRelativeUrl($html);

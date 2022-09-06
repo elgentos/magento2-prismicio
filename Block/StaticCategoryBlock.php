@@ -95,7 +95,7 @@ class StaticCategoryBlock extends AbstractBlock
         return $html;
     }
 
-    public function getCurrentCategoryUID(): Int
+    public function getCurrentCategoryUID(): String
     {
        return 'category-' . $this->layerResolver->get()->getCurrentCategory()->getId();
     }

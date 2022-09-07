@@ -13,13 +13,13 @@ use stdClass;
 class StaticBlock extends AbstractBlock
 {
     /** @var Api */
-    private $api;
+    protected $api;
+
     /** @var string */
-    private $contentType;
-    /**
-     * @var string|null
-     */
-    private $identifier;
+    protected $contentType;
+
+    /** @var string|null */
+    protected $identifier;
 
     /**
      * Constructor.
@@ -56,21 +56,28 @@ class StaticBlock extends AbstractBlock
         return parent::_toHtml();
     }
 
+    protected function getDocumentUID(): string {
+        $data = $this->getData('data') ?? [];
+
+        return $data['uid'] ?? $data['identifier'] ?? $this->identifier;
+    }
+
     /**
      * @return void
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     private function createPrismicDocument()
     {
-        $data = $this->getData('data') ?? [];
-        if (! (isset($this->contentType, $this->identifier) || isset($data['uid']) || isset($data['identifier']))) {
+        $document = new stdClass();
+        $document->uid = $this->getDocumentUID();
+
+        if (!isset($this->contentType) || empty($document->uid)) {
             return;
         }
 
-        $document = new stdClass();
         $options  = $this->api->getOptions();
 
-        $document->uid  = $data['uid'] ?? $data['identifier'] ?? $this->identifier;
+        $data = $this->getData('data') ?? [];
         $document->type = $data['content_type'] ?? $this->contentType;
         $document->lang = $data['lang'] ??  $options['lang'];
 
@@ -111,8 +118,10 @@ class StaticBlock extends AbstractBlock
         // We need to update the document to the current context to change scope for children
         $this->setDocument($context);
 
-        $uid  = $context->uid ?? '';
+
+        $uid  = $context->uid ?? $this->getDocumentUID() ?? '';
         $type = $context->type ?? '';
+
 
         $document = $this->api->getDocumentByUid($uid, $type, ['lang' => $context->lang]);
         if (! $document) {

@@ -1,0 +1,11 @@
+site_name: Elgentos - Prismic IO Magento 2 module
+#site_url: ''
+#nav:
+#  - Home: index.md
+#  - Configuration: config.md
+#  - Content: content.md
+#  - "View XML": view.md
+#  - "Best Practices": best-practices.md
+#  - Changelog: changelog.md
+theme: mkdocs
+

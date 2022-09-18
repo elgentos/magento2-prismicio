@@ -14,7 +14,7 @@ php bin/magento setup:upgrade
 ```
 
 ## Documentation
-You can find our documentation here https://github.com/elgentos/magento2-prismicio
+You can find our documentation here https://elgentos.github.io/magento2-prismicio/
 
 It will cover:
 - Configuration

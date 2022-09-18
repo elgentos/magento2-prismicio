@@ -1,4 +1,6 @@
 # Magento 2 [Prismic.io](https://prismic.io) integration - by elgentos
+For the love of Magento and Prismic we created a module to do a seamless integration between the two.
+It is a full replacement for the default CMS in Magento.
 
 ## Requirements
 * a Magento 2 installation

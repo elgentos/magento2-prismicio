@@ -53,11 +53,11 @@ docs: mkdocs_image
 
 .PHONY: build
 build:
-	@$(MAKE) docs MKDOCS_ARGUMENTS='gh-deploy'
+	@$(MAKE) docs MKDOCS_ARGUMENTS='gh-deploy $(MKDOCS_ARGUMENTS)' MKDOCS_DOCKER_RUN='$(MKDOCS_DOCKER_RUN) -e SSH_AUTH_SOCK=/ssh-agent -v $(SSH_AUTH_SOCK):/ssh-agent -it'
 
 .PHONY: serve
 serve:
-	@$(MAKE) docs MKDOCS_DOCKER_RUN='$(MKDOCS_DOCKER_RUN) -it -p 127.0.0.1:8000:8000' MKDOCS_ARGUMENTS='serve -a 0.0.0.0:8000 --livereload'
+	@$(MAKE) docs MKDOCS_DOCKER_RUN='$(MKDOCS_DOCKER_RUN) -it -p 127.0.0.1:8000:8000' MKDOCS_ARGUMENTS='serve -a 0.0.0.0:8000 --livereload $(MKDOCS_ARGUMENTS)'
 
 .PHONY: ide
 ide:

@@ -1,4 +1,7 @@
 site_name: Elgentos - Prismic IO Magento 2 module
+site_description: Prismic IO Developer documentation
+repo_url: https://github.com/elgentos/magento2-prismicio
+copyright: Copyright &copy; elgentos 2019-present. All rights reserved.
 #site_url: ''
 #nav:
 #  - Home: index.md
@@ -8,4 +11,5 @@ site_name: Elgentos - Prismic IO Magento 2 module
 #  - "Best Practices": best-practices.md
 #  - Changelog: changelog.md
 theme: mkdocs
+
 

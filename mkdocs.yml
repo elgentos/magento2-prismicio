@@ -1,15 +1,50 @@
 site_name: Elgentos - Prismic IO Magento 2 module
 site_description: Prismic IO Developer documentation
+
+repo_name: elgentos/magento2-prismicio
 repo_url: https://github.com/elgentos/magento2-prismicio
+
 copyright: Copyright &copy; elgentos 2019-present. All rights reserved.
 #site_url: ''
-#nav:
-#  - Home: index.md
-#  - Configuration: config.md
-#  - Content: content.md
-#  - "View XML": view.md
-#  - "Best Practices": best-practices.md
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Building Blocks: building-blocks.md
+  - Best Practices: best-practices.md
 #  - Changelog: changelog.md
-theme: mkdocs
+extra:
+  social:
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/elgentos
+theme:
+  name: material
+  features:
+#    - navigation.tabs
+    - navigation.top
+  palette:
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - md_in_html
 
 

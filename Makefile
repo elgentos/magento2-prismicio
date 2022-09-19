@@ -29,6 +29,7 @@ all:
 clean:
 	rm -rf vendor
 	rm composer.lock
+	docker rmi $(MKDOCS_DOCKER_IMAGE)
 
 vendor/autoload.php:
 	$(COMPOSER) install $(COMPOSER_ARGUMENTS)

@@ -7,10 +7,36 @@ repo_url: https://github.com/elgentos/magento2-prismicio
 copyright: Copyright &copy; elgentos 2019-present. All rights reserved.
 #site_url: ''
 nav:
-  - Home: index.md
-  - Getting Started: getting-started.md
-  - Building Blocks: building-blocks.md
+  - Introduction: index.md
+  - Basics:
+    - Installation: basics/installation.md
+    - Configuration: basics/configuration.md
+    - Routing: basics/routing.md
+    - Document structure: basics/document-structure.md
+    - Sitemap: basics/sitemap.md
+  - Frontend:
+    - Layout handles: layout/handles.md
+    - Debug: layout/debug.md
+    - Content: layout/content.md
+    - Template: layout/template.md
+    - Slices: layout/slices.md
+    - Static blocks: layout/static-blocks.md
+    - Document Links: layout/document-links.md
+    - Alternate languages: layout/alternate-languages.md
+  - Technical description:
+    - Blocks:
+      - Prismic fields: technical/blocks/prismic-fields.md
+      - Metadata: technical/blocks/title-and-metadata.md
+      - Container: technical/blocks/container.md
+      - Overview: technical/blocks/overview.md
+    - Console: technical/console-commands.md
+    - ViewModels: technical/viewmodels.md
+    - Preview mode: technical/preview-mode.md
+    - Exceptions: technical/exceptions.md
+    - Registry: technical/registry.md
+    - Renderer: technical/renderer.md
   - Best Practices: best-practices.md
+  - Integration fields: integration-fields.md
 #  - Changelog: changelog.md
 extra:
   social:

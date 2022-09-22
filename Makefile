@@ -1,6 +1,8 @@
 
 GH_REPO = https://github.com/elgentos/magento2-prismicio
 
+PHP_VERSION = php81
+
 PHP = php
 COMPOSER = composer2
 
@@ -15,8 +17,15 @@ MKDOCS_DOCKER_RUN = docker run --rm -v $(PWD):/mnt --workdir=/mnt
 MKDOCS_COMMAND = $(MKDOCS_DOCKER_RUN) $(MKDOCS_DOCKER_IMAGE)
 MKDOCS_ARGUMENTS = 
 
-all:
+all: vendor/autoload.php .$(PHP_VERSION)
+
+.$(PHP_VERSION):
+	@echo 'This stopfile works for https://github.com/jeroenboersma/docker-compose-development'
+	touch .php81
+
+help:
 	@echo 'Available make commands'
+	@echo '$(MAKE) # get you up and running'
 	@echo '$(MAKE) vendor/autoload.php # install packages'
 	@echo '$(MAKE) update # update packages'
 	@echo '$(MAKE) test # run tests'
@@ -29,6 +38,7 @@ all:
 clean:
 	rm -rf vendor
 	rm composer.lock
+	rm .$(PHP_VERSION)
 	docker rmi $(MKDOCS_DOCKER_IMAGE)
 
 vendor/autoload.php:

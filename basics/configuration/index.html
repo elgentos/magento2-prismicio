@@ -6,23 +6,23 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Prismic IO Developer documentation">
+        <meta name="description" content="Configure Magento to connect to Prismic">
       
       
       
-      <link rel="icon" href="/assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.3.1, mkdocs-material-8.5.2">
     
     
       
-        <title>Elgentos - Prismic IO Magento 2 module</title>
+        <title>Configuration of the Magento 2 module - Elgentos - Prismic IO Magento 2 module</title>
       
     
     
-      <link rel="stylesheet" href="/assets/stylesheets/main.9f9400aa.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.9f9400aa.min.css">
       
         
-        <link rel="stylesheet" href="/assets/stylesheets/palette.cbb835fc.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
         
       
       
@@ -39,7 +39,7 @@
       
     
     
-    <script>__md_scope=new URL("/",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -67,6 +67,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#get-the-repository-url" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -77,7 +82,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/." title="Elgentos - Prismic IO Magento 2 module" class="md-header__button md-logo" aria-label="Elgentos - Prismic IO Magento 2 module" data-md-component="logo">
+    <a href="../.." title="Elgentos - Prismic IO Magento 2 module" class="md-header__button md-logo" aria-label="Elgentos - Prismic IO Magento 2 module" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -96,7 +101,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Configuration of the Magento 2 module
             
           </span>
         </div>
@@ -197,7 +202,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/." title="Elgentos - Prismic IO Magento 2 module" class="md-nav__button md-logo" aria-label="Elgentos - Prismic IO Magento 2 module" data-md-component="logo">
+    <a href="../.." title="Elgentos - Prismic IO Magento 2 module" class="md-nav__button md-logo" aria-label="Elgentos - Prismic IO Magento 2 module" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -228,7 +233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         Introduction
       </a>
     </li>
@@ -241,12 +246,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
       
       
       
@@ -269,7 +276,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/basics/installation/" class="md-nav__link">
+      <a href="../installation/" class="md-nav__link">
         Installation
       </a>
     </li>
@@ -281,11 +288,89 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="/basics/configuration/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Configuration
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Configuration
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#get-the-repository-url" class="md-nav__link">
+    Get the repository url
+  </a>
+  
+    <nav class="md-nav" aria-label="Get the repository url">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optionally-protect-with-a-key" class="md-nav__link">
+    Optionally, protect with a key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-types" class="md-nav__link">
+    Content types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fetch-links" class="md-nav__link">
+    Fetch Links
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debugging" class="md-nav__link">
+    Debugging
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preview-mode" class="md-nav__link">
+    Preview mode
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -297,7 +382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/basics/content-types.md" class="md-nav__link">
+      <a href="../content-types.md" class="md-nav__link">
         Content types
       </a>
     </li>
@@ -311,7 +396,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/basics/routing.md" class="md-nav__link">
+      <a href="../routing.md" class="md-nav__link">
         Routing
       </a>
     </li>
@@ -325,7 +410,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/basics/document-structure.md" class="md-nav__link">
+      <a href="../document-structure.md" class="md-nav__link">
         Document structure
       </a>
     </li>
@@ -339,7 +424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/basics/sitemap.md" class="md-nav__link">
+      <a href="../sitemap.md" class="md-nav__link">
         Sitemap
       </a>
     </li>
@@ -387,7 +472,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/layout/handles.md" class="md-nav__link">
+      <a href="../../layout/handles.md" class="md-nav__link">
         Layout handles
       </a>
     </li>
@@ -401,7 +486,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/layout/debug.md" class="md-nav__link">
+      <a href="../../layout/debug.md" class="md-nav__link">
         Debug
       </a>
     </li>
@@ -415,7 +500,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/layout/content.md" class="md-nav__link">
+      <a href="../../layout/content.md" class="md-nav__link">
         Content
       </a>
     </li>
@@ -429,7 +514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/layout/template.md" class="md-nav__link">
+      <a href="../../layout/template.md" class="md-nav__link">
         Template
       </a>
     </li>
@@ -443,7 +528,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/layout/slices.md" class="md-nav__link">
+      <a href="../../layout/slices.md" class="md-nav__link">
         Slices
       </a>
     </li>
@@ -457,7 +542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/layout/static-blocks.md" class="md-nav__link">
+      <a href="../../layout/static-blocks.md" class="md-nav__link">
         Static blocks
       </a>
     </li>
@@ -471,7 +556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/layout/document-links.md" class="md-nav__link">
+      <a href="../../layout/document-links.md" class="md-nav__link">
         Document Links
       </a>
     </li>
@@ -485,7 +570,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/layout/alternate-languages.md" class="md-nav__link">
+      <a href="../../layout/alternate-languages.md" class="md-nav__link">
         Alternate languages
       </a>
     </li>
@@ -559,7 +644,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/technical/blocks/prismic-fields.md" class="md-nav__link">
+      <a href="../../technical/blocks/prismic-fields.md" class="md-nav__link">
         Prismic fields
       </a>
     </li>
@@ -573,7 +658,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/technical/blocks/title-and-metadata.md" class="md-nav__link">
+      <a href="../../technical/blocks/title-and-metadata.md" class="md-nav__link">
         Metadata
       </a>
     </li>
@@ -587,7 +672,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/technical/blocks/container.md" class="md-nav__link">
+      <a href="../../technical/blocks/container.md" class="md-nav__link">
         Container
       </a>
     </li>
@@ -601,7 +686,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/technical/blocks/overview.md" class="md-nav__link">
+      <a href="../../technical/blocks/overview.md" class="md-nav__link">
         Overview
       </a>
     </li>
@@ -622,7 +707,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/technical/console-commands.md" class="md-nav__link">
+      <a href="../../technical/console-commands.md" class="md-nav__link">
         Console
       </a>
     </li>
@@ -636,7 +721,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/technical/viewmodels.md" class="md-nav__link">
+      <a href="../../technical/viewmodels.md" class="md-nav__link">
         ViewModels
       </a>
     </li>
@@ -650,7 +735,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/technical/preview-mode.md" class="md-nav__link">
+      <a href="../../technical/preview-mode.md" class="md-nav__link">
         Preview mode
       </a>
     </li>
@@ -664,7 +749,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/technical/exceptions.md" class="md-nav__link">
+      <a href="../../technical/exceptions.md" class="md-nav__link">
         Exceptions
       </a>
     </li>
@@ -678,7 +763,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/technical/registry.md" class="md-nav__link">
+      <a href="../../technical/registry.md" class="md-nav__link">
         Registry
       </a>
     </li>
@@ -692,7 +777,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/technical/renderer.md" class="md-nav__link">
+      <a href="../../technical/renderer.md" class="md-nav__link">
         Renderer
       </a>
     </li>
@@ -714,7 +799,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/best-practices.md" class="md-nav__link">
+      <a href="../../best-practices.md" class="md-nav__link">
         Best Practices
       </a>
     </li>
@@ -729,7 +814,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/integration-fields.md" class="md-nav__link">
+      <a href="../../integration-fields.md" class="md-nav__link">
         Integration fields
       </a>
     </li>
@@ -754,6 +839,62 @@
   
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#get-the-repository-url" class="md-nav__link">
+    Get the repository url
+  </a>
+  
+    <nav class="md-nav" aria-label="Get the repository url">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optionally-protect-with-a-key" class="md-nav__link">
+    Optionally, protect with a key
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#content-types" class="md-nav__link">
+    Content types
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fetch-links" class="md-nav__link">
+    Fetch Links
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debugging" class="md-nav__link">
+    Debugging
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preview-mode" class="md-nav__link">
+    Preview mode
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -764,8 +905,59 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+  <a href="https://github.com/elgentos/magento2-prismicio/edit/master/docs/basics/configuration.md" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+  <h1>Configuration</h1>
+
+<h2 id="get-the-repository-url">Get the repository url</h2>
+<p>Head over to <a href="https://prismic.io/">Prismic.io</a>, click Dashboard or Login</p>
+<ul>
+<li>click on your repository</li>
+<li>click on settings</li>
+<li>click on Configuration / Api &amp; Security</li>
+<li>copy the API endpoint</li>
+</ul>
+<p>Head over to the admin of your Magento installation.</p>
+<ul>
+<li>click on Stores / Configuration</li>
+<li>click on Elgentos / Prismic.IO</li>
+<li>under <strong>General</strong><ul>
+<li>Enable Prismic</li>
+<li>Add the API endpoint copied over from Prismic</li>
+<li>optionally add a API secret <a href="#optionally-protect-with-a-key">see below</a></li>
+<li>save</li>
+</ul>
+</li>
+<li>Content section<ul>
+<li>Select default language (or set per store)</li>
+<li>Set <a href="#content-types">Default content type</a></li>
+<li>Optionally set <a href="#fetch-links">Fetchlinks</a></li>
+<li>Optionally enable <a href="#debugging">Debugging</a></li>
+<li>Optionally enable <a href="#preview-mode">Preview</a></li>
+</ul>
+</li>
+<li>Integration Fields section</li>
+<li>Product Attributes
+    <em>Attributes to make available in Prismic Integration Fields. The following attributes will always be made available: name, image, status, short_description, updated_at.</em></li>
+<li>Sitemap section</li>
+</ul>
+<h3 id="optionally-protect-with-a-key">Optionally, protect with a key</h3>
+<h3 id="content-types">Content types</h3>
+<h3 id="fetch-links">Fetch Links</h3>
+<h3 id="debugging">Debugging</h3>
+<h3 id="preview-mode">Preview mode</h3>
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -780,6 +972,27 @@
       </main>
       
         <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../installation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Installation" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Installation
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -819,10 +1032,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "/", "features": ["navigation.top"], "search": "/assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.top"], "search": "../../assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="/assets/javascripts/bundle.39f04ddb.min.js"></script>
+      <script src="../../assets/javascripts/bundle.39f04ddb.min.js"></script>
       
     
   </body>

@@ -11,6 +11,7 @@ nav:
   - Basics:
     - Installation: basics/installation.md
     - Configuration: basics/configuration.md
+    - Content types: basics/content-types.md
     - Routing: basics/routing.md
     - Document structure: basics/document-structure.md
     - Sitemap: basics/sitemap.md

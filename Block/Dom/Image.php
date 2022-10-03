@@ -10,7 +10,10 @@ class Image extends AbstractBlock
     {
         $context = $this->getContext();
 
+        $cssClasses = ($this->getData('css_class') ? 'class="'. $this->getData('css_class') .'"' : '');
+
         return '<img src="' . $context->url . '"
+                     '.$cssClasses.'
                      alt="' . $context->alt . '"
                      width="'. $context->dimensions->width .'"
                      height="'. $context->dimensions->height .'" />';

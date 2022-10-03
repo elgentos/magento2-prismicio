@@ -13,6 +13,6 @@ class Image extends AbstractBlock
         return '<img src="' . $context->url . '"
                      alt="' . $context->alt . '"
                      width="'. $context->dimensions->width .'"
-                     heigh="'. $context->dimensions->width .'" />';
+                     height="'. $context->dimensions->height .'" />';
     }
 }

@@ -10,12 +10,15 @@ class Image extends AbstractBlock
     {
         $context = $this->getContext();
 
-        $cssClasses = ($this->getData('css_class') ? 'class="'. $this->getData('css_class') .'"' : '');
+        $cssClasses = $this->getData('css_class') ? 'class="'. $this->getData('css_class') .'"' : '';
 
-        return '<img src="' . $context->url . '"
-                     '.$cssClasses.'
-                     alt="' . $context->alt . '"
-                     width="'. $context->dimensions->width .'"
-                     height="'. $context->dimensions->height .'" />';
+        return sprintf(
+            '<img src="%s" alt="%s" width="%d" height="%d" %s />',
+            $context->url,
+            $context->alt,
+            $context->dimensions->width,
+            $context->dimensions->height,
+            $cssClasses
+        );
     }
 }

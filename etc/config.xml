@@ -10,7 +10,7 @@
         <prismicio>
             <general>
                 <enabled>0</enabled>
-                <enpoint />
+                <endpoint />
                 <token />
             </general>
             <content>

@@ -2,9 +2,18 @@
 
 namespace Elgentos\PrismicIO\Helper;
 
-// This is a helper that you can use to get the UID of a document from a category ID.
+use Magento\Catalog\Model\Layer\Resolver;
 
+// This is a helper that you can use to get the UID of a document from a category ID.
 class CategoryIdToDocumentUid extends \Magento\Framework\App\Helper\AbstractHelper {
+
+    public function __construct(
+        Resolver $layerResolver
+    )
+    {
+        $this->layerResolver = $layerResolver;
+    }
+
     const PREFIX = 'category-';
 
     public function getUid(): string {

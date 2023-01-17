@@ -169,4 +169,41 @@ class Configuration implements ConfigurationInterface
                 $store
             ) ?? '');
     }
+
+    public function getUrlRewriteContentTypes(StoreInterface $store): array
+    {
+        return array_filter(
+            explode(
+                ',',
+                $this->config->getValue(
+                    self::XML_PATH_URL_REWRITE_CONTENT_TYPES,
+                    ScopeInterface::SCOPE_STORE,
+                    $store
+                ) ?? ''
+            )
+        );
+    }
+
+    public function getCacheFlushContentTypes(StoreInterface $store): array
+    {
+        return array_filter(
+            explode(
+                ',',
+                $this->config->getValue(
+                    self::XML_PATH_CACHE_FLUSH_CONTENT_TYPES,
+                    ScopeInterface::SCOPE_STORE,
+                    $store
+                ) ?? ''
+            )
+        );
+    }
+
+    public function getWebhookSecret(StoreInterface $store): string
+    {
+        return (string)($this->config->getValue(
+                self::XML_PATH_WEBHOOK_SECRET,
+                ScopeInterface::SCOPE_STORE,
+                $store
+            ) ?? '');
+    }
 }

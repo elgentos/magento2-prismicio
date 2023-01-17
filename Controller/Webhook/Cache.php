@@ -46,10 +46,10 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
         $this->typeList = $typeList;
     }
 
-    public function execute(): ResultInterface
+    public function execute(): ?ResultInterface
     {
         if (!$this->protectRoute()) {
-            return;
+            return null;
         }
 
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);

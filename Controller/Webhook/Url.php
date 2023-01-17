@@ -70,10 +70,10 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
         $this->urlRewriteResource = $urlRewriteResource;
     }
 
-    public function execute(): ResultInterface
+    public function execute(): ?ResultInterface
     {
         if (!$this->protectRoute()) {
-            return;
+            return null;
         }
 
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);

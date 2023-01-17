@@ -17,8 +17,9 @@ class Link extends AbstractBlock
     {
         $context = $this->getContext();
         if (!isset($context->link_type)) {
-            $context->link_type = 'Document';
+            return $this->escapeUrl($this->replaceRelativeUrl($context));
         }
+        
         $url = PrismicLink::asUrl($context, $this->getLinkResolver() ?? '');
 
         if(!$url) {

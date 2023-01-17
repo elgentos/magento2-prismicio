@@ -54,7 +54,7 @@ class Page
         }
 
         if ($document->uid !== $uid) {
-            return $this->redirectUid($uid);
+            return $this->redirectUid($document->uid);
         }
 
         return $this->createPage($document);

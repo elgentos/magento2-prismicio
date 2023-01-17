@@ -96,7 +96,7 @@
                 </field>
             </group>
 
-            <group id="sitemap" translate="true" showInDefault="1">
+            <group id="sitemap" translate="true" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Sitemap</label>
                 <field id="content_types" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="multiselect">
                     <label>Include Content types in sitemap</label>

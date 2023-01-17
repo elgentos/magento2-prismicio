@@ -73,7 +73,17 @@ class PrismicPages implements ItemProviderInterface
                 ['lang' => $this->configuration->getContentLanguage($store)]
             );
 
-            $this->addDocumentsToSitemap($localeDocuments->results, $store);
+            foreach (range(1, $localeDocuments->total_pages) as $page) {
+                $documents = $api->query(
+                    [Predicates::at('document.type', $sitemapContentType)],
+                    [
+                        'lang' => $this->configuration->getContentLanguage($store),
+                        'page' => $page
+                    ]
+                );
+
+                $this->addDocumentsToSitemap($documents->results, $store);
+            }
         }
 
         return $this->sitemapItems;

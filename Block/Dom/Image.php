@@ -2,10 +2,27 @@
 
 namespace Elgentos\PrismicIO\Block\Dom;
 
-class Image extends Raw
+use Elgentos\PrismicIO\Block\AbstractBlock;
+
+class Image extends AbstractBlock
 {
     public function fetchDocumentView(): string
     {
-        return '<img src="' . $this->escapeHtml(parent::fetchDocumentView()) . '" alt="' . $this->getAltText() . '" />';
+        $context = $this->getContext();
+        
+        if (!isset($context->url)) {
+            return null;
+        }
+
+        $cssClasses = $this->getData('css_class') ? 'class="'. $this->getData('css_class') .'"' : '';
+        
+        return sprintf(
+            '<img src="%s" alt="%s" width="%d" height="%d" %s />',
+            $context->url,
+            $context->alt ?? '',
+            $context->dimensions->width,
+            $context->dimensions->height,
+            $cssClasses
+        );
     }
 }

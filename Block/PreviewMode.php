@@ -9,6 +9,8 @@ use Magento\Store\Model\StoreManager;
 
 class PreviewMode extends Template
 {
+    public const PRISMICIO_PREVIEW_URL
+            = 'https://static.cdn.prismic.io/prismic.js?new=true&repo=';
 
     /**
      * @var ConfigurationInterface
@@ -43,5 +45,15 @@ class PreviewMode extends Template
     public function getApiEndpoint(): string
     {
         return $this->configuration->getApiEndpoint($this->storeManager->getStore());
+    }
+
+    public function getRepoName(): string
+    {
+        return str_replace(['http://', 'https://', 'prismic.io', '.', '/api/v2', '/api/v1', '/'], '', $this->getApiEndpoint());
+    }
+
+    public function getPreviewUrl(): string
+    {
+        return self::PRISMICIO_PREVIEW_URL;
     }
 }

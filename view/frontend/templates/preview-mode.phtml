@@ -1,6 +1,5 @@
-<script>
-    window.prismic = {
-        endpoint: '<?= $block->escapeUrl($block->getApiEndpoint()) ?>'
-    };
-</script>
-<script type="text/javascript" src="https://static.cdn.prismic.io/prismic.min.js"></script>
+<?php
+/** @var \Elgentos\PrismicIO\Block\PreviewMode $block */
+/** @var \Magento\Framework\Escaper $escaper */
+?>
+<script async defer src="<?= $escaper->escapeHtmlAttr($block->getPreviewUrl()) . $escaper->escapeHtmlAttr($block->getRepoName()) ?>"></script>

@@ -106,6 +106,9 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
         $api = $this->apiFactory->create();
         foreach ($documentIds as $documentId) {
             $document = $api->getByID($documentId);
+            if (!$document) {
+                continue;
+            }
 
             $urlRewrite = $this->findUrlRewrite($document, $store);
 

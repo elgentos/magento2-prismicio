@@ -82,7 +82,7 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
         $api = $this->apiFactory->create();
         foreach ($documentIds as $documentId) {
             $document = $api->getByID($documentId);
-            if (in_array($document->type, $cacheFlushDocumentTypes)) {
+            if ($document && in_array($document->type, $cacheFlushDocumentTypes)) {
                 $this->typeList->cleanType(Type::TYPE_IDENTIFIER);
 
                 break;

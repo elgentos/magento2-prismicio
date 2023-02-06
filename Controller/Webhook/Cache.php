@@ -48,10 +48,6 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
 
     public function execute(): ?ResultInterface
     {
-        if (!$this->protectRoute()) {
-            return null;
-        }
-
         $result = $this->resultFactory->create(ResultFactory::TYPE_JSON);
 
         $payload = json_decode($this->request->getContent() ?? '', true);
@@ -59,6 +55,10 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
             return $result->setData([
                 'success' => true
             ]);
+        }
+
+        if (!$this->protectRoute($payload)) {
+            return null;
         }
 
         $store = $this->storeManager->getStore();
@@ -82,7 +82,7 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
         $api = $this->apiFactory->create();
         foreach ($documentIds as $documentId) {
             $document = $api->getByID($documentId);
-            if (in_array($document->type, $cacheFlushDocumentTypes)) {
+            if ($document && in_array($document->type, $cacheFlushDocumentTypes)) {
                 $this->typeList->cleanType(Type::TYPE_IDENTIFIER);
 
                 break;
@@ -104,12 +104,14 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
         return true;
     }
 
-    private function protectRoute()
+    private function protectRoute(array $payload): bool
     {
         $accessToken = $this->configuration->getWebhookSecret($this->storeManager->getStore());
 
-        if ($this->request->getParam('secret') === $accessToken) {
+        if ($payload['secret'] ?? '' === $accessToken) {
             return true;
         }
+
+        return false;
     }
 }

@@ -49,7 +49,7 @@ class PreviewMode extends Template
 
     public function getRepoName(): string
     {
-        return str_replace(['http://', 'https://', 'prismic.io', '.', '/api/v2', '/api/v1', '/'], '', $this->getApiEndpoint());
+        return str_replace(['http://', 'https://', 'cdn.prismic.io', 'prismic.io', '.', '/api/v2', '/api/v1', '/'], '', $this->getApiEndpoint());
     }
 
     public function getPreviewUrl(): string

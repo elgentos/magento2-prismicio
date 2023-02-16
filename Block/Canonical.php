@@ -10,23 +10,11 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class Canonical extends AbstractTemplate
 {
-    /**
-     * Get canonical url
-     *
-     * @return string
-     */
     public function getCanonicalUrl(): string
     {
         return $this->getCanonical()['url'];
     }
 
-    /**
-     * Get canical url
-     *
-     * @return array
-     * @throws \Elgentos\PrismicIO\Exception\ContextNotFoundException
-     * @throws \Elgentos\PrismicIO\Exception\DocumentNotFoundException
-     */
     public function getCanonical(): array
     {
         $link = $this->getContext();

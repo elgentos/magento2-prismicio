@@ -11,27 +11,17 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class AlternateLanguage extends AbstractTemplate
 {
-
-    /**
-     * @var StoreManagerInterface
-     */
-    public $storeManager;
-    /**
-     * @var ConfigurationInterface
-     */
-    private $configuration;
-
     public function __construct(
         Template\Context $context,
         DocumentResolver $documentResolver,
         LinkResolver $linkResolver,
-        StoreManagerInterface $storeManager,
-        ConfigurationInterface $configuration,
+        private readonly StoreManagerInterface $storeManager,
+        private readonly ConfigurationInterface $configuration,
         array $data = []
     ) {
         parent::__construct($context, $documentResolver, $linkResolver, $data);
-        $this->storeManager = $storeManager;
-        $this->configuration = $configuration;
+
+        $this->setReference('alternate_languages');
     }
 
     public function toHtml()
@@ -45,13 +35,13 @@ class AlternateLanguage extends AbstractTemplate
 
     public function mapContextWithLanguage()
     {
-        $context = $this->getDocumentResolver()
-                ->getContext('alternate_languages');
+        $document = $this->getDocumentResolver()->getDocument();
+        $context = $this->getContext();
 
         $mappedContext = [];
 
         // Add self
-        $mappedContext[$this->getContext()->lang] = $this->getContext();
+        $mappedContext[$document->lang] = $document;
 
         foreach ($context as $item) {
             $mappedContext[$item->lang] = $item;
@@ -74,7 +64,6 @@ class AlternateLanguage extends AbstractTemplate
         $defaultStoreId = $defaultStoreView ? $defaultStoreView->getId() : -1;
 
         $alternateData = [];
-        /** @var StoreInterface $store */
         foreach ($this->storeManager->getStores() as $store) {
             if (! $store->getIsActive()) {
                 // Skip inactive store

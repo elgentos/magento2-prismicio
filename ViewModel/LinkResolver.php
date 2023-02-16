@@ -21,35 +21,8 @@ use Prismic\LinkResolver as LinkResolverAbstract;
 
 class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
 {
-
-    /**
-     * @var UrlInterface
-     */
-    private $urlBuilder;
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
-    /**
-     * @var RouteRepositoryInterface
-     */
-    private $routeRepository;
-    /**
-     * @var UrlFinderInterface
-     */
-    private $urlFinder;
-    /**
-     * @var array
-     */
-    private $urlCache = [];
-    /**
-     * @var ConfigurationInterface
-     */
-    private $configuration;
-    /**
-     * @var array
-     */
-    private $cachedLanguageStoreIds;
+    private array $urlCache = [];
+    private array $cachedLanguageStoreIds;
 
     /**
      * LinkResolver constructor.
@@ -60,18 +33,12 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
      * @param ConfigurationInterface $configuration
      */
     public function __construct(
-        UrlInterface $urlBuilder,
-        StoreManagerInterface $storeManager,
-        RouteRepositoryInterface $routeRepository,
-        UrlFinderInterface $urlFinder,
-        ConfigurationInterface $configuration
-    ) {
-        $this->urlBuilder = $urlBuilder;
-        $this->storeManager = $storeManager;
-        $this->routeRepository = $routeRepository;
-        $this->urlFinder = $urlFinder;
-        $this->configuration = $configuration;
-    }
+        private readonly UrlInterface $urlBuilder,
+        private readonly StoreManagerInterface $storeManager,
+        private readonly RouteRepositoryInterface $routeRepository,
+        private readonly UrlFinderInterface $urlFinder,
+        private readonly ConfigurationInterface $configuration
+    ) {}
 
     /**
      * Returns the application-specific URL related to this document link
@@ -83,16 +50,7 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
      */
     public function resolve($link): ?string
     {
-        $linkType = $link->link_type ?? 'Document';
-
-        return $linkType === 'Media' ?
-            $this->getMediaUrl($link) :
-            $this->resolveRouteUrl($link);
-    }
-
-    public function getMediaUrl(\stdClass $link): ?string
-    {
-        return $link->url ?? null;
+        return $this->resolveRouteUrl($link);
     }
 
     public function getStore(\stdClass $link): StoreInterface
@@ -114,18 +72,8 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
             $store = $this->getStore($link);
             $route = $this->routeRepository->getByContentType((string)$contentType, +$store->getId());
 
-            $cacheKey = implode('|', [
-                '_ROUTED_',
-                $route->getId(),
-                $store->getId(),
-                $uid
-            ]);
-            if (isset($this->urlCache[$cacheKey])) {
-                return $this->urlCache[$cacheKey];
-            }
-
             $data = ['_direct' => trim($route->getRoute(), '/') . '/' . $uid];
-            return $this->urlCache[$cacheKey] = $this->getUrl($store, $data, '');
+            return $this->getCachedUrl($store, $data, ['_ROUTED', $route->getId()], '');
         } catch (RouteNotFoundException $e) {
             // Return direct page
             return $this->resolveDirectPage($link);
@@ -156,29 +104,28 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
             $data['id'] = $uid;
         }
 
-        $cacheKey = implode('|', [
-            '_DIRECT_',
-            $store->getId(),
-            $contentType,
-            $uid,
-            $id
-        ]);
-        if (isset($this->urlCache[$cacheKey])) {
-            return $this->urlCache[$cacheKey];
-        }
-
-        return $this->urlCache[$cacheKey] = $this->getUrl($store, $data);
+        return $this->getCachedUrl($store, $data, ['_DIRECT_']);
     }
 
-    /**
-     * Get direct url
-     *
-     * @param StoreInterface $store
-     * @param array $data
-     * @param string $routePath
-     * @return string
-     */
-    public function getUrl(StoreInterface $store, array $data, $routePath = 'prismicio/direct/page'): string
+    public function getCachedUrl(
+        StoreInterface $store,
+        array $data,
+        array $cacheKeys = [],
+        string $routePath = 'prismicio/direct/page'
+    ): string
+    {
+        $cacheKeys = [
+            $store->getId(),
+            ...$cacheKeys,
+            ...$data,
+            $routePath
+        ];
+
+        $cacheKey = implode('|', $cacheKeys);
+        return $this->urlCache[$cacheKey] ?? ($this->urlCache[$cacheKey] = $this->getUrl($store, $data, $routePath));
+    }
+
+    public function getUrl(StoreInterface $store, array $data, string $routePath = 'prismicio/direct/page'): string
     {
         $routeParams = [
             '_nosid' => true,
@@ -205,15 +152,10 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
 
         // Set route params and merge with requested parameters
         $routeParams = array_merge($routeParams, $data);
+
         return $this->getFormattedUrl($this->urlBuilder->getUrl($routePath, $routeParams));
     }
 
-    /**
-     * Format url
-     *
-     * @param string $url
-     * @return string
-     */
     public function getFormattedUrl(string $url): string
     {
         return rtrim($url, '/');
@@ -235,12 +177,7 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
         return implode('/', $params);
     }
 
-    /**
-     * @param string $targetPath
-     * @param StoreInterface $store
-     * @return UrlRewrite|null
-     */
-    public function getUrlRewrite(string $targetPath, StoreInterface $store)
+    public function getUrlRewrite(string $targetPath, StoreInterface $store): ?UrlRewrite
     {
         return $this->urlFinder->findOneByData([
             UrlRewrite::TARGET_PATH => $targetPath,
@@ -271,7 +208,7 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
      */
     private function getLanguageStoreIds(): array
     {
-        if (null !== $this->cachedLanguageStoreIds) {
+        if (isset($this->cachedLanguageStoreIds)) {
             return $this->cachedLanguageStoreIds;
         }
 
@@ -285,7 +222,7 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
          * If locale fallback is enabled, make sure those requests will be directed to this store
          */
         $currentStore = $this->storeManager->getStore();
-        if ($this->configuration->hasContentLanguageFallback($this->storeManager->getStore())) {
+        if ($this->configuration->hasContentLanguageFallback($currentStore)) {
             $languageStoreIds[$this->configuration->getContentLanguageFallback($currentStore)] = +$currentStore->getId();
         }
 

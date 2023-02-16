@@ -6,7 +6,6 @@ use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Framework\View\Element\Template;
-use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
 class AlternateLanguage extends AbstractTemplate
@@ -67,6 +66,11 @@ class AlternateLanguage extends AbstractTemplate
         foreach ($this->storeManager->getStores() as $store) {
             if (! $store->getIsActive()) {
                 // Skip inactive store
+                continue;
+            }
+
+            if (! $configuration->getApiEnabled($store)) {
+                // Prismic disabled on store
                 continue;
             }
 

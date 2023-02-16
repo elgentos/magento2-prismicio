@@ -15,17 +15,22 @@ class Link extends AbstractBlock
 {
     public function fetchDocumentView(): string
     {
+        return $this->_escaper->escapeUrl(
+            $this->replaceRelativeUrl(
+                $this->getContextUrl()
+            )
+        );
+    }
+
+    public function getContextUrl(): string
+    {
         $context = $this->getContext();
-        if (!isset($context->link_type)) {
-            $context->link_type = 'Document';
-        }
-        
-        $url = PrismicLink::asUrl($context, $this->getLinkResolver() ?? '');
-
-        if(!$url) {
-            return '';
+        if (! ($context instanceof \stdClass)) {
+            // Sanity check if someone puts the url itself in here
+            return $context;
         }
 
-        return $this->escapeUrl($this->replaceRelativeUrl($url));
+        // Default Prismic + always a string
+        return PrismicLink::asUrl($context, $this->getLinkResolver()) ?? '';
     }
 }

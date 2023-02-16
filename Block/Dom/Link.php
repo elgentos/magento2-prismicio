@@ -17,14 +17,18 @@ class Link extends AbstractBlock
     {
         return $this->_escaper->escapeUrl(
             $this->replaceRelativeUrl(
-                $this->getContextUrl()
+                $this->getUrlForDocumentView()
             )
         );
     }
 
-    public function getContextUrl(): string
+    public function getUrlForDocumentView()
     {
-        $context = $this->getContext();
+        return $this->getUrlWithContext($this->getContext());
+    }
+
+    public function getUrlWithContext($context): string
+    {
         if (! ($context instanceof \stdClass)) {
             // Sanity check if someone puts the url itself in here
             return $context;

@@ -5,51 +5,26 @@ namespace Elgentos\PrismicIO\Block;
 
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
+use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
 use Elgentos\PrismicIO\Model\Api;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Template;
 use Prismic\Predicates;
 use Prismic\SimplePredicate;
 
 class Overview extends Template
 {
+    private array $filters = [];
+    private array $options = [];
+    private string $documentType;
 
-    /**
-     * @var array
-     */
-    private $filters = [];
-    /**
-     * @var array
-     */
-    private $options = [];
-    /**
-     * @var string
-     */
-    private $documentType;
-    /**
-     * @var Api
-     */
-    private $apiFactory;
-    /**
-     * @var ConfigurationInterface
-     */
-    private $configuration;
-
-    /**
-     * Overview constructor.
-     * @param Template\Context $context
-     * @param Api $apiFactory
-     * @param ConfigurationInterface $configuration
-     * @param array $data
-     */
     public function __construct(
         Template\Context $context,
-        Api $apiFactory,
-        ConfigurationInterface $configuration,
+        private readonly Api $apiFactory,
+        private readonly ConfigurationInterface $configuration,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->apiFactory = $apiFactory;
-        $this->configuration = $configuration;
     }
 
     /**
@@ -86,8 +61,9 @@ class Overview extends Template
      * Get documents for locale and fallback
      *
      * @return array
-     * @throws \Elgentos\PrismicIO\Exception\ApiNotEnabledException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     *
+     * @throws ApiNotEnabledException
+     * @throws NoSuchEntityException
      */
     public function getDocuments(): array
     {
@@ -118,12 +94,13 @@ class Overview extends Template
      * Get documents without language, will render links in local store
      *
      * @return array
-     * @throws \Elgentos\PrismicIO\Exception\ApiNotEnabledException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     *
+     * @throws ApiNotEnabledException
+     * @throws NoSuchEntityException
      */
     public function getDocumentsWithoutLanguage(): array
     {
-        return array_map(function($document) {
+        return array_map(static function($document) {
             unset($document->lang);
             return $document;
         }, $this->getDocuments());
@@ -170,21 +147,19 @@ class Overview extends Template
     {
         $results = [];
         foreach ($allDocuments as $documents) {
-            $foundDocuments = $documents->results ?? [];
-            if ( empty($foundDocuments)) {
-                continue;
-            }
-
-            $results = array_merge($results, $foundDocuments);
+            $results = [...$results, ...$documents->results ?? []];
         }
 
         // Deduplicate
         $ids = [];
         foreach ($results as $index => $document) {
             $id = $document->id;
-            $alternateLangIds = array_filter(array_map(function($langDocument) {
-                return $langDocument->id ?? null;
-            }, $document->alternate_languages ?? []));
+            $alternateLangIds = array_filter(
+                array_map(
+                    static fn($langDocument) => $langDocument->id ?? null,
+                    $document->alternate_languages ?? []
+                )
+            );
 
             if (isset($ids[$id])) {
                 unset($results[$index]);
@@ -192,7 +167,7 @@ class Overview extends Template
             }
 
             $ids[$id] = true;
-            $ids = array_merge($ids, array_fill_keys($alternateLangIds, true));
+            $ids = [...$ids, ...array_fill_keys($alternateLangIds, true)];
         }
 
         return array_values($results);

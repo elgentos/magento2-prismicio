@@ -14,16 +14,11 @@ use Prismic\Language;
 
 class Languages implements OptionSourceInterface
 {
-
-    /** @var array */
-    private $languages;
-    /** @var Api */
-    private $api;
+    private array $languages;
 
     public function __construct(
-        Api $api
+        public readonly Api $api
     ) {
-        $this->api = $api;
     }
 
     /**
@@ -33,16 +28,23 @@ class Languages implements OptionSourceInterface
      */
     public function toOptionArray()
     {
-        $languages = $this->languages
-                = $this->languages ?? $this->getLanguages();
+        $languages = $this->languages ??= $this->getLanguages();
+
+        array_unshift(
+            $languages,
+            Language::parse(
+                (object) [
+                    'id'   => '*',
+                    'name' => __('Prismic default language'),
+                ]
+            )
+        );
 
         return array_map(
-            function (Language $language) {
-                return [
-                    'value' => $language->getId(),
-                    'label' => $language->getName()
-                ];
-            },
+            static fn (Language $language) => [
+                'value' => $language->getId(),
+                'label' => $language->getName(),
+            ],
             $languages
         );
     }
@@ -57,7 +59,7 @@ class Languages implements OptionSourceInterface
             return $this->api->create()
                     ->getData()
                     ->getLanguages();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         return [];

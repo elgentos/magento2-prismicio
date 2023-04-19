@@ -1,10 +1,6 @@
-<?php declare(strict_types=1);
-/**
- * Created by PhpStorm.
- * User: jeroen
- * Date: 11-4-19
- * Time: 14:06
- */
+<?php
+
+declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Api;
 
@@ -13,7 +9,6 @@ use Elgentos\PrismicIO\Exception\RouteNotFoundException;
 
 interface RouteRepositoryInterface
 {
-
     /**
      * Get Route by id
      *

@@ -2,17 +2,15 @@
 
 namespace Elgentos\PrismicIO\Model\Source\Languages;
 
-
 use Elgentos\PrismicIO\Model\Source\Languages;
 
 class Fallback extends Languages
 {
-
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
         $defaultOption = [
             'value' => '',
-            'label' => __('No fallback')
+            'label' => __('No fallback'),
         ];
 
         $options = parent::toOptionArray();
@@ -20,5 +18,4 @@ class Fallback extends Languages
 
         return $options;
     }
-
 }

@@ -35,7 +35,7 @@ class Languages implements OptionSourceInterface
             Language::parse(
                 (object) [
                     'id'   => '*',
-                    'name' => __('Prismic default language'),
+                    'name' => __('Prismic default language')->render(),
                 ]
             )
         );

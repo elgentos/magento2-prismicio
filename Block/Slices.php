@@ -1,10 +1,6 @@
-<?php declare(strict_types=1);
-/**
- * Created by PhpStorm.
- * User: jeroen
- * Date: 16-4-19
- * Time: 15:56
- */
+<?php
+
+declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Block;
 
@@ -23,7 +19,7 @@ class Slices extends Group
 
     public function getSliceTypeBlock($sliceType): ?BlockInterface
     {
-        $childReference = $this->getNameInLayout() . '.' . $sliceType;
-        return $this->getChildBlock($childReference) ?: null;
+        $child = $this->getChildBlock($sliceType) ?: $this->getChildBlock($this->getNameInLayout() . '.' . $sliceType);
+        return $child ?: null;
     }
 }

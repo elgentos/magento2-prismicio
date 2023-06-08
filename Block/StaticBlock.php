@@ -98,10 +98,8 @@ class StaticBlock extends AbstractBlock
 
     /**
      * @return bool
-     * @throws \Elgentos\PrismicIO\Exception\ApiNotEnabledException
      * @throws ContextNotFoundException
      * @throws DocumentNotFoundException
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     private function fetchChildDocument(): bool
     {
@@ -113,7 +111,12 @@ class StaticBlock extends AbstractBlock
         $uid  = $context->uid ?? '';
         $type = $context->type ?? '';
 
-        $document = $this->api->getDocumentByUid($uid, $type, ['lang' => $context->lang]);
+        try {
+            $document = $this->api->getDocumentByUid($uid, $type, ['lang' => $context->lang]);
+        } catch (\Exception $e) {
+            return false;
+        }
+
         if (! $document) {
             return false;
         }

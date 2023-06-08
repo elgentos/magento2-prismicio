@@ -10,14 +10,14 @@ use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Context;
-use Psr\Log\LoggerInterface as Logger;
+use Psr\Log\LoggerInterface;
 use stdClass;
 
 class StaticBlock extends AbstractBlock
 {
     private Api $api;
 
-    private Logger $logger;
+    private LoggerInterface $logger;
 
     private string $contentType;
 
@@ -28,7 +28,7 @@ class StaticBlock extends AbstractBlock
         DocumentResolver $documentResolver,
         LinkResolver $linkResolver,
         Api $api,
-        Logger $logger,
+        LoggerInterface $logger,
         string $contentType = 'static_block',
         string $identifier = null,
         array $data = []
@@ -74,6 +74,7 @@ class StaticBlock extends AbstractBlock
     /**
      * @return string
      * @throws ContextNotFoundException
+     * @throws DocumentNotFoundException
      */
     public function fetchDocumentView(): string
     {
@@ -81,20 +82,15 @@ class StaticBlock extends AbstractBlock
             if (!$this->fetchChildDocument()) {
                 return '';
             }
-        } catch (ApiNotEnabledException|ContextNotFoundException|DocumentNotFoundException|NoSuchEntityException $e) {
+        } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
             return '';
         }
 
         $html = '';
         foreach ($this->getChildNames() as $childName) {
-            try {
                 $useCache = ! $this->updateChildDocumentWithDocument($childName);
                 $html    .= $this->getChildHtml($childName, $useCache);
-            } catch (DocumentNotFoundException $e) {
-                $this->logger->error($e->getMessage());
-                continue;
-            }
         }
 
         return $html;

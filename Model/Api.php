@@ -15,7 +15,6 @@ use Exception;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Prismic\Api as PrismicApi;
-use Psr\Log\LoggerInterface;
 
 class Api
 {
@@ -25,18 +24,15 @@ class Api
 
     private CacheProxy $cacheProxy;
 
-    private LoggerInterface $logger;
 
     public function __construct(
         ConfigurationInterface $configuration,
         StoreManagerInterface $storeManager,
         CacheProxy $cacheProxy,
-        LoggerInterface $logger
     ) {
         $this->configuration = $configuration;
         $this->storeManager = $storeManager;
         $this->cacheProxy = $cacheProxy;
-        $this->logger = $logger;
     }
 
     /**

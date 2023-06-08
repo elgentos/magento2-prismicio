@@ -11,24 +11,24 @@ namespace Elgentos\PrismicIO\Model;
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
 use Elgentos\PrismicIO\Model\Api\CacheProxy;
+use Exception;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Prismic\Api as PrismicApi;
 
 class Api
 {
+    private ConfigurationInterface $configuration;
 
-    /** @var ConfigurationInterface */
-    private $configuration;
-    /** @var StoreManagerInterface */
-    private $storeManager;
-    /** @var CacheProxy */
-    private $cacheProxy;
+    private StoreManagerInterface $storeManager;
+
+    private CacheProxy $cacheProxy;
+
 
     public function __construct(
         ConfigurationInterface $configuration,
         StoreManagerInterface $storeManager,
-        CacheProxy $cacheProxy
+        CacheProxy $cacheProxy,
     ) {
         $this->configuration = $configuration;
         $this->storeManager = $storeManager;
@@ -74,10 +74,10 @@ class Api
     /**
      * Get document id for the alternate language
      *
-     * @param string $language
-     * @param \stdClass $document
-     * @return string
-     * @throws NoSuchEntityException
+     * @param string         $language
+     * @param \stdClass|null $document
+     *
+     * @return string|null
      */
     public function getDocumentIdInLanguage(string $language, \stdClass $document = null): ?string
     {
@@ -225,6 +225,7 @@ class Api
      */
     public function getDocumentByUid(string $uid, string $contentType = null, array $options = []): ?\stdClass
     {
+
         $contentType = $contentType ?? $this->getDefaultContentType();
         $api = $this->create();
 
@@ -234,7 +235,12 @@ class Api
             return null;
         }
 
-        $document = $api->getByUID($contentType, $uid, $this->getOptions($options));
+        try {
+            $document = $api->getByUID($contentType, $uid, $this->getOptions($options));
+        } catch (Exception $e) {
+            return null;
+        }
+
         if ($document || ! $this->isFallbackAllowed()) {
             return $document;
         }
@@ -262,7 +268,12 @@ class Api
             return null;
         }
 
-        $document = $api->getSingle($contentType, $this->getOptions($options));
+        try {
+            $document = $api->getSingle($contentType, $this->getOptions($options));
+        } catch (Exception $e) {
+            return null;
+        }
+
         if ($document || ! $this->isFallbackAllowed()) {
             return $document;
         }
@@ -282,7 +293,11 @@ class Api
     public function getDocumentById(string $id, array $options = []): ?\stdClass
     {
         $api = $this->create();
-        return $api->getByID($id, $this->getOptions($options));
+        try {
+            return $api->getByID($id, $this->getOptions($options));
+        } catch (Exception $e) {
+            return null;
+        }
     }
 
 }

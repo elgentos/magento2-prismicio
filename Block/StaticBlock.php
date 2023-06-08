@@ -2,53 +2,47 @@
 
 namespace Elgentos\PrismicIO\Block;
 
+use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
 use Elgentos\PrismicIO\Exception\ContextNotFoundException;
 use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
 use Elgentos\PrismicIO\Model\Api;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Context;
+use Psr\Log\LoggerInterface as Logger;
 use stdClass;
 
 class StaticBlock extends AbstractBlock
 {
-    /** @var Api */
-    private $api;
-    /** @var string */
-    private $contentType;
-    /**
-     * @var string|null
-     */
-    private $identifier;
+    private Api $api;
 
-    /**
-     * Constructor.
-     *
-     * @param Context $context
-     * @param DocumentResolver $documentResolver
-     * @param LinkResolver $linkResolver
-     * @param Api $api
-     * @param string $contentType
-     * @param string|null $identifier
-     * @param array $data
-     */
+    private Logger $logger;
+
+    private string $contentType;
+
+    private ?string $identifier;
+
     public function __construct(
         Context $context,
         DocumentResolver $documentResolver,
         LinkResolver $linkResolver,
         Api $api,
+        Logger $logger,
         string $contentType = 'static_block',
         string $identifier = null,
         array $data = []
     ) {
         parent::__construct($context, $documentResolver, $linkResolver, $data);
         $this->api = $api;
+        $this->logger = $logger;
         $this->contentType = $contentType;
         $this->identifier = $identifier;
     }
 
     /**
      * @return string
+     * @throws NoSuchEntityException
      */
     protected function _toHtml(): string
     {
@@ -60,7 +54,7 @@ class StaticBlock extends AbstractBlock
      * @return void
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
-    private function createPrismicDocument()
+    private function createPrismicDocument(): void
     {
         $data = $this->getData('data') ?? [];
         if (! (isset($this->contentType, $this->identifier) || isset($data['uid']) || isset($data['identifier']))) {
@@ -80,18 +74,27 @@ class StaticBlock extends AbstractBlock
     /**
      * @return string
      * @throws ContextNotFoundException
-     * @throws DocumentNotFoundException
      */
     public function fetchDocumentView(): string
     {
-        if (! $this->fetchChildDocument()) {
+        try {
+            if (!$this->fetchChildDocument()) {
+                return '';
+            }
+        } catch (ApiNotEnabledException|ContextNotFoundException|DocumentNotFoundException|NoSuchEntityException $e) {
+            $this->logger->error($e->getMessage());
             return '';
         }
 
         $html = '';
         foreach ($this->getChildNames() as $childName) {
-            $useCache = ! $this->updateChildDocumentWithDocument($childName);
-            $html    .= $this->getChildHtml($childName, $useCache);
+            try {
+                $useCache = ! $this->updateChildDocumentWithDocument($childName);
+                $html    .= $this->getChildHtml($childName, $useCache);
+            } catch (DocumentNotFoundException $e) {
+                $this->logger->error($e->getMessage());
+                continue;
+            }
         }
 
         return $html;

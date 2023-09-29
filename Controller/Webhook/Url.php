@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Elgentos\PrismicIO\Controller\Webhook;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
+use Elgentos\PrismicIO\Helper\GetStoreView;
 use Elgentos\PrismicIO\Model\Api;
 use Exception;
 use Magento\CmsUrlRewrite\Model\CmsPageUrlRewriteGenerator;
@@ -46,6 +47,8 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
 
     private LoggerInterface $logger;
 
+    private GetStoreView $getStoreView;
+
     public function __construct(
         RequestInterface       $request,
         ConfigurationInterface $configuration,
@@ -56,7 +59,8 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
         UrlRewriteFactory      $urlRewriteFactory,
         UrlPersistInterface    $urlPersist,
         UrlRewriteResource     $urlRewriteResource,
-        LoggerInterface        $logger
+        LoggerInterface        $logger,
+        GetStoreView           $getStoreView
     ) {
         $this->request = $request;
         $this->configuration = $configuration;
@@ -68,6 +72,7 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
         $this->urlRewriteFactory = $urlRewriteFactory;
         $this->urlPersist = $urlPersist;
         $this->urlRewriteResource = $urlRewriteResource;
+        $this->getStoreView = $getStoreView;
     }
 
     public function execute(): ?ResultInterface
@@ -103,7 +108,6 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
             ]);
         }
 
-        $stores = $this->storeManager->getStores();
         $api = $this->apiFactory->create();
         foreach ($documentIds as $documentId) {
             $document = $api->getByID($documentId);
@@ -111,13 +115,7 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
                 continue;
             }
 
-            $currentStore = null;
-            foreach ($stores as $store) {
-                if ($this->configuration->getContentLanguage($store) === $document->lang) {
-                    $currentStore = $store;
-                    break;
-                }
-            }
+            $currentStore = $this->getStoreView->getCurrentStoreView($document);
 
             if (!$currentStore) {
                 continue;

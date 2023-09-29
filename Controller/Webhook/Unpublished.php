@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Elgentos\PrismicIO\Controller\Webhook;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
+use Elgentos\PrismicIO\Helper\GetStoreView;
 use Elgentos\PrismicIO\Model\Api;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\CsrfAwareActionInterface;
@@ -38,13 +39,16 @@ class Unpublished implements HttpPostActionInterface, CsrfAwareActionInterface
 
     private StoreManagerInterface $storeManager;
 
+    private GetStoreView $getStoreView;
+
     public function __construct(
         RequestInterface $request,
         ResultFactory $resultFactory,
         UrlPersistInterface $urlPersist,
         ConfigurationInterface $configuration,
         StoreManagerInterface $storeManager,
-        Api $apiFactory
+        Api $apiFactory,
+        GetStoreView $getStoreView
     ) {
 
         $this->request       = $request;
@@ -53,6 +57,7 @@ class Unpublished implements HttpPostActionInterface, CsrfAwareActionInterface
         $this->apiFactory    = $apiFactory;
         $this->configuration = $configuration;
         $this->storeManager  = $storeManager;
+        $this->getStoreView  = $getStoreView;
     }
 
     public function execute(): ?ResultInterface
@@ -78,7 +83,6 @@ class Unpublished implements HttpPostActionInterface, CsrfAwareActionInterface
             ]);
         }
 
-        $stores = $this->storeManager->getStores();
         $api   = $this->apiFactory->create();
         foreach ($documentIds as $documentId) {
             $document = $api->getByID($documentId);
@@ -86,13 +90,7 @@ class Unpublished implements HttpPostActionInterface, CsrfAwareActionInterface
                 continue;
             }
 
-            $currentStore = null;
-            foreach ($stores as $store) {
-                if ($this->configuration->getContentLanguage($store) === $document->lang) {
-                    $currentStore = $store;
-                    break;
-                }
-            }
+            $currentStore = $this->getStoreView->getCurrentStoreView($document);
 
             if (!$currentStore) {
                 continue;

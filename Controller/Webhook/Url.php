@@ -103,6 +103,7 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
             ]);
         }
 
+        $stores = $this->storeManager->getStores();
         $api = $this->apiFactory->create();
         foreach ($documentIds as $documentId) {
             $document = $api->getByID($documentId);
@@ -110,14 +111,26 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
                 continue;
             }
 
-            $urlRewrite = $this->findUrlRewrite($document, $store);
+            $currentStore = null;
+            foreach ($stores as $store) {
+                if ($this->configuration->getContentLanguage($store) === $document->lang) {
+                    $currentStore = $store;
+                    break;
+                }
+            }
+
+            if (!$currentStore) {
+                continue;
+            }
+
+            $urlRewrite = $this->findUrlRewrite($document, $currentStore);
 
             if ($urlRewrite && $urlRewrite->getEntityType() === CmsPageUrlRewriteGenerator::ENTITY_TYPE) {
-                $this->deleteUrlRewrite($document, $store);
+                $this->deleteUrlRewrite($document, $currentStore);
             }
 
             if (!$urlRewrite || $urlRewrite->getEntityType() === CmsPageUrlRewriteGenerator::ENTITY_TYPE) {
-                $this->createUrlRewrite($document, $store);
+                $this->createUrlRewrite($document, $currentStore);
             }
         }
 

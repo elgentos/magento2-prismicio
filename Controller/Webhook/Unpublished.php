@@ -78,7 +78,7 @@ class Unpublished implements HttpPostActionInterface, CsrfAwareActionInterface
             ]);
         }
 
-        $store = $this->storeManager->getStore();
+        $stores = $this->storeManager->getStores();
         $api   = $this->apiFactory->create();
         foreach ($documentIds as $documentId) {
             $document = $api->getByID($documentId);
@@ -86,7 +86,19 @@ class Unpublished implements HttpPostActionInterface, CsrfAwareActionInterface
                 continue;
             }
 
-            $this->deleteUrlRewrite($document, $store);
+            $currentStore = null;
+            foreach ($stores as $store) {
+                if ($this->configuration->getContentLanguage($store) === $document->lang) {
+                    $currentStore = $store;
+                    break;
+                }
+            }
+
+            if (!$currentStore) {
+                continue;
+            }
+
+            $this->deleteUrlRewrite($document, $currentStore);
         }
 
         return $result->setData([

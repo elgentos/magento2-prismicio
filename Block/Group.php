@@ -18,14 +18,14 @@ class Group extends AbstractBlock
         }
 
         $html = '';
-        foreach ($items as $item) {
-            $html .= $this->fetchItem($item);
+        foreach ($items as $key => $item) {
+            $html .= $this->fetchItem($item, $key);
         }
 
         return $html;
     }
 
-    public function fetchItem(\stdClass $item): string
+    public function fetchItem(\stdClass $item, $key): string
     {
         $childNames = $this->getChildNames();
 
@@ -33,6 +33,7 @@ class Group extends AbstractBlock
         foreach ($childNames as $childName) {
             $itemBlock = $this->getChildBlock($childName);
             $itemBlock->setDocument($item);
+            $itemBlock->setIterator($key);
 
             $html .= $itemBlock->toHtml();
         }

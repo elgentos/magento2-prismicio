@@ -25,7 +25,7 @@ class Group extends AbstractBlock
         return $html;
     }
 
-    public function fetchItem(\stdClass $item, $key): string
+    public function fetchItem(\stdClass $item, $key = null): string
     {
         $childNames = $this->getChildNames();
 
@@ -33,7 +33,9 @@ class Group extends AbstractBlock
         foreach ($childNames as $childName) {
             $itemBlock = $this->getChildBlock($childName);
             $itemBlock->setDocument($item);
-            $itemBlock->setIterator($key);
+            if (null !== $key) {
+                $itemBlock->setIterator($key);
+            }
 
             $html .= $itemBlock->toHtml();
         }

@@ -6,7 +6,7 @@ namespace Elgentos\PrismicIO\Block;
 
 class Slices extends Group
 {
-    public function fetchItem(\stdClass $slice): string
+    public function fetchItem(\stdClass $slice, $key = null): string
     {
         $sliceTypeBlock = $this->getSliceTypeBlock($slice->slice_type);
         if (null === $sliceTypeBlock) {

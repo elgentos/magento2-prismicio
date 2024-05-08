@@ -64,6 +64,10 @@ class PrismicPages implements ItemProviderInterface
     {
         $store = $this->storeManager->getStore($storeId);
 
+        if($store?->isUseStoreInUrl()) {
+            $this->sitemapItems = [];
+        }
+
         $sitemapContentTypes = $this->getSitemapContentTypes($store);
         $api = $this->apiFactory->create();
 

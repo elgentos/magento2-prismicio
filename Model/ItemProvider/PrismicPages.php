@@ -20,6 +20,11 @@ class PrismicPages implements ItemProviderInterface
     use LinkResolverTrait;
 
     /**
+     * @var SitemapItemFactory
+     */
+    protected $itemFactory;
+    
+    /**
      * @var Api
      */
     protected $apiFactory;

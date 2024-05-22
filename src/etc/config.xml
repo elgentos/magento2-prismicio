@@ -10,6 +10,7 @@
         <prismicio>
             <general>
                 <enabled>0</enabled>
+                <multirepo>0</multirepo>
                 <enpoint />
                 <token />
             </general>

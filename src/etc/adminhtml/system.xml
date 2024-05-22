@@ -17,6 +17,12 @@
                     <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                 </field>
 
+                <field id="multirepo" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="select">
+                    <label>Multirepo</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    <comment>Enable this feature if you want to api-query over multiple repositories</comment>
+                </field>
+
                 <field id="enpoint" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
                     <label>API Endpoint(URL)</label>
                     <depends>

@@ -37,9 +37,11 @@ help:
 .PHONY: clean
 clean:
 	rm -rf vendor
-	rm composer.lock
-	rm .$(PHP_VERSION)
+	rm -f composer.lock
+	rm -f .$(PHP_VERSION)
+ifneq ($(shell docker images -q $(MKDOCS_DOCKER_IMAGE) 2>/dev/null),)
 	docker rmi $(MKDOCS_DOCKER_IMAGE)
+endif
 
 vendor/autoload.php:
 	$(COMPOSER) install $(COMPOSER_ARGUMENTS)

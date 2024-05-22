@@ -21,7 +21,7 @@ all: vendor/autoload.php .$(PHP_VERSION)
 
 .$(PHP_VERSION):
 	@echo 'This stopfile works for https://github.com/jeroenboersma/docker-compose-development'
-	touch .php81
+	touch .$(PHP_VERSION)
 
 help:
 	@echo 'Available make commands'

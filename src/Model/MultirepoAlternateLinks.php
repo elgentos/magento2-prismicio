@@ -28,6 +28,10 @@ class MultirepoAlternateLinks
         $configuration = $this->configuration;;
         $storeManager = $this->storeManager;
 
+        if (! $configuration->getMultiRepoEnabled($storeManager->getStore())) {
+            return $mappedDocumentsToLanguage;
+        }
+
         foreach ($storeManager->getStores() as $store) {
             if (! $configuration->getApiEnabled($store)) {
                 continue;

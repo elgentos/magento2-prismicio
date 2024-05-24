@@ -207,10 +207,19 @@ class Configuration implements ConfigurationInterface
             ) ?? '');
     }
 
-    public function getApiMultiRepo(StoreInterface $store): bool
+    public function getMultiRepoEnabled(StoreInterface $store): bool
     {
         return (bool)($this->config->getValue(
-            self::XML_PATH_API_MULTI_REPO,
+            self::XML_PATH_MULTI_REPO_ENABLED,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        ) ?? '');
+    }
+
+    public function getMultiRepoField(StoreInterface $store): string
+    {
+        return (string)($this->config->getValue(
+            self::XML_PATH_MULTI_REPO_FIELD,
             ScopeInterface::SCOPE_STORE,
             $store
         ) ?? '');

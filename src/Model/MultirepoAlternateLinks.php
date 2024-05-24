@@ -28,19 +28,18 @@ class MultirepoAlternateLinks
         $configuration = $this->configuration;;
         $storeManager = $this->storeManager;
 
-        $mainStore = $storeManager->getStore(0);
-        if (! $configuration->getMultiRepoEnabled($mainStore)) {
-            return $mappedDocumentsToLanguage;
-        }
-
-        $multiRepoField = $configuration->getMultiRepoField($mainStore);
-        $referenceField = $document->data->{$multiRepoField} ?? null;
-        if (! $referenceField) {
-            return $mappedDocumentsToLanguage;
-        }
-
         foreach ($storeManager->getStores() as $store) {
             if (! $configuration->getApiEnabled($store)) {
+                continue;
+            }
+
+            if (! $configuration->getMultiRepoEnabled($store)) {
+                continue;
+            }
+
+            $multiRepoField = $configuration->getMultiRepoField($store);
+            $referenceField = $document->data->{$multiRepoField} ?? null;
+            if (! $referenceField) {
                 continue;
             }
 

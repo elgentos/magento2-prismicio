@@ -3,6 +3,7 @@
 namespace Elgentos\PrismicIO\Block;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
+use Elgentos\PrismicIO\Model\MultirepoAlternateLinks;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Framework\View\Element\Template;
@@ -16,6 +17,7 @@ class AlternateLanguage extends AbstractTemplate
         LinkResolver $linkResolver,
         private readonly StoreManagerInterface $storeManager,
         private readonly ConfigurationInterface $configuration,
+        private readonly MultirepoAlternateLinks $multirepoAlternateLinks,
         array $data = []
     ) {
         parent::__construct($context, $documentResolver, $linkResolver, $data);
@@ -46,6 +48,11 @@ class AlternateLanguage extends AbstractTemplate
             $mappedContext[$item->lang] = $item;
         }
 
+        $mappedContext = $this->multirepoAlternateLinks->getAlternateLinks(
+            $mappedContext,
+            $document
+        );
+
         return $mappedContext;
     }
 
@@ -74,11 +81,18 @@ class AlternateLanguage extends AbstractTemplate
                 continue;
             }
 
+            $magentoLanguage = str_replace('_', '-', $store->getConfig('general/locale/code'));
+
             $language = $configuration->getContentLanguage($store);
             $hasFallback = $configuration->hasContentLanguageFallback($store);
             if ($hasFallback && ! isset($context[$language])) {
                 // Overwrite with fallback language
                 $language = $configuration->getContentLanguageFallback($store);
+            }
+
+            // Use store language
+            if ($language === '*') {
+                $language = strtolower($magentoLanguage);
             }
 
             if (! isset($context[$language])) {
@@ -87,7 +101,6 @@ class AlternateLanguage extends AbstractTemplate
             }
 
             $isDefault = $defaultStoreId === $store->getId();
-            $magentoLanguage = str_replace('_', '-', $store->getConfig('general/locale/code'));
 
             $link = clone $context[$language];
 

@@ -94,6 +94,7 @@ class Router implements RouterInterface
         $collection->filterByStatus(true);
         $collection->filterByRequestPath($requestPath);
 
+
         $collection->setPageSize(1);
         if ($collection->getSize() < 1) {
             return null;

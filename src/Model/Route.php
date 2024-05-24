@@ -48,7 +48,7 @@ class Route extends \Magento\Framework\Model\AbstractModel implements \Elgentos\
      */
     public function getUidForRequestPath(string $requestPath): string
     {
-        return trim(preg_replace('#^' . preg_quote($this->_getData('route'), '#') . '#', '', $requestPath), '/');
+        return trim(preg_replace('#^/?' . preg_quote($this->_getData('route'), '#') . '#', '', $requestPath), '/');
     }
 
     public function getId(): ?int

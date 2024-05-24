@@ -32,7 +32,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
     public function filterByRequestPath(string $requestPath): void
     {
         $this->getSelect()
-                ->where("? like concat(route, '%')", $requestPath);
+                ->where("? like concat(route, '%') or ? like concat('/', route, '%')", $requestPath);
     }
 
     public function filterByStoreId(int $storeId): void

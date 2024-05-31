@@ -11,7 +11,7 @@ class Image extends AbstractBlock
         $context = $this->getContext();
         
         if (!isset($context->url)) {
-            return null;
+            return '';
         }
 
         $cssClasses = $this->getData('css_class') ? 'class="'. $this->getData('css_class') .'"' : '';

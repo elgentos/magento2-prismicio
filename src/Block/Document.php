@@ -3,6 +3,8 @@
 
 namespace Elgentos\PrismicIO\Block;
 
+use Elgentos\PrismicIO\Block\Exception\DocumentIsBrokenException;
+use Elgentos\PrismicIO\Block\Exception\DocumentIsNotFoundException;
 use Elgentos\PrismicIO\Model\Api;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
@@ -53,6 +55,7 @@ class Document extends AbstractBlock
 
         $isBroken = (bool)($context->isBroken ?? true);
         if ($isBroken) {
+            DocumentIsBrokenException::throwException($this);
             // We can only query existing pages
             return false;
         }
@@ -67,6 +70,7 @@ class Document extends AbstractBlock
         }
 
         if (! $document) {
+            DocumentIsNotFoundException::throwException($this);
             return false;
         }
 

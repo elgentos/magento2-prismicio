@@ -2,6 +2,8 @@
 
 namespace Elgentos\PrismicIO\Block;
 
+use Elgentos\PrismicIO\Block\Exception\SliceBlockNotFoundException;
+
 class SliceBlock extends AbstractBlock
 {
     protected function _toHtml(): string
@@ -17,6 +19,7 @@ class SliceBlock extends AbstractBlock
 
         $block = $layout->getBlock($reference);
         if (! ($block instanceof BlockInterface)) {
+            SliceBlockNotFoundException::throwException($this);
             return '';
         }
 

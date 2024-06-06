@@ -235,12 +235,7 @@ class Api
             return null;
         }
 
-        try {
-            $document = $api->getByUID($contentType, $uid, $this->getOptions($options));
-        } catch (Exception $e) {
-            return null;
-        }
-
+        $document = $api->getByUID($contentType, $uid, $this->getOptions($options));
         if ($document || ! $this->isFallbackAllowed()) {
             return $document;
         }
@@ -292,12 +287,8 @@ class Api
      */
     public function getDocumentById(string $id, array $options = []): ?\stdClass
     {
-        $api = $this->create();
-        try {
-            return $api->getByID($id, $this->getOptions($options));
-        } catch (Exception $e) {
-            return null;
-        }
+        return $this->create()
+                ->getByID($id, $this->getOptions($options));
     }
 
 }

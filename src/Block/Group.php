@@ -8,12 +8,15 @@
 
 namespace Elgentos\PrismicIO\Block;
 
+use Elgentos\PrismicIO\Block\Exception\GroupExpectsAnArrayException;
+
 class Group extends AbstractBlock
 {
     public function fetchDocumentView(): string
     {
         $items = $this->getContext();
         if (! is_array($items)) {
+            GroupExpectsAnArrayException::throwException($this);
             return '';
         }
 

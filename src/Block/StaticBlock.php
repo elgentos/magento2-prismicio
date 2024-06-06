@@ -2,63 +2,38 @@
 
 namespace Elgentos\PrismicIO\Block;
 
-use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
+use Elgentos\PrismicIO\Block\Exception\StaticBlockNotFoundException;
 use Elgentos\PrismicIO\Exception\ContextNotFoundException;
 use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
 use Elgentos\PrismicIO\Model\Api;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Context;
-use Psr\Log\LoggerInterface;
-use stdClass;
 
 class StaticBlock extends AbstractBlock
 {
-    private Api $api;
-
-    private LoggerInterface $logger;
-
-    private string $contentType;
-
-    private ?string $identifier;
-
     public function __construct(
-        Context $context,
-        DocumentResolver $documentResolver,
-        LinkResolver $linkResolver,
-        Api $api,
-        LoggerInterface $logger,
-        string $contentType = 'static_block',
-        string $identifier = null,
-        array $data = []
+        Context                  $context,
+        DocumentResolver         $documentResolver,
+        LinkResolver             $linkResolver,
+        private readonly Api     $api,
+        private readonly string  $contentType = 'static_block',
+        private readonly ?string $identifier = null,
+        array                    $data = []
     ) {
         parent::__construct($context, $documentResolver, $linkResolver, $data);
-        $this->api = $api;
-        $this->logger = $logger;
-        $this->contentType = $contentType;
-        $this->identifier = $identifier;
     }
 
-    /**
-     * @return string
-     * @throws NoSuchEntityException
-     */
     protected function _toHtml(): string
     {
         $this->createPrismicDocument();
         return parent::_toHtml();
     }
 
-    /**
-     * @return void
-     * @throws \Magento\Framework\Exception\NoSuchEntityException
-     */
     private function createPrismicDocument(): void
     {
         $contentType = $this->contentType;
         $identifier  = $this->identifier;
-
 
         // Allow using "template" to reference a document (saves XML)
         $reference = $this->getReference();
@@ -79,6 +54,7 @@ class StaticBlock extends AbstractBlock
             return;
         }
 
+        // Create a document
         $document = new \stdClass;
         $options  = $this->api->getOptions();
 
@@ -96,19 +72,15 @@ class StaticBlock extends AbstractBlock
      */
     public function fetchDocumentView(): string
     {
-        try {
-            if (!$this->fetchChildDocument()) {
-                return '';
-            }
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage());
+        if (! $this->fetchChildDocument()) {
             return '';
         }
 
+        // Render all children
         $html = '';
         foreach ($this->getChildNames() as $childName) {
-                $useCache = ! $this->updateChildDocumentWithDocument($childName);
-                $html    .= $this->getChildHtml($childName, $useCache);
+            $useCache = ! $this->updateChildDocumentWithDocument($childName);
+            $html    .= $this->getChildHtml($childName, $useCache);
         }
 
         return $html;
@@ -129,13 +101,16 @@ class StaticBlock extends AbstractBlock
         $uid  = $context->uid ?? '';
         $type = $context->type ?? '';
 
-        try {
-            $document = $this->api->getDocumentByUid($uid, $type, ['lang' => $context->lang]);
-        } catch (\Exception $e) {
-            return false;
-        }
-
+        $document = $this->api->getDocumentByUid($uid, $type, ['lang' => $context->lang]);
         if (! $document) {
+            StaticBlockNotFoundException::throwException(
+                $this,
+                [
+                    'uid' => $uid,
+                    'content_type' => $type,
+                    'language' => $context->lang,
+                ]
+            );
             return false;
         }
 

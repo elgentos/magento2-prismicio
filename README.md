@@ -44,17 +44,7 @@ Open the Magento admin, head to *Stores*, *Configuration*, *Elgentos / PrismicIO
 ![Configuration](https://user-images.githubusercontent.com/431360/100359099-60a84480-2ff7-11eb-87e2-4a01ec82fdbc.png)
 
 ## Contributors
-Without your contributions this module wouldn't exist.
-
-In order of commits:
-- [Jeroen Boersma](https://github.com/jeroenboersma)
-- [Peter Jaap Blaakmeer](https://github.com/peterjaap)
-- [Wouter Steenmeijer](https://github.com/woutersteem)
-- [Sander Jongsma](https://github.com/sanderjongsma)
-- [Arjen Miedema](https://github.com/arjenmiedema)
-- [Henk Valk](https://github.com/henkvalk)
-- [Jesse de Boer](https://github.com/jesse-deboer)
-- [Joost Wan](https://github.com/joostwan)
+Without your [contributions](https://github.com/elgentos/magento2-prismicio/graphs/contributors) this module wouldn't exist.
 
 **And also; everyone who created issues, asked questions, collaborating in any other way, thanks a lot!**
 

@@ -18,6 +18,7 @@ Head over to the admin of your Magento installation.
 * click on Elgentos / Prismic.IO
 * under **General**
     * Enable Prismic
+    * [Multi-repo](#multi-repo)
     * Add the API endpoint copied over from Prismic
     * optionally add a API secret [see below](#optionally-protect-with-a-key)
     * save
@@ -41,3 +42,5 @@ Head over to the admin of your Magento installation.
 ### Debugging
 
 ### Preview mode
+
+### Multi repo

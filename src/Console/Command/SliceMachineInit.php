@@ -29,21 +29,19 @@ class SliceMachineInit extends Command
         $this->setDescription('Initialze Slicemachine on this machine');
 
 
-        $this->addOption('store-id', 's', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Give store id to use for the configuration');
+        $this->addOption('store-code', 's', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Give store id|code to use for the configuration');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $storeIds = array_filter(array_map(\abs(...), $input->getOption('store-id')));
-
+        $storeManager = $this->storeManager;
         $filesystem = $this->filesystem;
         $configuration = $this->configuration;
 
+        $stores = array_filter(array_map(static fn($storeCode) => $storeManager->getStore($storeCode), $input->getOption('store-code')));
+
         $linked = null;
-
-        foreach ($storeIds as $storeId) {
-            $store = $this->storeManager->getStore($storeId);
-
+        foreach ($stores as $store) {
             if (! $configuration->getApiEnabled($store)) {
                 continue;
             }

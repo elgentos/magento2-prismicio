@@ -23,13 +23,12 @@ class SliceMachineStart extends Command
         $this->setName('elgentos:prismic:slice-machine:start');
         $this->setDescription('Start Slicemachine on this machine for a given store');
 
-        $this->addOption('store-id', 's', InputOption::VALUE_REQUIRED, 'Give store id to use for the configuration');
+        $this->addOption('store-code', 's', InputOption::VALUE_REQUIRED, 'Give store id|code to use for the configuration');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $storeId = abs($input->getOption('store-id'));
-
+        $storeId = $input->getOption('store-code');
         $store = $this->storeManager->getStore($storeId);
 
         $directory = 'prismicio' . DIRECTORY_SEPARATOR . $store->getCode();

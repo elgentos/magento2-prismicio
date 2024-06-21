@@ -116,6 +116,19 @@ class Configuration implements ConfigurationInterface
             ) ?? '');
     }
 
+    public function allowExceptions(StoreInterface $store): bool
+    {
+        if ($this-state->getMode() !== $this->state::MODE_DEVELOPER) {
+            return false;
+        }
+
+        return (bool) ($this->config->getValue(
+            self::XML_PATH_CONTENT_THROW_EXCEPTIONS,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        ) ?? '');
+    }
+
     public function allowPreviewInFrontend(StoreInterface $store): bool
     {
         return (bool)($this->config->getValue(

@@ -21,6 +21,7 @@ interface ConfigurationInterface
         XML_PATH_CONTENT_FETCHLINKS                 = 'prismicio/content/fetchlinks',
         XML_PATH_CONTENT_CONTENT_TYPE               = 'prismicio/content/content_type',
         XML_PATH_CONTENT_ALLOW_DEBUG                = 'prismicio/content/allow_debug',
+        XML_PATH_CONTENT_THROW_EXCEPTIONS           = 'prismicio/content/throw_exceptions',
         XML_PATH_CONTENT_ALLOW_PREVIEW              = 'prismicio/content/allow_preview',
 
         XML_PATH_INTEGRATION_ACCESS_TOKEN           = 'prismicio/integration_fields/access_token',
@@ -52,6 +53,7 @@ interface ConfigurationInterface
     public function getContentType(StoreInterface $store): string;
 
     public function allowDebugInFrontend(StoreInterface $store): bool;
+    public function allowExceptions(StoreInterface $store): bool;
     public function allowPreviewInFrontend(StoreInterface $store): bool;
 
     public function getIntegrationFieldsAccessToken(StoreInterface $store): string;

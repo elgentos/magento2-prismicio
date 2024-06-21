@@ -74,6 +74,11 @@
                     <comment><![CDATA[Allow displaying Elgentos\Prismicio\Block\Debug in frontend, this only works if developer mode is also enabled</code>]]></comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
+                <field id="throw_exceptions" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment" type="select">
+                    <label>Throw exceptions for layout errors</label>
+                    <comment><![CDATA[Allow throwing of exceptions on frontend, this only works if developer mode is also enabled. If disabled, exceptions are logged in debug.log</code>]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
                 <field id="allow_preview" showInDefault="1" showInWebsite="1" showInStore="1" translate="label comment" type="select">
                     <label>Preview</label>
                     <comment><![CDATA[Allow using preview features from Prismic</code>]]></comment>

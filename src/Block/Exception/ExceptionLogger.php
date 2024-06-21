@@ -38,8 +38,12 @@ class ExceptionLogger
             return;
         }
 
-        // Only throw the exception in developer mode
-        throw $exception;
+        if (!$this->configuration->allowExceptions($store)) {
+            return;
+        }
+
+         // Only throw the exception in developer mode and when opted in for
+         throw $exception;
     }
 
     /**

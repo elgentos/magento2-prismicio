@@ -34,9 +34,6 @@ class ExceptionLogger
         );
 
         $store = $this->storeManager->getStore();
-        if (! $this->configuration->allowDebugInFrontend($store)) {
-            return;
-        }
 
         if (!$this->configuration->allowExceptions($store)) {
             return;

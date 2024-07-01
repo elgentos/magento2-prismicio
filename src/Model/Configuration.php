@@ -118,7 +118,7 @@ class Configuration implements ConfigurationInterface
 
     public function allowExceptions(StoreInterface $store): bool
     {
-        if ($this-state->getMode() !== $this->state::MODE_DEVELOPER) {
+        if ($this->state->getMode() !== $this->state::MODE_DEVELOPER) {
             return false;
         }
 

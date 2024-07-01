@@ -24,6 +24,7 @@
                 <content_type />
                 <fetchlinks />
                 <allow_debug>1</allow_debug>
+                <throw_exceptions>0</throw_exceptions>
                 <allow_preview />
             </content>
             <integration_fields>

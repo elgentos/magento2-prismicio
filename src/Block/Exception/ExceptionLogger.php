@@ -34,12 +34,13 @@ class ExceptionLogger
         );
 
         $store = $this->storeManager->getStore();
-        if (! $this->configuration->allowDebugInFrontend($store)) {
+
+        if (!$this->configuration->allowExceptions($store)) {
             return;
         }
 
-        // Only throw the exception in developer mode
-        throw $exception;
+         // Only throw the exception in developer mode and when opted in for
+         throw $exception;
     }
 
     /**

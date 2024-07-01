@@ -80,7 +80,7 @@ abstract class AbstractBlock extends FrameworkAbstractBlock implements BlockInte
     /**
      * Fetch document view
      *
-     * @return string
+     * @return string|bool
      */
-    abstract public function fetchDocumentView(): string;
+    abstract public function fetchDocumentView(): string | bool;
 }

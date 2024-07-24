@@ -115,6 +115,10 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
                 continue;
             }
 
+            if (!in_array($document->type, $urlRewriteDocumentTypes)) {
+                continue;
+            }
+
             $currentStore = $this->getStoreView->getCurrentStoreView($document);
 
             if (!$currentStore) {

@@ -39,5 +39,9 @@
                 <changefreq>daily</changefreq>
             </prismic>
         </sitemap>
+        <whitelist>
+            <enabled>0</enabled>
+            <content_types />
+        </whitelist>
     </default>
 </config>

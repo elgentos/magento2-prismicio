@@ -6,7 +6,7 @@ use Elgentos\PrismicIO\Block\AbstractBlock;
 
 class Image extends AbstractBlock
 {
-    public function fetchDocumentView(): string
+    public function fetchDocumentView(): ?string
     {
         $context = $this->getContext();
         

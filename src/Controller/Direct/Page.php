@@ -7,7 +7,9 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\Action\HttpGetActionInterface;
 use Magento\Framework\App\Action\Action;
-use Elgentos\PrismicIO\Helper\Whitelist;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Store\Model\StoreManagerInterface;
+use Elgentos\PrismicIO\Model\Configuration;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
 
@@ -17,21 +19,26 @@ class Page extends Action implements HttpGetActionInterface, HttpPostActionInter
     /** @var PageRenderer */
     public $page;
 
-    /** @var Whitelist */
-    public $whitelist;
+    /** @var Configuration */
+    public $configuration;
 
     /** @var ResultFactory */
     public $resultFactory;
 
+    /** @var StoreManagerInterface */
+    public $storeManager;
+
     public function __construct(
         Context $context,
         PageRenderer $page,
-        Whitelist $whitelist,
+        StoreManagerInterface $storeManager,
+        Configuration $configuration,
         ResultFactory $resultFactory
     ) {
         parent::__construct($context);
         $this->page = $page;
-        $this->whitelist = $whitelist;
+        $this->configuration = $configuration;
+        $this->storeManager = $storeManager;
         $this->resultFactory = $resultFactory;
     }
 
@@ -39,6 +46,7 @@ class Page extends Action implements HttpGetActionInterface, HttpPostActionInter
      * View CMS page action
      *
      * @return \Magento\Framework\Controller\ResultInterface
+     * @throws NoSuchEntityException
      */
     public function execute()
     {
@@ -55,7 +63,9 @@ class Page extends Action implements HttpGetActionInterface, HttpPostActionInter
         $contentType = $this->getRequest()
             ->getParam('type');
 
-        if (!$this->whitelist->isWhitelistContentTypeWhitelisted($contentType)) {
+        $store = $this->storeManager->getStore();
+
+        if (!$this->configuration->isWhitelistContentTypeWhitelisted($store, $contentType)) {
             return $this->redirectToNotFoundPage();
         }
 

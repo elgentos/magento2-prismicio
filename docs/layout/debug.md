@@ -32,3 +32,26 @@ To enable debug mode:
 4. Clear the cache
 
 When debug mode is enabled, you'll see additional information in your browser's developer tools and on the page if the debug block is present. 
+
+## Debug Mode Features
+
+When debug is enabled:
+- Detailed error messages
+- API request logging
+- Template path information
+- Context debugging tools
+
+## Debug Output
+
+Add the debug parameter to see detailed information:
+```
+?prismicio_debug=1
+```
+
+## Exception Handling
+
+With exceptions enabled:
+- Detailed stack traces
+- API error information
+- Context resolution errors
+- Template processing issues

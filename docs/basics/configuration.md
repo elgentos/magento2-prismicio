@@ -147,15 +147,3 @@ Head over to the admin of your Magento installation.
   * Product Attributes
     *Attributes to make available in Prismic Integration Fields. The following attributes will always be made available: name, image, status, short_description, updated_at.*
 * Sitemap section
-
-### Optionally, protect with a key
-
-### Content types
-
-### Fetch Links
-
-### Debugging
-
-### Preview mode
-
-### Multi repo

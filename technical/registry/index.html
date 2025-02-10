@@ -6,15 +6,15 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Configure Magento to connect to Prismic">
+        <meta name="description" content="Technical documentation for Prismic registry classes in Magento 2">
       
       
       
       
-        <link rel="prev" href="../installation/">
+        <link rel="prev" href="../exceptions/">
       
       
-        <link rel="next" href="../content-types/">
+        <link rel="next" href="../renderer/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Configuration of the Magento 2 module - Elgentos - Prismic IO Magento 2 module</title>
+        <title>Registry - Elgentos - Prismic IO Magento 2 module</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configuration" class="md-skip">
+        <a href="#registry" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Configuration of the Magento 2 module
+              Registry
             
           </span>
         </div>
@@ -271,19 +271,17 @@
       
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
@@ -298,7 +296,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Basics
@@ -312,7 +310,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation/" class="md-nav__link">
+      <a href="../../basics/installation/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -331,31 +329,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Configuration
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../basics/configuration/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -365,287 +342,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#general-settings" class="md-nav__link">
-    <span class="md-ellipsis">
-      General Settings
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="General Settings">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#basic-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Basic Configuration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multi-repository-support" class="md-nav__link">
-    <span class="md-ellipsis">
-      Multi-repository Support
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#content-settings" class="md-nav__link">
-    <span class="md-ellipsis">
-      Content Settings
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Content Settings">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#language-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Language Configuration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#content-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      Content Features
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#integration-fields" class="md-nav__link">
-    <span class="md-ellipsis">
-      Integration Fields
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Integration Fields">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#product-integration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Product Integration
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#default-available-attributes" class="md-nav__link">
-    <span class="md-ellipsis">
-      Default Available Attributes
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#webhook-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      Webhook Configuration
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sitemap-settings" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sitemap Settings
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Sitemap Settings">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#prismic-pages-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      Prismic Pages Options
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#url-rewrites" class="md-nav__link">
-    <span class="md-ellipsis">
-      URL Rewrites
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cache-management" class="md-nav__link">
-    <span class="md-ellipsis">
-      Cache Management
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#technical-details" class="md-nav__link">
-    <span class="md-ellipsis">
-      Technical Details
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Technical Details">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#configuration-paths" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration Paths
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#security-considerations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Security Considerations
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#csp-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      CSP Configuration
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#get-the-repository-url" class="md-nav__link">
-    <span class="md-ellipsis">
-      Get the repository url
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Get the repository url">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#optionally-protect-with-a-key" class="md-nav__link">
-    <span class="md-ellipsis">
-      Optionally, protect with a key
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#content-types" class="md-nav__link">
-    <span class="md-ellipsis">
-      Content types
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fetch-links" class="md-nav__link">
-    <span class="md-ellipsis">
-      Fetch Links
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#debugging" class="md-nav__link">
-    <span class="md-ellipsis">
-      Debugging
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#preview-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      Preview mode
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multi-repo" class="md-nav__link">
-    <span class="md-ellipsis">
-      Multi repo
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -658,7 +354,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../content-types/" class="md-nav__link">
+      <a href="../../basics/content-types/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -680,7 +376,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../routing/" class="md-nav__link">
+      <a href="../../basics/routing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -702,7 +398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../document-structure.md" class="md-nav__link">
+      <a href="../../basics/document-structure.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -724,7 +420,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sitemap/" class="md-nav__link">
+      <a href="../../basics/sitemap/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -969,17 +665,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
@@ -994,7 +692,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Technical description
@@ -1044,7 +742,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../technical/blocks/prismic-fields.md" class="md-nav__link">
+      <a href="../blocks/prismic-fields.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1066,7 +764,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../technical/blocks/title-and-metadata/" class="md-nav__link">
+      <a href="../blocks/title-and-metadata/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1088,7 +786,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../technical/blocks/container/" class="md-nav__link">
+      <a href="../blocks/container/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1110,7 +808,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../technical/blocks/overview/" class="md-nav__link">
+      <a href="../blocks/overview/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1140,7 +838,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../technical/console-commands/" class="md-nav__link">
+      <a href="../console-commands/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1162,7 +860,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../technical/viewmodels/" class="md-nav__link">
+      <a href="../viewmodels/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1184,7 +882,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../technical/preview-mode/" class="md-nav__link">
+      <a href="../preview-mode/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1206,7 +904,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../technical/exceptions/" class="md-nav__link">
+      <a href="../exceptions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1225,10 +923,31 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../technical/registry/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Registry
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1238,6 +957,134 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#core-registry-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Registry Classes
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Registry Classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#currentdocument" class="md-nav__link">
+    <span class="md-ellipsis">
+      CurrentDocument
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#currentroute" class="md-nav__link">
+    <span class="md-ellipsis">
+      CurrentRoute
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Implementation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#currentdocument_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      CurrentDocument
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#currentroute_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      CurrentRoute
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Usage Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#document-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Document Registry
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#route-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Route Registry
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practices
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1250,7 +1097,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../technical/renderer/" class="md-nav__link">
+      <a href="../renderer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1341,28 +1188,28 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#general-settings" class="md-nav__link">
+  <a href="#core-registry-classes" class="md-nav__link">
     <span class="md-ellipsis">
-      General Settings
+      Core Registry Classes
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="General Settings">
+    <nav class="md-nav" aria-label="Core Registry Classes">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#basic-configuration" class="md-nav__link">
+  <a href="#currentdocument" class="md-nav__link">
     <span class="md-ellipsis">
-      Basic Configuration
+      CurrentDocument
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#multi-repository-support" class="md-nav__link">
+  <a href="#currentroute" class="md-nav__link">
     <span class="md-ellipsis">
-      Multi-repository Support
+      CurrentRoute
     </span>
   </a>
   
@@ -1374,28 +1221,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#content-settings" class="md-nav__link">
+  <a href="#implementation" class="md-nav__link">
     <span class="md-ellipsis">
-      Content Settings
+      Implementation
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Content Settings">
+    <nav class="md-nav" aria-label="Implementation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#language-configuration" class="md-nav__link">
+  <a href="#currentdocument_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Language Configuration
+      CurrentDocument
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#content-features" class="md-nav__link">
+  <a href="#currentroute_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Content Features
+      CurrentRoute
     </span>
   </a>
   
@@ -1407,28 +1254,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#integration-fields" class="md-nav__link">
+  <a href="#usage-examples" class="md-nav__link">
     <span class="md-ellipsis">
-      Integration Fields
+      Usage Examples
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Integration Fields">
+    <nav class="md-nav" aria-label="Usage Examples">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#product-integration" class="md-nav__link">
+  <a href="#document-registry" class="md-nav__link">
     <span class="md-ellipsis">
-      Product Integration
+      Document Registry
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#default-available-attributes" class="md-nav__link">
+  <a href="#route-registry" class="md-nav__link">
     <span class="md-ellipsis">
-      Default Available Attributes
+      Route Registry
     </span>
   </a>
   
@@ -1440,164 +1287,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#webhook-configuration" class="md-nav__link">
+  <a href="#best-practices" class="md-nav__link">
     <span class="md-ellipsis">
-      Webhook Configuration
+      Best Practices
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sitemap-settings" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sitemap Settings
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Sitemap Settings">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#prismic-pages-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      Prismic Pages Options
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#url-rewrites" class="md-nav__link">
-    <span class="md-ellipsis">
-      URL Rewrites
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cache-management" class="md-nav__link">
-    <span class="md-ellipsis">
-      Cache Management
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#technical-details" class="md-nav__link">
-    <span class="md-ellipsis">
-      Technical Details
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Technical Details">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#configuration-paths" class="md-nav__link">
-    <span class="md-ellipsis">
-      Configuration Paths
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#security-considerations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Security Considerations
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#csp-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      CSP Configuration
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#get-the-repository-url" class="md-nav__link">
-    <span class="md-ellipsis">
-      Get the repository url
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Get the repository url">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#optionally-protect-with-a-key" class="md-nav__link">
-    <span class="md-ellipsis">
-      Optionally, protect with a key
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#content-types" class="md-nav__link">
-    <span class="md-ellipsis">
-      Content types
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#fetch-links" class="md-nav__link">
-    <span class="md-ellipsis">
-      Fetch Links
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#debugging" class="md-nav__link">
-    <span class="md-ellipsis">
-      Debugging
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#preview-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      Preview mode
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multi-repo" class="md-nav__link">
-    <span class="md-ellipsis">
-      Multi repo
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1620,152 +1314,62 @@
   
 
 
-<h1 id="configuration">Configuration</h1>
-<p>The Prismic module can be configured in the Magento admin panel under Stores &gt; Configuration &gt; Elgentos &gt; Prismic.IO.</p>
-<h2 id="general-settings">General Settings</h2>
-<h3 id="basic-configuration">Basic Configuration</h3>
-<ul>
-<li><strong>Enabled</strong> - Enable/disable the Prismic integration</li>
-<li><strong>API Endpoint (URL)</strong> - Your Prismic repository API endpoint</li>
-<li><strong>Access Token</strong> - Your Prismic API access token</li>
-</ul>
-<h3 id="multi-repository-support">Multi-repository Support</h3>
-<ul>
-<li><strong>Enabled</strong> - Enable support for querying multiple Prismic repositories</li>
-<li><strong>Field</strong> - Specify which field to use for matching documents across repositories (default: uid)</li>
-</ul>
-<h2 id="content-settings">Content Settings</h2>
-<h3 id="language-configuration">Language Configuration</h3>
-<ul>
-<li><strong>Language</strong> - Set the primary content language for Prismic documents</li>
-<li><strong>Language Fallback</strong> - Configure a fallback language if content isn't available in primary language</li>
-<li><strong>Default Content Type</strong> - Set the default content type for Prismic documents</li>
-</ul>
-<h3 id="content-features">Content Features</h3>
-<ul>
-<li><strong>Fetchlinks</strong> - Specify which related fields to fetch from Prismic in one call (format: <code>customtype.field,customtype.field</code>)</li>
-<li><strong>Debugging</strong> - Enable debug output in developer mode</li>
-<li><strong>Throw Exceptions</strong> - Enable exception throwing for layout errors in developer mode</li>
-<li><strong>Preview</strong> - Enable Prismic preview features</li>
-</ul>
-<h2 id="integration-fields">Integration Fields</h2>
-<h3 id="product-integration">Product Integration</h3>
-<ul>
-<li><strong>Product Attributes</strong> - Select which product attributes to make available in Prismic</li>
-<li><strong>Synchronize Disabled Products</strong> - Choose whether to sync disabled products</li>
-<li><strong>Visibilities to Synchronize</strong> - Select which product visibility types to sync</li>
-<li><strong>Access Token</strong> - Set access token for integration fields API</li>
-</ul>
-<h3 id="default-available-attributes">Default Available Attributes</h3>
-<p>The following attributes are always available:
-- name
-- image
-- status
-- short_description
-- updated_at</p>
-<h2 id="webhook-configuration">Webhook Configuration</h2>
-<ul>
-<li><strong>Secret</strong> - Set the webhook secret for authentication</li>
-<li><strong>Content Types for URL Rewrites</strong> - Select content types for automatic URL rewrite generation</li>
-<li><strong>Cache Flush Content Types</strong> - Select content types that trigger cache flush on update</li>
-</ul>
-<h2 id="sitemap-settings">Sitemap Settings</h2>
-<h3 id="prismic-pages-options">Prismic Pages Options</h3>
-<ul>
-<li><strong>Include Content Types</strong> - Select which content types to include in sitemap</li>
-<li><strong>Frequency</strong> - Set update frequency for Prismic pages</li>
-<li><strong>Priority</strong> - Set priority for Prismic pages (0.0 to 1.0)</li>
-</ul>
-<h2 id="url-rewrites">URL Rewrites</h2>
-<ul>
-<li><strong>Content Types</strong> - Select which content types should generate automatic URL rewrites</li>
-<li>Requires webhook setup for automatic URL rewrite generation</li>
-</ul>
-<h2 id="cache-management">Cache Management</h2>
-<ul>
-<li><strong>Cache Flush Content Types</strong> - Select which content types trigger cache flush when updated</li>
-<li>Requires webhook setup for automatic cache management</li>
-</ul>
-<h2 id="technical-details">Technical Details</h2>
-<h3 id="configuration-paths">Configuration Paths</h3>
-<p>All configuration values are stored under the <code>prismicio</code> section in Magento's configuration:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">&lt;prismicio&gt;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nt">&lt;general&gt;</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">        </span><span class="nt">&lt;enabled&gt;</span>0<span class="nt">&lt;/enabled&gt;</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="nt">&lt;endpoint/&gt;</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="nt">&lt;token/&gt;</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">&lt;/general&gt;</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="nt">&lt;multirepo&gt;</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="nt">&lt;enabled&gt;</span>0<span class="nt">&lt;/enabled&gt;</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="nt">&lt;field&gt;</span>uid<span class="nt">&lt;/field&gt;</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="nt">&lt;/multirepo&gt;</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nt">&lt;content&gt;</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">        </span><span class="nt">&lt;language/&gt;</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">        </span><span class="nt">&lt;language_fallback/&gt;</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">        </span><span class="nt">&lt;content_type/&gt;</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">        </span><span class="nt">&lt;fetchlinks/&gt;</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">        </span><span class="nt">&lt;allow_debug&gt;</span>1<span class="nt">&lt;/allow_debug&gt;</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">        </span><span class="nt">&lt;throw_exceptions&gt;</span>0<span class="nt">&lt;/throw_exceptions&gt;</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">        </span><span class="nt">&lt;allow_preview&gt;</span>0<span class="nt">&lt;/allow_preview&gt;</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="nt">&lt;/content&gt;</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">    </span><span class="nt">&lt;integration_fields&gt;</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">        </span><span class="nt">&lt;attributes&gt;</span>sku<span class="nt">&lt;/attributes&gt;</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">        </span><span class="nt">&lt;sync_disabled_products&gt;</span>0<span class="nt">&lt;/sync_disabled_products&gt;</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">        </span><span class="nt">&lt;visibility&gt;</span>4<span class="nt">&lt;/visibility&gt;</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="nt">&lt;/integration_fields&gt;</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="nt">&lt;/prismicio&gt;</span>
+<h1 id="registry">Registry</h1>
+<p>The module uses registry classes to maintain state across requests and manage current document and route information.</p>
+<h2 id="core-registry-classes">Core Registry Classes</h2>
+<h3 id="currentdocument">CurrentDocument</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="x">Elgentos\PrismicIO\Registry\CurrentDocument</span>
 </code></pre></div>
-<h3 id="security-considerations">Security Considerations</h3>
-<ul>
-<li>Access tokens should be kept secure</li>
-<li>Preview mode should only be enabled when needed</li>
-<li>Debug mode should not be enabled in production</li>
-<li>Webhook secrets should be properly configured for security</li>
-</ul>
-<h3 id="csp-configuration">CSP Configuration</h3>
-<p>The module automatically configures Content Security Policy (CSP) rules for:
-- script-src: <em>.prism.app-us1.com, </em>.prismic.io
-- connect-src: <em>.prism.app-us1.com, </em>.prismic.io
-- img-src: <em>.prism.app-us1.com, </em>.prismic.io</p>
-<h2 id="get-the-repository-url">Get the repository url</h2>
-<p>Head over to <a href="https://prismic.io/">Prismic.io</a>, click Dashboard or Login</p>
-<ul>
-<li>click on your repository</li>
-<li>click on settings</li>
-<li>click on Configuration / Api &amp; Security</li>
-<li>copy the API endpoint</li>
-</ul>
-<p>Head over to the admin of your Magento installation.</p>
-<ul>
-<li>click on Stores / Configuration</li>
-<li>click on Elgentos / Prismic.IO</li>
-<li>under <strong>General</strong><ul>
-<li>Enable Prismic</li>
-<li><a href="#multi-repo">Multi-repo</a></li>
-<li>Add the API endpoint copied over from Prismic</li>
-<li>optionally add a API secret <a href="#optionally-protect-with-a-key">see below</a></li>
-<li>save</li>
-</ul>
+<p>Maintains reference to the current Prismic document.</p>
+<h3 id="currentroute">CurrentRoute</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="x">Elgentos\PrismicIO\Registry\CurrentRoute</span>
+</code></pre></div>
+<p>Maintains reference to the current route.</p>
+<h2 id="implementation">Implementation</h2>
+<h3 id="currentdocument_1">CurrentDocument</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="x">public function setDocument(\stdClass $document): void</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="x">public function getDocument(): ?\stdClass</span>
+</code></pre></div>
+<h3 id="currentroute_1">CurrentRoute</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="x">public function setRoute(RouteInterface $route): void</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="x">public function getRoute(): ?RouteInterface</span>
+</code></pre></div>
+<h2 id="usage-examples">Usage Examples</h2>
+<h3 id="document-registry">Document Registry</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="x">/** @var $currentDocument CurrentDocument */</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="x">if ($document = $currentDocument-&gt;getDocument()) {</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="x">    // Process current document</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="x">}</span>
+</code></pre></div>
+<h3 id="route-registry">Route Registry</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="x">/** @var $currentRoute CurrentRoute */</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="x">if ($route = $currentRoute-&gt;getRoute()) {</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="x">    // Process current route</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="x">}</span>
+</code></pre></div>
+<h2 id="best-practices">Best Practices</h2>
+<ol>
+<li><strong>State Management</strong></li>
+<li>Clear registry when needed</li>
+<li>Avoid circular references</li>
+<li>
+<p>Handle missing data</p>
 </li>
-<li>Content section<ul>
-<li>Select default language (or set per store)</li>
-<li>Set <a href="#content-types">Default content type</a></li>
-<li>Optionally set <a href="#fetch-links">Fetchlinks</a></li>
-<li>Optionally enable <a href="#debugging">Debugging</a></li>
-<li>Optionally enable <a href="#preview-mode">Preview</a></li>
-</ul>
+<li>
+<p><strong>Performance</strong></p>
 </li>
-<li>Integration Fields section</li>
-<li>Product Attributes
-    <em>Attributes to make available in Prismic Integration Fields. The following attributes will always be made available: name, image, status, short_description, updated_at.</em></li>
-<li>Sitemap section</li>
-</ul>
-<h3 id="optionally-protect-with-a-key">Optionally, protect with a key</h3>
-<h3 id="content-types">Content types</h3>
-<h3 id="fetch-links">Fetch Links</h3>
-<h3 id="debugging">Debugging</h3>
-<h3 id="preview-mode">Preview mode</h3>
-<h3 id="multi-repo">Multi repo</h3>
+<li>Minimize registry usage</li>
+<li>Clear unnecessary data</li>
+<li>
+<p>Consider memory impact</p>
+</li>
+<li>
+<p><strong>Development</strong></p>
+</li>
+<li>Document registry usage</li>
+<li>Handle edge cases</li>
+<li>Maintain consistency </li>
+</ol>
 
 
 

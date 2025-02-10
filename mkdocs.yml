@@ -12,12 +12,6 @@ nav:
     - Installation: basics/installation.md
     - Configuration: basics/configuration.md
     - Content types: basics/content-types.md
-    - Routing: basics/routing.md
-    - Routes: basics/routes.md
-    - Multi-repo: basics/multi-repo.md
-    - Document structure: basics/document-structure.md
-    - Sitemap: basics/sitemap.md
-    - Webhooks: basics/webhooks.md
   - Frontend:
     - Layout handles: layout/handles.md
     - Debug: layout/debug.md
@@ -27,6 +21,13 @@ nav:
     - Static blocks: layout/static-blocks.md
     - Document Links: layout/document-links.md
     - Alternate languages: layout/alternate-languages.md
+  - Advanced:
+    - Routing: advanced/routing.md
+    - Routes: advanced/routes-admin.md
+    - Multi-repo: advanced/multi-repo.md
+    - Sitemap: advanced/sitemap.md
+    - Integration fields: advanced/integration-fields.md
+    - Webhooks: advanced/webhooks.md
   - Technical description:
     - Blocks:
       - Prismic fields: technical/blocks/prismic-fields.md
@@ -40,7 +41,6 @@ nav:
     - Registry: technical/registry.md
     - Renderer: technical/renderer.md
   - Best Practices: best-practices.md
-  - Integration fields: integration-fields.md
 #  - Changelog: changelog.md
 extra:
   social:

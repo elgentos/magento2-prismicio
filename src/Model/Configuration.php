@@ -237,4 +237,34 @@ class Configuration implements ConfigurationInterface
             $store
         ) ?? '');
     }
+
+    public function isWhitelistEnabled(StoreInterface $store): bool
+    {
+        return (bool)$this->config->getValue(
+            self::XML_PATH_WHITELIST_ENABLED,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+    }
+
+    public function getContentTypes(StoreInterface $store): array
+    {
+        $configValue = $this->config->getValue(
+            self::XML_PATH_WHITELIST_CONTENT_TYPES,
+            ScopeInterface::SCOPE_STORE,
+            $store
+        );
+
+        return $configValue ? explode(',', $configValue) : [];
+    }
+
+    public function isWhitelistContentTypeWhitelisted(StoreInterface $store, string $contentType): bool
+    {
+        // safety mechanism for when enabled but no whitelist items are present
+        if (!$this->isWhitelistEnabled($store) || empty($this->getContentTypes($store))) {
+            return true;
+        }
+
+        return in_array($contentType, $this->getContentTypes($store), true);
+    }
 }

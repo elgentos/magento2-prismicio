@@ -127,6 +127,19 @@
                 </field>
             </group>
 
+            <group id="whitelist" translate="true" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Whitelist</label>
+                <field id="enabled" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="select">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                </field>
+                <field id="content_types" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="multiselect">
+                    <label>Whitelist content types</label>
+                    <source_model>Elgentos\PrismicIO\Model\Source\ContentTypes</source_model>
+                    <comment/>
+                </field>
+            </group>
+
             <group id="url_rewrites" translate="true" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Url Rewrites</label>
                 <field id="content_types" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="multiselect">

@@ -260,10 +260,11 @@ class Configuration implements ConfigurationInterface
 
     public function isWhitelistContentTypeWhitelisted(StoreInterface $store, string $contentType): bool
     {
-        if (!$this->isWhitelistEnabled($store)) {
+        // safety mechanism for when enabled but no whitelist items are present
+        if (!$this->isWhitelistEnabled($store) || empty($this->getContentTypes($store))) {
             return true;
         }
 
-        return in_array($contentType, $this->getContentTypes($store));
+        return in_array($contentType, $this->getContentTypes($store), true);
     }
 }

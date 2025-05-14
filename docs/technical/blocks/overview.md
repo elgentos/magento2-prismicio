@@ -30,9 +30,9 @@ public function mergeDocuments(\stdClass ...$allDocuments): array
 
 ```xml
 <block class="Elgentos\PrismicIO\Block\Overview" name="blog.list">
-    <arguments>
-        <argument name="document_type" xsi:type="string">blog_post</argument>
-    </arguments>
+   <action method="setDocumentType">
+      <argument name="documentType" xsi:type="string">blog_post</argument>
+   </action>
 </block>
 ```
 

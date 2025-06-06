@@ -11,13 +11,23 @@ class Slices extends Group
     public function fetchItem(\stdClass $slice, $key = null): string
     {
         $sliceTypeBlock = $this->getSliceTypeBlock($slice->slice_type);
-        if (null === $sliceTypeBlock) {
-            SliceNotFoundException::throwException($this, [
+        $excludedSlicesFromRender = $this->getData('excluded_slices');
+
+        if (
+            null === $sliceTypeBlock &&
+            !in_array($slice->slice_type, $excludedSlicesFromRender ?? [])
+        ) {
+        
+            SliceNotFoundException::throwException(
+                $this,
+                [
                 'slice_type' => $slice->slice_type,
-            ]);
+                ]
+            );
+
             return '';
         }
-
+        
         $sliceTypeBlock->setDocument($slice);
         return $sliceTypeBlock->toHtml();
     }

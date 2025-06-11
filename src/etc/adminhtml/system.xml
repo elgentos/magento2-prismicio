@@ -29,6 +29,13 @@
                         <field id="enabled">1</field>
                     </depends>
                 </field>
+                <field id="page_size" showInDefault="1" showInWebsite="1" showInStore="1" translate="label">
+                    <label>API page size</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <comment>How many documents to fetch per page, default is 20, maximum is 100</comment>
+                </field>
             </group>
 
             <group id="multirepo" translate="label" showInDefault="1" showInWebsite="1" showInStore="1">

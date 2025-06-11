@@ -23,7 +23,7 @@ class PrismicPages implements ItemProviderInterface
      * @var SitemapItemFactory
      */
     protected $itemFactory;
-    
+
     /**
      * @var Api
      */
@@ -79,7 +79,10 @@ class PrismicPages implements ItemProviderInterface
         foreach ($sitemapContentTypes as $sitemapContentType) {
             $localeDocuments = $api->query(
                 [Predicates::at('document.type', $sitemapContentType)],
-                ['lang' => $this->configuration->getContentLanguage($store)]
+                [
+                    'lang' => $this->configuration->getContentLanguage($store),
+                    'pageSize' => $this->configuration->getApiPageSize($store)
+                ]
             );
 
             foreach (range(1, $localeDocuments->total_pages) as $page) {
@@ -87,7 +90,8 @@ class PrismicPages implements ItemProviderInterface
                     [Predicates::at('document.type', $sitemapContentType)],
                     [
                         'lang' => $this->configuration->getContentLanguage($store),
-                        'page' => $page
+                        'page' => $page,
+                        'pageSize' => $this->configuration->getApiPageSize($store)
                     ]
                 );
 

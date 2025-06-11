@@ -13,6 +13,7 @@
                 <multirepo>0</multirepo>
                 <enpoint />
                 <token />
+                <page_size>20</page_size>
             </general>
             <multirepo>
                 <enabled>0</enabled>

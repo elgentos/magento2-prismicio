@@ -53,6 +53,15 @@ class Configuration implements ConfigurationInterface
         );
     }
 
+    public function getApiPageSize(StoreInterface $store): int
+    {
+        return (int)($this->config->getValue(
+            self::XML_PATH_API_PAGE_SIZE,
+            ScopeInterface::SCOPE_STORE,
+            $store,
+        ) ?? 20);
+    }
+
     public function getContentLanguage(StoreInterface $store): string
     {
         return (string)($this->config->getValue(

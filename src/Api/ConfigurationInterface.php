@@ -12,6 +12,7 @@ interface ConfigurationInterface
         XML_PATH_API_ENABLED                        = 'prismicio/general/enabled',
         XML_PATH_API_ENDPOINT                       = 'prismicio/general/enpoint',
         XML_PATH_API_SECRET                         = 'prismicio/general/token',
+        XML_PATH_API_PAGE_SIZE                      = 'prismicio/general/page_size',
 
         XML_PATH_MULTI_REPO_ENABLED                 = 'prismicio/multirepo/enabled',
         XML_PATH_MULTI_REPO_FIELD                   = 'prismicio/multirepo/field',
@@ -42,6 +43,8 @@ interface ConfigurationInterface
     public function getApiEndpoint(StoreInterface $store): string;
 
     public function getApiSecret(StoreInterface $store): string;
+
+    public function getApiPageSize(StoreInterface $store): int;
 
     public function getMultiRepoEnabled(StoreInterface $store): bool;
 

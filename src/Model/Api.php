@@ -66,7 +66,7 @@ class Api
      *
      * @return string|null
      */
-    public function getDocumentIdInLanguage(string $language, \stdClass $document = null): ?string
+    public function getDocumentIdInLanguage(string $language, ?\stdClass $document = null): ?string
     {
         $alternateLanguages = (array)($document->alternate_languages ?? []);
         if (empty($alternateLanguages)) {
@@ -90,7 +90,7 @@ class Api
      * @return string|null
      * @throws NoSuchEntityException
      */
-    public function getDocumentIdInFallbackLanguage(\stdClass $document = null): ?string
+    public function getDocumentIdInFallbackLanguage(?\stdClass $document = null): ?string
     {
         if (! $this->isFallbackAllowed()) {
             return null;
@@ -109,7 +109,7 @@ class Api
      * @return string|null
      * @throws NoSuchEntityException
      */
-    public function getDocumentIdInHomeLanguage(\stdClass $document = null): ?string
+    public function getDocumentIdInHomeLanguage(?\stdClass $document = null): ?string
     {
         if (! $this->isFallbackAllowed()) {
             return null;
@@ -208,7 +208,7 @@ class Api
      * @throws ApiNotEnabledException
      * @throws NoSuchEntityException
      */
-    public function getDocumentByUid(string $uid, string $contentType = null, array $options = []): ?\stdClass
+    public function getDocumentByUid(string $uid, ?string $contentType = null, array $options = []): ?\stdClass
     {
 
         $contentType ??= $this->getDefaultContentType();
@@ -237,7 +237,7 @@ class Api
      * @throws ApiNotEnabledException
      * @throws NoSuchEntityException
      */
-    public function getSingleton(string $contentType = null, array $options = []): ?\stdClass
+    public function getSingleton(?string $contentType = null, array $options = []): ?\stdClass
     {
         $contentType ??= $this->getDefaultContentType();
         $api = $this->create();

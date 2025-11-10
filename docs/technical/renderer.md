@@ -23,7 +23,7 @@ Integrates with Magento's template system.
 ### Page Rendering
 
 ```php
-public function renderPageByUid(string $uid, string $contentType = null)
+public function renderPageByUid(string $uid, ?string $contentType = null)
 {
     // Fetch and render document
 }

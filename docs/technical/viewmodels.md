@@ -44,8 +44,8 @@ Manages route resolution for Prismic documents.
 ```php
 public function hasDocument(): bool
 public function getDocument(): \stdClass
-public function hasContext(string $documentReference, \stdClass $document = null): bool
-public function getContext(string $documentReference, \stdClass $document = null)
+public function hasContext(string $documentReference, ?\stdClass $document = null): bool
+public function getContext(string $documentReference, ?\stdClass $document = null)
 ```
 
 ### LinkResolver

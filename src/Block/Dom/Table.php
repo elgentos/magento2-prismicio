@@ -12,16 +12,13 @@ use Elgentos\PrismicIO\Helper\CreateTableLayout;
 
 class Table extends AbstractBlock
 {
-    private CreateTableLayout $tableHelper;
-    
     public function __construct(
         Context $context,
         DocumentResolver $documentResolver,
         LinkResolver $linkResolver,
-        CreateTableLayout $tableHelper,
+        private readonly CreateTableLayout $tableHelper,
         array $data = []
     ) {
-        $this->tableHelper = $tableHelper;
         parent::__construct($context, $documentResolver, $linkResolver, $data);
     }
 

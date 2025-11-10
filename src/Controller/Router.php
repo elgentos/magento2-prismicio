@@ -25,45 +25,8 @@ use Magento\Store\Model\StoreManagerInterface;
 class Router implements RouterInterface
 {
 
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
-    /**
-     * @var SearchCriteriaInterface
-     */
-    private $searchCriteria;
-    /**
-     * @var CurrentRoute
-     */
-    private $currentRoute;
-    /**
-     * @var Collection
-     */
-    private $collection;
-    /**
-     * @var ActionFactory
-     */
-    private $actionFactory;
-    /**
-     * @var ConfigurationInterface
-     */
-    private $configuration;
-
-    public function __construct(
-        StoreManagerInterface $storeManager,
-        CollectionFactory $collection,
-        SearchCriteriaInterface $searchCriteria,
-        CurrentRoute $currentRoute,
-        ActionFactory $actionFactory,
-        ConfigurationInterface $configuration
-    ) {
-        $this->storeManager = $storeManager;
-        $this->collection = $collection;
-        $this->searchCriteria = $searchCriteria;
-        $this->currentRoute = $currentRoute;
-        $this->actionFactory = $actionFactory;
-        $this->configuration = $configuration;
+    public function __construct(private readonly StoreManagerInterface $storeManager, private readonly CollectionFactory $collection, private readonly SearchCriteriaInterface $searchCriteria, private readonly CurrentRoute $currentRoute, private readonly ActionFactory $actionFactory, private readonly ConfigurationInterface $configuration)
+    {
     }
 
     /**

@@ -18,20 +18,12 @@ use Magento\Framework\View\Result\PageFactory;
 class Index extends Action implements HttpGetActionInterface, HttpPostActionInterface
 {
 
-    /** @var PageFactory */
-    private $pageFactory;
-    /** @var CurrentRoute */
-    private $currentRoute;
-
     public function __construct(
         Context $context,
-        CurrentRoute $currentRoute,
-        PageFactory $pageFactory
+        private readonly CurrentRoute $currentRoute,
+        private readonly PageFactory $pageFactory
     ) {
         parent::__construct($context);
-
-        $this->currentRoute = $currentRoute;
-        $this->pageFactory = $pageFactory;
     }
 
 

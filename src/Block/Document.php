@@ -13,17 +13,13 @@ use Magento\Framework\View\Element\Context;
 class Document extends AbstractBlock
 {
 
-    /** @var Api */
-    private $api;
-
     public function __construct(
         Context $context,
         DocumentResolver $documentResolver,
         LinkResolver $linkResolver,
-        Api $api,
+        private readonly Api $api,
         array $data = []
     ) {
-        $this->api = $api;
         parent::__construct($context, $documentResolver, $linkResolver, $data);
     }
 

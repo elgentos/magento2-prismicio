@@ -95,16 +95,14 @@ class Products implements HttpGetActionInterface
         $productCollection->setCurPage((int)$this->request->getParam('page', 1));
 
         $mediaUrl = $this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA);
-        $results = array_values(array_map(function ($product) use ($mediaUrl) {
-            return [
-                'id' => $product->getId(),
-                'title' => $product->getName(),
-                'description' => $product->getShortDescription() ?? '',
-                'image_url' => $mediaUrl . 'catalog/product/' . $product->getImage(),
-                'last_update' => (int)date('U', strtotime($product->getUpdatedAt())),
-                'blob' => $product->getData()
-            ];
-        }, $productCollection->getItems()));
+        $results = array_values(array_map(fn($product) => [
+            'id' => $product->getId(),
+            'title' => $product->getName(),
+            'description' => $product->getShortDescription() ?? '',
+            'image_url' => $mediaUrl . 'catalog/product/' . $product->getImage(),
+            'last_update' => (int)date('U', strtotime((string) $product->getUpdatedAt())),
+            'blob' => $product->getData()
+        ], $productCollection->getItems()));
 
         $jsonResult = $this->jsonFactory->create();
         $jsonResult->setData([

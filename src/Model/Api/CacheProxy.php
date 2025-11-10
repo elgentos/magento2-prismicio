@@ -12,15 +12,8 @@ class CacheProxy implements CacheInterface
         'PRISMICIO_API'
     ];
 
-    /**
-     * @var MagentoCache
-     */
-    private $magentoCache;
-
-    public function __construct(
-        MagentoCache $magentoCache
-    ) {
-        $this->magentoCache = $magentoCache;
+    public function __construct(private readonly MagentoCache $magentoCache)
+    {
     }
 
     /*

@@ -47,6 +47,7 @@ abstract class AbstractBlock extends FrameworkAbstractBlock implements BlockInte
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _toHtml()
     {
         if (! $this->hasContext()) {

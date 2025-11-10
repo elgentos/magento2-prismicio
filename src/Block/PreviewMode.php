@@ -12,27 +12,16 @@ class PreviewMode extends Template
     public const PRISMICIO_PREVIEW_URL
             = 'https://static.cdn.prismic.io/prismic.js?new=true&repo=';
 
-    /**
-     * @var ConfigurationInterface
-     */
-    private $configuration;
-    /**
-     * @var StoreManager
-     */
-    private $storeManager;
-
     public function __construct(
         Template\Context $context,
-        ConfigurationInterface $configuration,
-        StoreManager $storeManager,
+        private readonly ConfigurationInterface $configuration,
+        private readonly StoreManager $storeManager,
         array $data = []
     ) {
-        $this->configuration = $configuration;
-        $this->storeManager = $storeManager;
-
         parent::__construct($context, $data);
     }
 
+    #[\Override]
     protected function _toHtml()
     {
         if (! $this->configuration->allowPreviewInFrontend($this->storeManager->getStore())) {

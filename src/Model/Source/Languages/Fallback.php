@@ -6,6 +6,7 @@ use Elgentos\PrismicIO\Model\Source\Languages;
 
 class Fallback extends Languages
 {
+    #[\Override]
     public function toOptionArray(): array
     {
         $defaultOption = [

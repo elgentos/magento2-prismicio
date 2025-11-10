@@ -17,11 +17,6 @@ use Elgentos\PrismicIO\Model\ResourceModel\Route\CollectionFactory;
 class RouteRepository implements RouteRepositoryInterface
 {
 
-    /**
-     * @var CollectionFactory
-     */
-    private $collectionFactory;
-
     /** @var []RouteInterface */
     protected $routes = [];
 
@@ -32,10 +27,8 @@ class RouteRepository implements RouteRepositoryInterface
     /** @var bool */
     protected $initialized = false;
 
-    public function __construct(
-        CollectionFactory $collectionFactory
-    ) {
-        $this->collectionFactory = $collectionFactory;
+    public function __construct(private readonly CollectionFactory $collectionFactory)
+    {
     }
 
     public function get(int $id): RouteInterface

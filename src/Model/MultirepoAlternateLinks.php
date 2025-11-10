@@ -73,7 +73,7 @@ class MultirepoAlternateLinks
                         'lang' => $configuration->getContentLanguage($store)
                     ]
                 );
-            } catch (RequestFailureException $e) {
+            } catch (RequestFailureException) {
                 $this->documentLanguageCache[$cacheKey] = false;
                 continue;
             }

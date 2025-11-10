@@ -13,6 +13,7 @@ use Prismic\Dom\Link as PrismicLink;
 
 class ClickableLink extends Link
 {
+    #[\Override]
     public function fetchDocumentView(): string
     {
         return '<a href="' . parent::fetchDocumentView() . '">' . ($this->getLinkTitle() ?: 'Click here') . '</a>';

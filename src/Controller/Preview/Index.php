@@ -15,27 +15,18 @@ use Magento\Framework\Controller\Result\ForwardFactory;
 class Index extends Action implements HttpGetActionInterface, HttpPostActionInterface
 {
 
-    /** @var Api */
-    private $api;
     /** @var LinkResolver */
     private $linkResolver;
-    /** @var RedirectFactory */
-    private $redirectFactory;
-    /** @var ForwardFactory */
-    private $forwardFactory;
 
     public function __construct(
         Context $context,
-        Api $api,
+        private readonly Api $api,
         LinkResolver $linkResolver,
-        RedirectFactory $redirectFactory,
-        ForwardFactory $forwardFactory
+        private readonly RedirectFactory $redirectFactory,
+        private readonly ForwardFactory $forwardFactory
     ) {
         parent::__construct($context);
-        $this->api = $api;
         $this->linkResolver = $linkResolver;
-        $this->redirectFactory = $redirectFactory;
-        $this->forwardFactory = $forwardFactory;
     }
 
 

@@ -18,32 +18,8 @@ use Magento\Store\Model\StoreManagerInterface;
 
 class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
 {
-    private RequestInterface $request;
-
-    private ConfigurationInterface $configuration;
-
-    private StoreManagerInterface $storeManager;
-
-    private Api $apiFactory;
-
-    private ResultFactory $resultFactory;
-
-    private TypeListInterface $typeList;
-
-    public function __construct(
-        RequestInterface       $request,
-        ConfigurationInterface $configuration,
-        StoreManagerInterface  $storeManager,
-        Api                    $apiFactory,
-        ResultFactory          $resultFactory,
-        TypeListInterface      $typeList
-    ) {
-        $this->request = $request;
-        $this->configuration = $configuration;
-        $this->storeManager = $storeManager;
-        $this->apiFactory = $apiFactory;
-        $this->resultFactory = $resultFactory;
-        $this->typeList = $typeList;
+    public function __construct(private readonly RequestInterface       $request, private readonly ConfigurationInterface $configuration, private readonly StoreManagerInterface  $storeManager, private readonly Api                    $apiFactory, private readonly ResultFactory          $resultFactory, private readonly TypeListInterface      $typeList)
+    {
     }
 
     public function execute(): ?ResultInterface

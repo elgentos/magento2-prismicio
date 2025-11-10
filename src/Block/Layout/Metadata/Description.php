@@ -12,6 +12,7 @@ use Elgentos\PrismicIO\Block\AbstractTemplate;
 
 class Description extends AbstractTemplate
 {
+    #[\Override]
     protected function _prepareLayout()
     {
         if (! $this->getDocumentResolver()->hasDocument()) {

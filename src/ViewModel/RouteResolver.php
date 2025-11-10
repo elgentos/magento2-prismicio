@@ -11,15 +11,8 @@ use Magento\Framework\View\Element\Block\ArgumentInterface;
 class RouteResolver implements ArgumentInterface
 {
 
-    /**
-     * @var CurrentRoute
-     */
-    private $currentRoute;
-
-    public function __construct(
-        CurrentRoute $currentRoute
-    ) {
-        $this->currentRoute = $currentRoute;
+    public function __construct(private readonly CurrentRoute $currentRoute)
+    {
     }
 
     public function getRoute(): RouteInterface

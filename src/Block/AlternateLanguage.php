@@ -25,6 +25,7 @@ class AlternateLanguage extends AbstractTemplate
         $this->setReference('alternate_languages');
     }
 
+    #[\Override]
     public function toHtml()
     {
         if ($this->storeManager->isSingleStoreMode()) {

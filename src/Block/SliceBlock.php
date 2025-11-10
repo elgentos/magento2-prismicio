@@ -6,6 +6,7 @@ use Elgentos\PrismicIO\Block\Exception\SliceBlockNotFoundException;
 
 class SliceBlock extends AbstractBlock
 {
+    #[\Override]
     protected function _toHtml(): string
     {
         return $this->fetchDocumentView();

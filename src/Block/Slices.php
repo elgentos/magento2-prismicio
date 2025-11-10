@@ -8,6 +8,7 @@ use Elgentos\PrismicIO\Block\Exception\SliceNotFoundException;
 
 class Slices extends Group
 {
+    #[\Override]
     public function fetchItem(\stdClass $slice, $key = null): string
     {
         $sliceTypeBlock = $this->getSliceTypeBlock($slice->slice_type);

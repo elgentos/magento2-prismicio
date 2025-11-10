@@ -4,6 +4,7 @@ namespace Elgentos\PrismicIO\Ui\Component\Routes\Column;
 
 class PageActions extends \Magento\Ui\Component\Listing\Columns\Column
 {
+    #[\Override]
     public function prepareDataSource(array $dataSource)
     {
         if (isset($dataSource['data']['items'])) {

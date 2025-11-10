@@ -15,6 +15,7 @@ class Wrapper extends Template
      * @throws \Magento\Framework\Exception\LocalizedException
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
+    #[\Override]
     protected function _prepareLayout()
     {
         $breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs');

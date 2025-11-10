@@ -7,7 +7,7 @@ class Store extends \Magento\Framework\Model\AbstractModel implements \Elgentos\
 
     protected function _construct()
     {
-        $this->_init('Elgentos\PrismicIO\Model\ResourceModel\Route\Store');
+        $this->_init(\Elgentos\PrismicIO\Model\ResourceModel\Route\Store::class);
     }
 
     public function getIdentities()

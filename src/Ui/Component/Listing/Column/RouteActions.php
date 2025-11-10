@@ -39,6 +39,7 @@ class RouteActions extends \Magento\Ui\Component\Listing\Columns\Column
      * @param array $dataSource
      * @return array
      */
+    #[\Override]
     public function prepareDataSource(array $dataSource)
     {
         if (isset($dataSource['data']['items'])) {

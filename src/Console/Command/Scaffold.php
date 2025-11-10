@@ -94,7 +94,7 @@ class Scaffold extends Command
         Reader $moduleReader,
         RouteFactory $routeFactory,
         RouteStoreFactory $routeStoreFactory,
-        string $name = null
+        ?string $name = null
     )
     {
         parent::__construct($name);
@@ -219,7 +219,7 @@ class Scaffold extends Command
         $routePrefix = $questionHelper->ask($this->input, $this->output, $routePrefixQuestion);
         $storeId = (int) $questionHelper->ask($this->input, $this->output, $storeIdQuestion);
 
-        $routePrefix = '/' . trim($routePrefix, '/');
+        $routePrefix = '/' . trim((string) $routePrefix, '/');
         $route = $this->routeFactory->create();
         $route->setData(['title' => $this->customType, 'content_type' => $this->customType, 'route' => $routePrefix, 'status' => 1]);
         try {

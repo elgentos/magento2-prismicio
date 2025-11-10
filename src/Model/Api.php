@@ -18,21 +18,8 @@ use Prismic\Api as PrismicApi;
 
 class Api
 {
-    private ConfigurationInterface $configuration;
-
-    private StoreManagerInterface $storeManager;
-
-    private CacheProxy $cacheProxy;
-
-
-    public function __construct(
-        ConfigurationInterface $configuration,
-        StoreManagerInterface $storeManager,
-        CacheProxy $cacheProxy,
-    ) {
-        $this->configuration = $configuration;
-        $this->storeManager = $storeManager;
-        $this->cacheProxy = $cacheProxy;
+    public function __construct(private readonly ConfigurationInterface $configuration, private readonly StoreManagerInterface $storeManager, private readonly CacheProxy $cacheProxy)
+    {
     }
 
     /**
@@ -86,9 +73,7 @@ class Api
             return null;
         }
 
-        $availableLanguages = array_filter($alternateLanguages, function($lang) use ($language) {
-            return ($lang->lang ?? null) === $language;
-        });
+        $availableLanguages = array_filter($alternateLanguages, fn($lang) => ($lang->lang ?? null) === $language);
 
         $available = array_shift($availableLanguages);
         if (! $available) {
@@ -226,7 +211,7 @@ class Api
     public function getDocumentByUid(string $uid, string $contentType = null, array $options = []): ?\stdClass
     {
 
-        $contentType = $contentType ?? $this->getDefaultContentType();
+        $contentType ??= $this->getDefaultContentType();
         $api = $this->create();
 
         $allowedContentTypes = $api->getData()
@@ -254,7 +239,7 @@ class Api
      */
     public function getSingleton(string $contentType = null, array $options = []): ?\stdClass
     {
-        $contentType = $contentType ?? $this->getDefaultContentType();
+        $contentType ??= $this->getDefaultContentType();
         $api = $this->create();
 
         $allowedContentTypes = $api->getData()
@@ -265,7 +250,7 @@ class Api
 
         try {
             $document = $api->getSingle($contentType, $this->getOptions($options));
-        } catch (Exception $e) {
+        } catch (Exception) {
             return null;
         }
 

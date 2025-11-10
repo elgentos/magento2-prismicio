@@ -9,16 +9,8 @@ use stdClass;
 
 class GetStoreView
 {
-    private StoreManagerInterface $storeManager;
-
-    private ConfigurationInterface $configuration;
-
-    public function __construct(
-        StoreManagerInterface $storeManager,
-        ConfigurationInterface $configuration
-    ) {
-        $this->storeManager = $storeManager;
-        $this->configuration = $configuration;
+    public function __construct(private readonly StoreManagerInterface $storeManager, private readonly ConfigurationInterface $configuration)
+    {
     }
 
     public function getCurrentStoreView(stdClass $document): ?StoreInterface

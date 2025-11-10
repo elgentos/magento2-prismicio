@@ -11,11 +11,6 @@ use Magento\Framework\View\Element\Context;
 class FilterVars extends AbstractBlock
 {
     /**
-     * @var Filter
-     */
-    private $filter;
-
-    /**
      * MagentoVars constructor.
      * @param Context $context
      * @param DocumentResolver $documentResolver
@@ -27,11 +22,10 @@ class FilterVars extends AbstractBlock
         Context $context,
         DocumentResolver $documentResolver,
         LinkResolver $linkResolver,
-        Filter $filter,
+        private readonly Filter $filter,
         array $data = []
     ) {
         parent::__construct($context, $documentResolver, $linkResolver, $data);
-        $this->filter = $filter;
     }
 
     /**

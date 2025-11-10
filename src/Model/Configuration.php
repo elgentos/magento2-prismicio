@@ -12,18 +12,8 @@ use Magento\Store\Model\ScopeInterface;
 class Configuration implements ConfigurationInterface
 {
 
-    /** @var ScopeConfigInterface */
-    private $config;
-
-    /** @var State */
-    private $state;
-
-    public function __construct(
-        ScopeConfigInterface $config,
-        State $state
-    ) {
-        $this->config = $config;
-        $this->state = $state;
+    public function __construct(private readonly ScopeConfigInterface $config, private readonly State $state)
+    {
     }
 
     public function getApiEndpoint(StoreInterface $store): string
@@ -264,7 +254,7 @@ class Configuration implements ConfigurationInterface
             $store
         );
 
-        return $configValue ? explode(',', $configValue) : [];
+        return $configValue ? explode(',', (string) $configValue) : [];
     }
 
     public function isWhitelistContentTypeWhitelisted(StoreInterface $store, ?string $contentType): bool

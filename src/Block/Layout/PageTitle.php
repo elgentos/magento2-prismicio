@@ -12,6 +12,7 @@ use Elgentos\PrismicIO\Block\AbstractTemplate;
 
 class PageTitle extends AbstractTemplate
 {
+    #[\Override]
     protected function _prepareLayout()
     {
         if (! $this->getDocumentResolver()->hasDocument()) {

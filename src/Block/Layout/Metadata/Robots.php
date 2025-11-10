@@ -6,6 +6,7 @@ use Elgentos\PrismicIO\Block\AbstractTemplate;
 
 class Robots extends AbstractTemplate
 {
+    #[\Override]
     protected function _prepareLayout()
     {
         if (! $this->getDocumentResolver()->hasDocument()) {

@@ -17,13 +17,8 @@ class DocumentResolver implements ArgumentInterface
 {
     const CONTEXT_DELIMITER = '.';
 
-    /** @var CurrentDocument */
-    private $currentDocument;
-
-    public function __construct(
-        CurrentDocument $currentDocument
-    ) {
-        $this->currentDocument = $currentDocument;
+    public function __construct(private readonly CurrentDocument $currentDocument)
+    {
     }
 
     public function hasDocument(): bool
@@ -40,13 +35,11 @@ class DocumentResolver implements ArgumentInterface
         return $this->currentDocument->getDocument();
     }
 
-    public function hasContext(string $documentReference, \stdClass $document = null): bool
+    public function hasContext(string $documentReference, ?\stdClass $document = null): bool
     {
         try {
             $this->getContext($documentReference, $document);
-        } catch (DocumentNotFoundException $e) {
-            return false;
-        } catch (ContextNotFoundException $e) {
+        } catch (DocumentNotFoundException|ContextNotFoundException) {
             return false;
         }
 
@@ -61,9 +54,9 @@ class DocumentResolver implements ArgumentInterface
      * @throws ContextNotFoundException
      * @throws DocumentNotFoundException
      */
-    public function getContext(string $documentReference, \stdClass $document = null)
+    public function getContext(string $documentReference, ?\stdClass $document = null)
     {
-        $document = $document ?? $this->getDocument();
+        $document ??= $this->getDocument();
         if ($documentReference === '*') {
             return $document;
         }

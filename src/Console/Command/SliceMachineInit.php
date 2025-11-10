@@ -38,7 +38,7 @@ class SliceMachineInit extends Command
         $filesystem = $this->filesystem;
         $configuration = $this->configuration;
 
-        $stores = array_filter(array_map(static fn($storeCode) => $storeManager->getStore($storeCode), $input->getOption('store-code')));
+        $stores = array_filter(array_map($storeManager->getStore(...), $input->getOption('store-code')));
 
         $linked = null;
         foreach ($stores as $store) {

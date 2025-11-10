@@ -27,52 +27,22 @@ use stdClass;
 
 class Url implements HttpPostActionInterface, CsrfAwareActionInterface
 {
-    private RequestInterface $request;
-
-    private ConfigurationInterface $configuration;
-
-    private StoreManagerInterface $storeManager;
-
-    private Api $apiFactory;
-
-    private ResultFactory $resultFactory;
-
-    private UrlFinderInterface $urlFinder;
-
-    private UrlRewriteFactory $urlRewriteFactory;
-
-    private UrlPersistInterface $urlPersist;
-
-    private UrlRewriteResource $urlRewriteResource;
-
-    private LoggerInterface $logger;
-
-    private GetStoreView $getStoreView;
+    private readonly UrlRewriteFactory $urlRewriteFactory;
 
     public function __construct(
-        RequestInterface       $request,
-        ConfigurationInterface $configuration,
-        StoreManagerInterface  $storeManager,
-        Api                    $apiFactory,
-        ResultFactory          $resultFactory,
-        UrlFinderInterface     $urlFinder,
+        private readonly RequestInterface       $request,
+        private readonly ConfigurationInterface $configuration,
+        private readonly StoreManagerInterface  $storeManager,
+        private readonly Api                    $apiFactory,
+        private readonly ResultFactory          $resultFactory,
+        private readonly UrlFinderInterface     $urlFinder,
         UrlRewriteFactory      $urlRewriteFactory,
-        UrlPersistInterface    $urlPersist,
-        UrlRewriteResource     $urlRewriteResource,
-        LoggerInterface        $logger,
-        GetStoreView           $getStoreView
+        private readonly UrlPersistInterface    $urlPersist,
+        private readonly UrlRewriteResource     $urlRewriteResource,
+        private readonly LoggerInterface        $logger,
+        private readonly GetStoreView           $getStoreView
     ) {
-        $this->request = $request;
-        $this->configuration = $configuration;
-        $this->storeManager = $storeManager;
-        $this->apiFactory = $apiFactory;
-        $this->resultFactory = $resultFactory;
-        $this->logger = $logger;
-        $this->urlFinder = $urlFinder;
         $this->urlRewriteFactory = $urlRewriteFactory;
-        $this->urlPersist = $urlPersist;
-        $this->urlRewriteResource = $urlRewriteResource;
-        $this->getStoreView = $getStoreView;
     }
 
     public function execute(): ?ResultInterface
@@ -168,7 +138,7 @@ class Url implements HttpPostActionInterface, CsrfAwareActionInterface
 
         try {
             $this->urlRewriteResource->save($urlRewrite);
-        } catch (Exception $exception) {
+        } catch (Exception) {
             $this->logger->error('Could not save url rewrite for published prismic page.');
         }
     }

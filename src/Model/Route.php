@@ -32,7 +32,7 @@ class Route extends \Magento\Framework\Model\AbstractModel implements \Elgentos\
 
     protected function _construct()
     {
-        $this->_init('Elgentos\PrismicIO\Model\ResourceModel\Route');
+        $this->_init(\Elgentos\PrismicIO\Model\ResourceModel\Route::class);
     }
 
     public function getIdentities()
@@ -48,9 +48,10 @@ class Route extends \Magento\Framework\Model\AbstractModel implements \Elgentos\
      */
     public function getUidForRequestPath(string $requestPath): string
     {
-        return trim(preg_replace('#^/?' . preg_quote($this->_getData('route'), '#') . '#', '', $requestPath), '/');
+        return trim((string) preg_replace('#^/?' . preg_quote((string) $this->_getData('route'), '#') . '#', '', $requestPath), '/');
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         $id = +parent::getId();
@@ -116,16 +117,14 @@ class Route extends \Magento\Framework\Model\AbstractModel implements \Elgentos\
 
             $collection->addRouteFilter($this);
 
-            $storeIds = array_map(function (StoreInterface $store) {
-                return $store->getStoreId();
-            }, $collection->getItems());
+            $storeIds = array_map(fn(StoreInterface $store) => $store->getStoreId(), $collection->getItems());
 
             $this->setData(self::STORE_IDS, $storeIds);
         }
 
-        $storeIds = $storeIds ?? $this->_getData(self::STORE_IDS) ?? [];
+        $storeIds ??= $this->_getData(self::STORE_IDS) ?? [];
         if (! is_array($storeIds)) {
-            $storeIds = explode(',', $storeIds);
+            $storeIds = explode(',', (string) $storeIds);
         }
 
         return $storeIds;

@@ -11,6 +11,7 @@ namespace Elgentos\PrismicIO\Block\Dom;
  */
 class LinkWithTrailingSlash extends Link
 {
+    #[\Override]
     public function fetchDocumentView(): string
     {
         return $this->escapeUrl(rtrim(parent::fetchDocumentView(), '/') . '/');

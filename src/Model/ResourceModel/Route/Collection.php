@@ -7,26 +7,22 @@ use Elgentos\PrismicIO\Model\Route;
 class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
 {
 
-    /** @var StoreFactory */
-    private $storeFactory;
-
     public function __construct(
         \Magento\Framework\Data\Collection\EntityFactoryInterface $entityFactory,
         \Psr\Log\LoggerInterface $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        StoreFactory $storeFactory,
-        \Magento\Framework\DB\Adapter\AdapterInterface $connection = null,
-        \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
+        private readonly StoreFactory $storeFactory,
+        ?\Magento\Framework\DB\Adapter\AdapterInterface $connection = null,
+        ?\Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
     ) {
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
-        $this->storeFactory = $storeFactory;
     }
 
 
     protected function _construct()
     {
-        $this->_init('Elgentos\PrismicIO\Model\Route', 'Elgentos\PrismicIO\Model\ResourceModel\Route');
+        $this->_init(\Elgentos\PrismicIO\Model\Route::class, \Elgentos\PrismicIO\Model\ResourceModel\Route::class);
     }
 
     public function filterByRequestPath(string $requestPath): void

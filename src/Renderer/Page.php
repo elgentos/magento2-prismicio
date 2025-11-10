@@ -13,32 +13,18 @@ class Page
 {
     /** @var ForwardFactory */
     protected $forwardFactory;
-    /** @var RedirectFactory */
-    private $redirectFactory;
-    /** @var PageFactory */
-    private $pageFactory;
-
-    /** @var Api */
-    private $api;
-    /** @var CurrentDocument */
-    private $currentDocument;
 
     public function __construct(
         ForwardFactory $forwardFactory,
-        RedirectFactory $redirectFactory,
-        PageFactory $pageFactory,
-        Api $api,
-        CurrentDocument $currentDocument
+        private readonly RedirectFactory $redirectFactory,
+        private readonly PageFactory $pageFactory,
+        private readonly Api $api,
+        private readonly CurrentDocument $currentDocument
     ) {
         $this->forwardFactory = $forwardFactory;
-        $this->redirectFactory = $redirectFactory;
-        $this->pageFactory = $pageFactory;
-
-        $this->api = $api;
-        $this->currentDocument = $currentDocument;
     }
 
-    public function renderPageByUid(string $uid, string $contentType = null): ResultInterface
+    public function renderPageByUid(string $uid, ?string $contentType = null): ResultInterface
     {
         if (! $uid) {
             return $this->forwardNoRoute();
@@ -60,7 +46,7 @@ class Page
         return $this->createPage($document);
     }
 
-    public function renderPageBySingleton(string $contentType = null): ResultInterface
+    public function renderPageBySingleton(?string $contentType = null): ResultInterface
     {
         if (! $this->api->isActive()) {
             return $this->forwardNoRoute();

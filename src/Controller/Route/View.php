@@ -18,21 +18,13 @@ use Magento\Framework\Controller\ResultInterface;
 
 class View extends Action implements HttpGetActionInterface, HttpPostActionInterface
 {
-    /** @var CurrentRoute */
-    private $currentRoute;
-    /** @var Page */
-    private $page;
-
     public function __construct(
         Context $context,
 
-        CurrentRoute $currentRoute,
-        Page $page
+        private readonly CurrentRoute $currentRoute,
+        private readonly Page $page
     ) {
         parent::__construct($context);
-
-        $this->currentRoute = $currentRoute;
-        $this->page = $page;
     }
 
     /**

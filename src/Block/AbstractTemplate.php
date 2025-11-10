@@ -30,6 +30,7 @@ abstract class AbstractTemplate extends Template implements BlockInterface
         parent::__construct($context, $data);
     }
 
+    #[\Override]
     public function getChildHtml($alias = '', $useCache = true)
     {
         if ($this->updateChildDocumentWithContext($alias)) {
@@ -41,6 +42,7 @@ abstract class AbstractTemplate extends Template implements BlockInterface
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function _toHtml()
     {
         if (! $this->hasContext()) {

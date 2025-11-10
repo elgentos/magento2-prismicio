@@ -74,10 +74,10 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
 
             $data = ['_direct' => trim($route->getRoute(), '/') . '/' . $uid];
             return $this->getCachedUrl($store, $data, ['_ROUTED', $route->getId()], '');
-        } catch (RouteNotFoundException $e) {
+        } catch (RouteNotFoundException) {
             // Return direct page
             return $this->resolveDirectPage($link);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }
@@ -215,7 +215,7 @@ class LinkResolver extends LinkResolverAbstract implements ArgumentInterface
         $languageStoreIds = [];
         foreach ($this->storeManager->getStores() as $store) {
             $languageCode = $this->configuration->getContentLanguage($store);
-            $languageStoreIds[$languageCode] = $languageStoreIds[$languageCode] ?? +$store->getId();
+            $languageStoreIds[$languageCode] ??= +$store->getId();
         }
 
         /**

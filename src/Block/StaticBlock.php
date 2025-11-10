@@ -24,6 +24,7 @@ class StaticBlock extends AbstractBlock
         parent::__construct($context, $documentResolver, $linkResolver, $data);
     }
 
+    #[\Override]
     protected function _toHtml(): string
     {
         $this->createPrismicDocument();

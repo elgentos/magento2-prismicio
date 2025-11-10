@@ -32,9 +32,7 @@ class Attributes implements \Magento\Framework\Option\ArrayInterface
         $attributeCollection = $this->attributeCollectionFactory->create();
         if (!$this->_options) {
             /** @var \Magento\Eav\Model\Attribute $attribute */
-            $this->_options = array_map(function ($attribute) {
-                return ['value' => $attribute->getAttributeCode(), 'label' => $attribute->getName()];
-            }, $attributeCollection->getItems());
+            $this->_options = array_map(fn($attribute) => ['value' => $attribute->getAttributeCode(), 'label' => $attribute->getName()], $attributeCollection->getItems());
         }
 
         $options = $this->_options;

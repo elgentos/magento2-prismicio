@@ -17,22 +17,15 @@ use Magento\Store\Model\StoreManagerInterface;
 class Debug extends AbstractBlock
 {
 
-    /** @var ConfigurationInterface */
-    private $configuration;
-    /** var StoreManagerInterface */
-    private $storeManager;
-
     public function __construct(
         Context $context,
         DocumentResolver $documentResolver,
         LinkResolver $linkResolver,
-        ConfigurationInterface $configuration,
-        StoreManagerInterface $storeManager,
+        private readonly ConfigurationInterface $configuration,
+        /** var StoreManagerInterface */
+        private readonly StoreManagerInterface $storeManager,
         array $data = []
     ) {
-        $this->configuration = $configuration;
-        $this->storeManager = $storeManager;
-
         parent::__construct($context, $documentResolver, $linkResolver, $data);
     }
 

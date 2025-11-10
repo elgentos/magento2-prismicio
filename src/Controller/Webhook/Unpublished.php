@@ -27,37 +27,8 @@ use stdClass;
 
 class Unpublished implements HttpPostActionInterface, CsrfAwareActionInterface
 {
-    private RequestInterface $request;
-
-    private ResultFactory $resultFactory;
-
-    private UrlPersistInterface $urlPersist;
-
-    private Api $apiFactory;
-
-    private ConfigurationInterface $configuration;
-
-    private StoreManagerInterface $storeManager;
-
-    private GetStoreView $getStoreView;
-
-    public function __construct(
-        RequestInterface $request,
-        ResultFactory $resultFactory,
-        UrlPersistInterface $urlPersist,
-        ConfigurationInterface $configuration,
-        StoreManagerInterface $storeManager,
-        Api $apiFactory,
-        GetStoreView $getStoreView
-    ) {
-
-        $this->request       = $request;
-        $this->resultFactory = $resultFactory;
-        $this->urlPersist    = $urlPersist;
-        $this->apiFactory    = $apiFactory;
-        $this->configuration = $configuration;
-        $this->storeManager  = $storeManager;
-        $this->getStoreView  = $getStoreView;
+    public function __construct(private readonly RequestInterface $request, private readonly ResultFactory $resultFactory, private readonly UrlPersistInterface $urlPersist, private readonly ConfigurationInterface $configuration, private readonly StoreManagerInterface $storeManager, private readonly Api $apiFactory, private readonly GetStoreView $getStoreView)
+    {
     }
 
     public function execute(): ?ResultInterface

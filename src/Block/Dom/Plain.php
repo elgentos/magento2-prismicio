@@ -10,6 +10,7 @@ namespace Elgentos\PrismicIO\Block\Dom;
 
 class Plain extends Raw
 {
+    #[\Override]
     public function fetchDocumentView(): string
     {
         return $this->escapeHtml(parent::fetchDocumentView());

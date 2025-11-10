@@ -6,6 +6,7 @@ use Elgentos\PrismicIO\Block\Dom\Link as DomLink;
 
 class Link extends DomLink
 {
+    #[\Override]
     public function getUrlForDocumentView(): string
     {
         // Clone object to keep orignal object in place

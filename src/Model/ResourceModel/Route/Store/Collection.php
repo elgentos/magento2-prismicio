@@ -8,7 +8,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 {
     protected function _construct()
     {
-        $this->_init('Elgentos\PrismicIO\Model\Route\Store', 'Elgentos\PrismicIO\Model\ResourceModel\Route\Store');
+        $this->_init(\Elgentos\PrismicIO\Model\Route\Store::class, \Elgentos\PrismicIO\Model\ResourceModel\Route\Store::class);
     }
 
 

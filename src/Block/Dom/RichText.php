@@ -17,20 +17,14 @@ use Prismic\Dom\RichText as PrismicRichText;
 
 class RichText extends AbstractBlock
 {
-    /**
-     * @var HtmlSerializer
-     */
-    private $htmlSerializer;
-
     public function __construct(
         Context $context,
         DocumentResolver $documentResolver,
         LinkResolver $linkResolver,
-        HtmlSerializer $htmlSerializer,
+        private readonly HtmlSerializer $htmlSerializer,
         array $data = []
     ) {
         parent::__construct($context, $documentResolver, $linkResolver, $data);
-        $this->htmlSerializer = $htmlSerializer;
     }
 
     public function fetchDocumentView(): string

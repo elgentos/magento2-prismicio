@@ -13,23 +13,19 @@ class PrismicPageConfigReader implements ConfigReaderInterface
      */
     const XML_PATH_CHANGE_FREQUENCY = 'sitemap/prismic/changefreq';
     const XML_PATH_PRIORITY = 'sitemap/prismic/priority';
-    /**#@-*/
-
-    /**
-     * Scope config
-     *
-     * @var ScopeConfigInterface
-     */
-    private $scopeConfig;
 
     /**
      * CategoryItemResolverConfigReader constructor.
      *
      * @param ScopeConfigInterface $scopeConfig
      */
-    public function __construct(ScopeConfigInterface $scopeConfig)
+    public function __construct(
+        /**
+         * Scope config
+         */
+        private readonly ScopeConfigInterface $scopeConfig
+    )
     {
-        $this->scopeConfig = $scopeConfig;
     }
 
     /**

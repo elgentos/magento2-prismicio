@@ -7,6 +7,7 @@ namespace Elgentos\PrismicIO\Controller\Webhook;
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\Model\Api;
 use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\App\Cache\Manager as CacheManager;
 use Magento\Framework\App\Cache\TypeListInterface;
 use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\Request\InvalidRequestException;
@@ -30,13 +31,16 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
 
     private TypeListInterface $typeList;
 
+    private CacheManager $cacheManager;
+
     public function __construct(
         RequestInterface       $request,
         ConfigurationInterface $configuration,
         StoreManagerInterface  $storeManager,
         Api                    $apiFactory,
         ResultFactory          $resultFactory,
-        TypeListInterface      $typeList
+        TypeListInterface      $typeList,
+        CacheManager           $cacheManager
     ) {
         $this->request = $request;
         $this->configuration = $configuration;
@@ -44,6 +48,7 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
         $this->apiFactory = $apiFactory;
         $this->resultFactory = $resultFactory;
         $this->typeList = $typeList;
+        $this->cacheManager = $cacheManager;
     }
 
     public function execute(): ?ResultInterface
@@ -80,13 +85,35 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
         }
 
         $api = $this->apiFactory->create();
+        $cacheTags = [];
+        $shouldClearOverview = false;
+
         foreach ($documentIds as $documentId) {
             $document = $api->getByID($documentId);
             if (in_array($document->type, $cacheFlushDocumentTypes)) {
-                $this->typeList->cleanType(Type::TYPE_IDENTIFIER);
+                // Clear document-specific cache
+                $cacheTags[] = 'PRISMICIO_DOC_' . $documentId;
 
-                break;
+                // Check if this is an overview content type for selective invalidation
+                $shouldClearOverview = true;
             }
+        }
+
+        // Clear related caches if we found matching documents
+        if (!empty($cacheTags)) {
+            // Clear document-specific caches
+            $this->cacheManager->clean($cacheTags);
+
+            // Clear API cache
+            $this->cacheManager->clean(['PRISMICIO_API']);
+
+            // Clear overview cache if document types match overview content
+            if ($shouldClearOverview) {
+                $this->cacheManager->clean(['PRISMICIO_OVERVIEW']);
+            }
+
+            // Also clear FPC as fallback to ensure all dependent caches are cleared
+            $this->typeList->cleanType(Type::TYPE_IDENTIFIER);
         }
 
         return $result->setData([

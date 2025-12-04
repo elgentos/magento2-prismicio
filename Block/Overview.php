@@ -6,11 +6,10 @@ namespace Elgentos\PrismicIO\Block;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\Model\Api;
-use Magento\Framework\View\Element\Template;
 use Prismic\Predicates;
 use Prismic\SimplePredicate;
 
-class Overview extends Template
+class Overview extends AbstractCachedBlock
 {
 
     /**
@@ -98,20 +97,13 @@ class Overview extends Template
         $api = $this->apiFactory->create();
         $query = $this->buildQuery();
 
-        $localeDocuments = $api->query(
+        // Single API call that includes fallback language if enabled
+        $documents = $api->query(
             $query,
-            $this->apiFactory->getOptions($this->options)
+            $this->apiFactory->getOptions($this->options, true)
         );
 
-        $fallbackDocuments = new \stdClass;
-        if ($this->configuration->hasContentLanguageFallback($this->_storeManager->getStore())) {
-            $fallbackDocuments = $api->query(
-                $query,
-                $this->apiFactory->getOptionsLanguageFallback($this->options)
-            );
-        }
-
-        return $this->mergeDocuments($localeDocuments, $fallbackDocuments);
+        return isset($documents->results) ? $documents->results : [];
     }
 
     /**
@@ -161,40 +153,48 @@ class Overview extends Template
     }
 
     /**
-     * Merge documents from diverent results and deduplicate keeping the first
+     * Get cache key info for this block
      *
-     * @param \stdClass ...$allDocuments
      * @return array
      */
-    public function mergeDocuments(\stdClass ...$allDocuments): array
+    protected function getCacheKeyInfo(): array
     {
-        $results = [];
-        foreach ($allDocuments as $documents) {
-            $foundDocuments = $documents->results ?? [];
-            if ( empty($foundDocuments)) {
-                continue;
-            }
+        try {
+            $store = $this->_storeManager->getStore();
+            return [
+                'prismic_overview',
+                $this->documentType ?? 'default',
+                $store->getId(),
+                md5(json_encode($this->filters) . json_encode($this->options))
+            ];
+        } catch (\Exception $e) {
+            return [];
+        }
+    }
 
-            $results = array_merge($results, $foundDocuments);
+    /**
+     * Get cache lifetime in seconds
+     *
+     * @return int|null
+     */
+    protected function getCacheLifetime(): ?int
+    {
+        // Disable caching in preview mode
+        if ($this->isPreviewMode()) {
+            return null;
         }
 
-        // Deduplicate
-        $ids = [];
-        foreach ($results as $index => $document) {
-            $id = $document->id;
-            $alternateLangIds = array_filter(array_map(function($langDocument) {
-                return $langDocument->id ?? null;
-            }, $document->alternate_languages ?? []));
+        // Cache for 1 hour
+        return 3600;
+    }
 
-            if (isset($ids[$id])) {
-                unset($results[$index]);
-                continue;
-            }
-
-            $ids[$id] = true;
-            $ids = array_merge($ids, array_fill_keys($alternateLangIds, true));
-        }
-
-        return array_values($results);
+    /**
+     * Get identities for cache invalidation
+     *
+     * @return array
+     */
+    public function getIdentities(): array
+    {
+        return ['PRISMICIO_OVERVIEW', 'PRISMICIO_DOC_' . ($this->documentType ?? 'default')];
     }
 }

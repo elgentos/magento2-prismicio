@@ -140,15 +140,25 @@ class Api
      * Get API options
      *
      * @param array $options
+     * @param bool $includeFallback Include fallback language in single query
      * @return array
      * @throws NoSuchEntityException
      */
-    public function getOptions(array $options = []): array
+    public function getOptions(array $options = [], bool $includeFallback = false): array
     {
         $store = $this->storeManager->getStore();
 
         if (!isset($options['lang'])) {
-            $options['lang'] = $this->configuration->getContentLanguage($store);
+            $primaryLang = $this->configuration->getContentLanguage($store);
+
+            // If fallback is enabled and requested, combine both languages in single query
+            if ($includeFallback && $this->configuration->hasContentLanguageFallback($store)) {
+                $fallbackLang = $this->configuration->getContentLanguageFallback($store);
+                // Prismic uses comma-separated languages for fallback: primary,fallback
+                $options['lang'] = $primaryLang . ',' . $fallbackLang;
+            } else {
+                $options['lang'] = $primaryLang;
+            }
         }
         if (!isset($options['fetchLinks'])) {
             $options['fetchLinks'] = $this->configuration->getFetchLinks($store);
@@ -163,16 +173,11 @@ class Api
      * @param array $options
      * @return array
      * @throws NoSuchEntityException
+     * @deprecated Use getOptions($options, true) instead for single API call
      */
     public function getOptionsLanguageFallback(array $options = []): array
     {
-        $store = $this->storeManager->getStore();
-
-        if (! isset($options['lang']) && $this->configuration->hasContentLanguageFallback($store)) {
-            $options['lang'] = $this->configuration->getContentLanguageFallback($store);
-        }
-
-        return $this->getOptions($options);
+        return $this->getOptions($options, true);
     }
 
     /**
@@ -234,16 +239,12 @@ class Api
             return null;
         }
 
-        $document = $api->getByUID($contentType, $uid, $this->getOptions($options));
-        if ($document || ! $this->isFallbackAllowed()) {
-            return $document;
-        }
-
-        return $api->getByUID($contentType, $uid, $this->getOptionsLanguageFallback($options));
+        // Single API call that includes fallback language if enabled
+        return $api->getByUID($contentType, $uid, $this->getOptions($options, true));
     }
 
     /**
-     * Get document by uid
+     * Get singleton document
      *
      * @param string|null $contentType
      * @param array $options
@@ -262,12 +263,8 @@ class Api
             return null;
         }
 
-        $document = $api->getSingle($contentType, $this->getOptions($options));
-        if ($document || ! $this->isFallbackAllowed()) {
-            return $document;
-        }
-
-        return $api->getSingle($contentType, $this->getOptionsLanguageFallback($options));
+        // Single API call that includes fallback language if enabled
+        return $api->getSingle($contentType, $this->getOptions($options, true));
     }
 
     /**

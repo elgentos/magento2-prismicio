@@ -68,12 +68,11 @@ class PrismicPages implements ItemProviderInterface
         $api = $this->apiFactory->create();
 
         foreach ($sitemapContentTypes as $sitemapContentType) {
-            $localeDocuments = $api->query(
-                [Predicates::at('document.type', $sitemapContentType)],
-                ['lang' => $this->configuration->getContentLanguage($store)]
-            );
+            // Start from page 1 and get total_pages from first response
+            $page = 1;
+            $totalPages = 1;
 
-            foreach (range(1, $localeDocuments->total_pages) as $page) {
+            while ($page <= $totalPages) {
                 $documents = $api->query(
                     [Predicates::at('document.type', $sitemapContentType)],
                     [
@@ -82,7 +81,13 @@ class PrismicPages implements ItemProviderInterface
                     ]
                 );
 
+                // Get total pages from first query response
+                if ($page === 1) {
+                    $totalPages = $documents->total_pages;
+                }
+
                 $this->addDocumentsToSitemap($documents->results, $store);
+                $page++;
             }
         }
 

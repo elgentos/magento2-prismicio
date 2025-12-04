@@ -17,6 +17,13 @@ class CacheProxy implements CacheInterface
      */
     private $magentoCache;
 
+    /**
+     * Request-level in-memory cache to reduce cache lookups within single request
+     *
+     * @var array
+     */
+    private $requestCache = [];
+
     public function __construct(
         MagentoCache $magentoCache
     ) {
@@ -42,11 +49,21 @@ class CacheProxy implements CacheInterface
      */
     public function get($key)
     {
+        // Check request-level cache first
+        if (isset($this->requestCache[$key])) {
+            return $this->requestCache[$key];
+        }
+
         if (! $this->has($key)) {
             return null;
         }
 
-        return \json_decode($this->magentoCache->getFrontend()->load($key));
+        $value = \json_decode($this->magentoCache->getFrontend()->load($key));
+
+        // Store in request cache for future lookups
+        $this->requestCache[$key] = $value;
+
+        return $value;
     }
 
     /**
@@ -59,6 +76,10 @@ class CacheProxy implements CacheInterface
      */
     public function set($key, $value, $ttl = 0)
     {
+        // Update request cache
+        $this->requestCache[$key] = $value;
+
+        // Store in persistent cache
         $this->magentoCache->getFrontend()->save(\json_encode($value), $key, static::CACHE_TAGS, $ttl);
     }
 
@@ -70,6 +91,10 @@ class CacheProxy implements CacheInterface
      */
     public function delete($key)
     {
+        // Remove from request cache
+        unset($this->requestCache[$key]);
+
+        // Remove from persistent cache
         $this->magentoCache->getFrontend()->remove($key);
     }
 
@@ -80,6 +105,10 @@ class CacheProxy implements CacheInterface
      */
     public function clear()
     {
+        // Clear request cache
+        $this->requestCache = [];
+
+        // Clear persistent cache
         $this->magentoCache->getFrontend()->clean(\Zend_Cache::CLEANING_MODE_MATCHING_TAG, static::CACHE_TAGS);
     }
 }

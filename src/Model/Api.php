@@ -16,6 +16,7 @@ use Exception;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Prismic\Api as PrismicApi;
+use stdClass;
 
 class Api
 {
@@ -77,11 +78,11 @@ class Api
      * Get document id for the alternate language
      *
      * @param string         $language
-     * @param \stdClass|null $document
+     * @param stdClass|null $document
      *
      * @return string|null
      */
-    public function getDocumentIdInLanguage(string $language, \stdClass $document = null): ?string
+    public function getDocumentIdInLanguage(string $language, stdClass $document = null): ?string
     {
         $alternateLanguages = (array)($document->alternate_languages ?? []);
         if (empty($alternateLanguages)) {
@@ -103,11 +104,11 @@ class Api
     /**
      * Get document id for fallback language
      *
-     * @param \stdClass|null $document
+     * @param stdClass|null $document
      * @return string|null
      * @throws NoSuchEntityException
      */
-    public function getDocumentIdInFallbackLanguage(\stdClass $document = null): ?string
+    public function getDocumentIdInFallbackLanguage(stdClass $document = null): ?string
     {
         if (! $this->isFallbackAllowed()) {
             return null;
@@ -122,11 +123,11 @@ class Api
     /**
      * Get document id for home language
      *
-     * @param \stdClass|null $document
+     * @param stdClass|null $document
      * @return string|null
      * @throws NoSuchEntityException
      */
-    public function getDocumentIdInHomeLanguage(\stdClass $document = null): ?string
+    public function getDocumentIdInHomeLanguage(stdClass $document = null): ?string
     {
         if (! $this->isFallbackAllowed()) {
             return null;
@@ -221,20 +222,18 @@ class Api
      * @param string $uid
      * @param string|null $contentType
      * @param array $options
-     * @return \stdClass|null
+     * @return stdClass|null
      * @throws ApiNotEnabledException
      * @throws NoSuchEntityException
      */
-    public function getDocumentByUid(string $uid, string $contentType = null, array $options = []): ?\stdClass
+    public function getDocumentByUid(string $uid, string $contentType = null, array $options = []): ?stdClass
     {
-
         $contentType = $contentType ?? $this->getDefaultContentType();
         $api = $this->create();
 
         $this->logger->info("Fetching document by uid: {$uid}, contentType: {$contentType}");
 
-        $allowedContentTypes = $api->getData()
-                ->getTypes();
+        $allowedContentTypes = $api->getData()->getTypes();
         if (! isset($allowedContentTypes[$contentType])) {
             return null;
         }
@@ -252,19 +251,18 @@ class Api
      *
      * @param string|null $contentType
      * @param array $options
-     * @return \stdClass|null
+     * @return stdClass|null
      * @throws ApiNotEnabledException
      * @throws NoSuchEntityException
      */
-    public function getSingleton(string $contentType = null, array $options = []): ?\stdClass
+    public function getSingleton(string $contentType = null, array $options = []): ?stdClass
     {
         $contentType = $contentType ?? $this->getDefaultContentType();
         $api = $this->create();
 
         $this->logger->info("Fetching singleton document by contentType: {$contentType}");
 
-        $allowedContentTypes = $api->getData()
-                ->getTypes();
+        $allowedContentTypes = $api->getData()->getTypes();
         if (! isset($allowedContentTypes[$contentType])) {
             return null;
         }
@@ -287,16 +285,14 @@ class Api
      *
      * @param string $id
      * @param array $options
-     * @return \stdClass|null
+     * @return stdClass|null
      * @throws ApiNotEnabledException
      * @throws NoSuchEntityException
      */
-    public function getDocumentById(string $id, array $options = []): ?\stdClass
+    public function getDocumentById(string $id, array $options = []): ?stdClass
     {
         $this->logger->info("Fetching document by id: {$id}");
 
-        return $this->create()
-                ->getByID($id, $this->getOptions($options));
+        return $this->create()->getByID($id, $this->getOptions($options));
     }
-
 }

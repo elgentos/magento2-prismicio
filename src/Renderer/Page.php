@@ -2,12 +2,16 @@
 
 namespace Elgentos\PrismicIO\Renderer;
 
+use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
 use Elgentos\PrismicIO\Model\Api;
+use Elgentos\PrismicIO\Model\Document\CacheManager;
 use Elgentos\PrismicIO\Registry\CurrentDocument;
 use Magento\Framework\Controller\Result\ForwardFactory;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Result\PageFactory;
+use stdClass;
 
 class Page
 {
@@ -22,13 +26,16 @@ class Page
     private $api;
     /** @var CurrentDocument */
     private $currentDocument;
+    /** @var CacheManager */
+    private $cacheManager;
 
     public function __construct(
         ForwardFactory $forwardFactory,
         RedirectFactory $redirectFactory,
         PageFactory $pageFactory,
         Api $api,
-        CurrentDocument $currentDocument
+        CurrentDocument $currentDocument,
+        CacheManager $cacheManager
     ) {
         $this->forwardFactory = $forwardFactory;
         $this->redirectFactory = $redirectFactory;
@@ -36,8 +43,13 @@ class Page
 
         $this->api = $api;
         $this->currentDocument = $currentDocument;
+        $this->cacheManager = $cacheManager;
     }
 
+    /**
+     * @throws NoSuchEntityException
+     * @throws ApiNotEnabledException
+     */
     public function renderPageByUid(string $uid, string $contentType = null): ResultInterface
     {
         if (! $uid) {
@@ -48,7 +60,26 @@ class Page
             return $this->forwardNoRoute();
         }
 
-        $document = $this->api->getDocumentByUid($uid, $contentType);
+        // Get language from API options
+        $options = $this->api->getOptions();
+        $lang = $options['lang'];
+        $type = $contentType;
+
+        // Try to get document from cache
+        $document = $this->cacheManager->get($type, $uid, $lang);
+
+        // If not cached, fetch from API and cache it
+        if ($document === null) {
+            $document = $this->api->getDocumentByUid($uid, $contentType);
+
+            if (! $document) {
+                return $this->forwardNoRoute();
+            }
+
+            // Cache the document for next request
+            $this->cacheManager->set($document, $type, $uid, $lang);
+        }
+
         if (! $document) {
             return $this->forwardNoRoute();
         }
@@ -60,13 +91,39 @@ class Page
         return $this->createPage($document);
     }
 
+    /**
+     * @throws NoSuchEntityException
+     * @throws ApiNotEnabledException
+     */
     public function renderPageBySingleton(string $contentType = null): ResultInterface
     {
         if (! $this->api->isActive()) {
             return $this->forwardNoRoute();
         }
 
-        $document = $this->api->getSingleton($contentType);
+        // Get language from API options
+        $options = $this->api->getOptions();
+        $lang = $options['lang'];
+        $type = $contentType;
+
+        // Use content type as UID for singleton cache key
+        $uid = $type;
+
+        // Try to get document from cache
+        $document = $this->cacheManager->get($type, $uid, $lang);
+
+        // If not cached, fetch from API and cache it
+        if ($document === null) {
+            $document = $this->api->getSingleton($contentType);
+
+            if (! $document) {
+                return $this->forwardNoRoute();
+            }
+
+            // Cache the document for next request
+            $this->cacheManager->set($document, $type, $uid, $lang);
+        }
+
         if (! $document) {
             return $this->forwardNoRoute();
         }
@@ -74,6 +131,10 @@ class Page
         return $this->createPage($document);
     }
 
+    /**
+     * @throws NoSuchEntityException
+     * @throws ApiNotEnabledException
+     */
     public function renderPageById(string $id): ResultInterface
     {
         if (! $id) {
@@ -84,7 +145,25 @@ class Page
             return $this->forwardNoRoute();
         }
 
-        $document = $this->api->getDocumentById($id);
+        // Get language from API options
+        $options = $this->api->getOptions();
+        $lang = $options['lang'];
+
+        // Try to get document from cache using ID as uid
+        $document = $this->cacheManager->get('by_id', $id, $lang);
+
+        // If not cached, fetch from API and cache it
+        if ($document === null) {
+            $document = $this->api->getDocumentById($id);
+
+            if (! $document) {
+                return $this->forwardNoRoute();
+            }
+
+            // Cache the document for next request
+            $this->cacheManager->set($document, 'by_id', $id, $lang);
+        }
+
         if (! $document) {
             return $this->forwardNoRoute();
         }
@@ -116,7 +195,13 @@ class Page
         return $resultRedirect;
     }
 
-    public function createPage(\stdClass $document, $pageArguments = []): ResultInterface
+    /**
+     * @param stdClass $document
+     * @param array    $pageArguments
+     *
+     * @return ResultInterface
+     */
+    public function createPage(stdClass $document, array $pageArguments = []): ResultInterface
     {
         $this->currentDocument->setDocument($document);
 
@@ -129,5 +214,4 @@ class Page
 
         return $page;
     }
-
 }

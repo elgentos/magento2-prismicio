@@ -7,18 +7,14 @@ use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
 use Elgentos\PrismicIO\Exception\ContextNotFoundException;
 use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
 use Elgentos\PrismicIO\Model\Api;
-use Elgentos\PrismicIO\Model\CacheTypes;
 use Elgentos\PrismicIO\Model\Document\CacheManager;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
-use Exception;
-use Magento\Framework\DataObject\IdentityInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Context;
-use Magento\Store\Model\StoreManager;
 use stdClass;
 
-class StaticBlock extends AbstractBlock implements IdentityInterface
+class StaticBlock extends AbstractBlock
 {
     private string $contentType;
     private ?string $identifier;
@@ -29,7 +25,6 @@ class StaticBlock extends AbstractBlock implements IdentityInterface
         DocumentResolver         $documentResolver,
         LinkResolver             $linkResolver,
         private readonly Api     $api,
-        private readonly StoreManager $storeManager,
         CacheManager             $cacheManager,
         string                   $contentType = 'static_block',
         ?string                  $identifier = null,
@@ -147,73 +142,5 @@ class StaticBlock extends AbstractBlock implements IdentityInterface
         $this->setDocument($document);
 
         return true;
-    }
-
-    /**
-     * Get cache key for this block
-     *
-     * @return string|null
-     */
-    public function getCacheKey(): ?string
-    {
-        // Disable caching in preview mode
-        if ($this->getRequest()->getParam('token')) {
-            return null;
-        }
-
-        try {
-            $context = $this->getContext();
-            $uid = $context->uid ?? '';
-            $type = $context->type ?? '';
-            $lang = $context->lang ?? '';
-            $store = $this->storeManager->getStore();
-
-            return sprintf('prismic_static_%s_%s_%s_%s',
-                $type,
-                $uid,
-                $lang,
-                $store->getId()
-            );
-        } catch (Exception) {
-            return null;
-        }
-    }
-
-    public function getCacheLifetime(): ?int
-    {
-        // Disable caching if no cache key info available
-        if (empty($this->getCacheKeyInfo())) {
-            return null;
-        }
-
-        // Disable caching in preview mode
-        if ($this->getRequest()->getParam('token')) {
-            return null;
-        }
-
-        // Cache for 1 day to match document cache TTL
-        return 86400;
-    }
-
-    /**
-     * Get identities for cache invalidation
-     *
-     * @return array
-     */
-    public function getIdentities(): array
-    {
-        try {
-            $context = $this->getContext();
-            $type = $context->type ?? '';
-            $uid = $context->uid ?? '';
-
-            return [
-                CacheTypes::TAG_API,
-                'PRISMICIO_DOC_' . $type . '_' . $uid,
-                CacheTypes::TAG_DOCUMENTS,
-            ];
-        } catch (Exception) {
-            return [CacheTypes::TAG_API, CacheTypes::TAG_DOCUMENTS];
-        }
     }
 }

@@ -1,4 +1,9 @@
 <?php
+/**
+ * Copyright Elgentos BV. All rights reserved.
+ * https://www.elgentos.nl/
+ */
+declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Model;
 
@@ -23,16 +28,6 @@ class CacheTypes extends TagScope
     public const TAG_DOCUMENT_ITEM = 'PRISMICIO_DOC_ITEM_%s_%s';
 
     /**
-     * Global cache tag for Prismic API
-     */
-    public const TAG_API = 'PRISMICIO_API';
-
-    /**
-     * Global cache tag for Prismic documents by ID
-     */
-    public const TAG_DOC_BY_ID = 'PRISMICIO_DOC_%s';
-
-    /**
      * @param FrontendPool $cacheFrontendPool
      */
     public function __construct(FrontendPool $cacheFrontendPool)
@@ -42,5 +37,4 @@ class CacheTypes extends TagScope
             self::TAG_DOCUMENTS
         );
     }
-
 }

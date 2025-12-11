@@ -42,4 +42,62 @@
     </type>
     -->
 
+    <!-- Logger Configuration -->
+    <type name="Elgentos\PrismicIO\Logger\ApiHandler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Elgentos\PrismicIO\Logger\ApiLogger">
+        <arguments>
+            <argument name="name" xsi:type="string">ApiPrismicIOLogger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Elgentos\PrismicIO\Logger\ApiHandler</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Inject ApiLogger into Api class -->
+    <type name="Elgentos\PrismicIO\Model\Api">
+        <arguments>
+            <argument name="logger" xsi:type="object">Elgentos\PrismicIO\Logger\ApiLogger</argument>
+        </arguments>
+    </type>
+
+    <!-- Document Cache Manager Configuration -->
+    <type name="Elgentos\PrismicIO\Model\Document\CacheManager">
+        <arguments>
+            <argument name="cache" xsi:type="object">Magento\Framework\App\Cache</argument>
+            <argument name="serializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Json</argument>
+            <argument name="storeManager" xsi:type="object">Magento\Store\Model\StoreManagerInterface</argument>
+            <argument name="logger" xsi:type="object">Elgentos\PrismicIO\Logger\ApiLogger</argument>
+            <argument name="cacheState" xsi:type="object">Magento\Framework\App\Cache\State</argument>
+            <argument name="defaultConfig" xsi:type="array">
+                <item name="ttl" xsi:type="string">86400</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Inject CacheManager into StaticBlock -->
+    <type name="Elgentos\PrismicIO\Block\StaticBlock">
+        <arguments>
+            <argument name="context" xsi:type="object">Magento\Framework\View\Element\Context</argument>
+            <argument name="documentResolver" xsi:type="object">Elgentos\PrismicIO\ViewModel\DocumentResolver</argument>
+            <argument name="linkResolver" xsi:type="object">Elgentos\PrismicIO\ViewModel\LinkResolver</argument>
+            <argument name="api" xsi:type="object">Elgentos\PrismicIO\Model\Api</argument>
+            <argument name="storeManager" xsi:type="object">Magento\Store\Model\StoreManagerInterface</argument>
+            <argument name="cacheManager" xsi:type="object">Elgentos\PrismicIO\Model\Document\CacheManager</argument>
+            <argument name="contentType" xsi:type="string">static_block</argument>
+            <argument name="identifier" xsi:type="string"></argument>
+            <argument name="data" xsi:type="array"/>
+        </arguments>
+    </type>
+
+    <!-- Inject LoggerInterface into Webhook Cache Controller -->
+    <type name="Elgentos\PrismicIO\Controller\Webhook\Cache">
+        <arguments>
+            <argument name="logger" xsi:type="object">Psr\Log\LoggerInterface</argument>
+        </arguments>
+    </type>
+
 </config>

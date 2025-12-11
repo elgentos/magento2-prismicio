@@ -3,72 +3,84 @@
 namespace Elgentos\PrismicIO\Block;
 
 use Elgentos\PrismicIO\Block\Exception\StaticBlockNotFoundException;
+use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
 use Elgentos\PrismicIO\Exception\ContextNotFoundException;
 use Elgentos\PrismicIO\Exception\DocumentNotFoundException;
 use Elgentos\PrismicIO\Model\Api;
+use Elgentos\PrismicIO\Model\CacheTypes;
+use Elgentos\PrismicIO\Model\Document\CacheManager;
 use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
+use Exception;
+use Magento\Framework\DataObject\IdentityInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Context;
+use Magento\Store\Model\StoreManager;
+use stdClass;
 
-class StaticBlock extends AbstractBlock
+class StaticBlock extends AbstractBlock implements IdentityInterface
 {
+    private string $contentType;
+    private ?string $identifier;
+    private CacheManager $cacheManager;
+
     public function __construct(
         Context                  $context,
         DocumentResolver         $documentResolver,
         LinkResolver             $linkResolver,
         private readonly Api     $api,
-        private readonly string  $contentType = 'static_block',
-        private readonly ?string $identifier = null,
+        private readonly StoreManager $storeManager,
+        CacheManager             $cacheManager,
+        string                   $contentType = 'static_block',
+        ?string                  $identifier = null,
         array                    $data = []
     ) {
-        parent::__construct($context, $documentResolver, $linkResolver, $data);
+        parent::__construct(
+            $context,
+            $documentResolver,
+            $linkResolver,
+            $data
+        );
+
+        $this->contentType = $contentType;
+        $this->identifier = $identifier;
+        $this->cacheManager = $cacheManager;
     }
 
+    /**
+     * @throws NoSuchEntityException
+     */
     protected function _toHtml(): string
     {
         $this->createPrismicDocument();
         return parent::_toHtml();
     }
 
+    /**
+     * @throws NoSuchEntityException
+     */
     private function createPrismicDocument(): void
     {
-        $contentType = $this->contentType;
-        $identifier  = $this->identifier;
-
-        // Allow using "template" to reference a document (saves XML)
-        $reference = $this->getReference();
-        if ($reference !== '*') {
-            $this->setReference('*');
-
-            $elements = explode('.', $reference);
-
-            if (count($elements) > 1) {
-                [$contentType, $identifier] = $elements;
-            } else {
-                [$identifier] = $elements;
-            }
-        }
-
-        $data = $this->getData('data') ?? $this->getData() ?? [];
-        if (! ($identifier || isset($data['uid']) || isset($data['identifier']))) {
+        $data = $this->getData('data') ?? [];
+        if (! (isset($this->contentType, $this->identifier) || isset($data['uid']) || isset($data['identifier']))) {
             return;
         }
 
-        // Create a document
-        $document = new \stdClass;
+        $document = new stdClass();
         $options  = $this->api->getOptions();
 
-        $document->uid  = $data['uid'] ?? $data['identifier'] ?? $identifier;
-        $document->type = $data['content_type'] ?? $contentType;
+        $document->uid  = $data['uid'] ?? $data['identifier'] ?? $this->identifier;
+        $document->type = $data['content_type'] ?? $this->contentType;
         $document->lang = $data['lang'] ??  $options['lang'];
 
         $this->setDocument($document);
     }
 
     /**
-     * @return string
-     * @throws ContextNotFoundException
+     * @throws NoSuchEntityException
+     * @throws ApiNotEnabledException
      * @throws DocumentNotFoundException
+     * @throws ContextNotFoundException
      */
     public function fetchDocumentView(): string
     {
@@ -76,7 +88,6 @@ class StaticBlock extends AbstractBlock
             return '';
         }
 
-        // Render all children
         $html = '';
         foreach ($this->getChildNames() as $childName) {
             $useCache = ! $this->updateChildDocumentWithDocument($childName);
@@ -88,8 +99,10 @@ class StaticBlock extends AbstractBlock
 
     /**
      * @return bool
+     * @throws ApiNotEnabledException
      * @throws ContextNotFoundException
      * @throws DocumentNotFoundException
+     * @throws NoSuchEntityException
      */
     private function fetchChildDocument(): bool
     {
@@ -100,17 +113,32 @@ class StaticBlock extends AbstractBlock
 
         $uid  = $context->uid ?? '';
         $type = $context->type ?? '';
+        $lang = $context->lang ?? '';
 
-        $document = $this->api->getDocumentByUid($uid, $type, ['lang' => $context->lang]);
+        // Try to get document from cache
+        $document = $this->cacheManager->get($type, $uid, $lang);
+
+        // If not cached, fetch from API and cache it
+        if ($document === null) {
+            $document = $this->api->getDocumentByUid($uid, $type, ['lang' => $lang]);
+
+            if (! $document) {
+                StaticBlockNotFoundException::throwException(
+                    $this,
+                    [
+                        'uid' => $uid,
+                        'content_type' => $type,
+                        'language' => $lang,
+                    ]
+                );
+                return false;
+            }
+
+            // Cache the document for next request
+            $this->cacheManager->set($document, $type, $uid, $lang);
+        }
+
         if (! $document) {
-            StaticBlockNotFoundException::throwException(
-                $this,
-                [
-                    'uid' => $uid,
-                    'content_type' => $type,
-                    'language' => $context->lang,
-                ]
-            );
             return false;
         }
 
@@ -119,5 +147,73 @@ class StaticBlock extends AbstractBlock
         $this->setDocument($document);
 
         return true;
+    }
+
+    /**
+     * Get cache key for this block
+     *
+     * @return string|null
+     */
+    public function getCacheKey(): ?string
+    {
+        // Disable caching in preview mode
+        if ($this->getRequest()->getParam('token')) {
+            return null;
+        }
+
+        try {
+            $context = $this->getContext();
+            $uid = $context->uid ?? '';
+            $type = $context->type ?? '';
+            $lang = $context->lang ?? '';
+            $store = $this->storeManager->getStore();
+
+            return sprintf('prismic_static_%s_%s_%s_%s',
+                $type,
+                $uid,
+                $lang,
+                $store->getId()
+            );
+        } catch (Exception) {
+            return null;
+        }
+    }
+
+    public function getCacheLifetime(): ?int
+    {
+        // Disable caching if no cache key info available
+        if (empty($this->getCacheKeyInfo())) {
+            return null;
+        }
+
+        // Disable caching in preview mode
+        if ($this->getRequest()->getParam('token')) {
+            return null;
+        }
+
+        // Cache for 1 day to match document cache TTL
+        return 86400;
+    }
+
+    /**
+     * Get identities for cache invalidation
+     *
+     * @return array
+     */
+    public function getIdentities(): array
+    {
+        try {
+            $context = $this->getContext();
+            $type = $context->type ?? '';
+            $uid = $context->uid ?? '';
+
+            return [
+                CacheTypes::TAG_API,
+                'PRISMICIO_DOC_' . $type . '_' . $uid,
+                CacheTypes::TAG_DOCUMENTS,
+            ];
+        } catch (Exception) {
+            return [CacheTypes::TAG_API, CacheTypes::TAG_DOCUMENTS];
+        }
     }
 }

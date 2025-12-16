@@ -33,7 +33,6 @@ interface ConfigurationInterface
         XML_PATH_WEBHOOK_SECRET                     = 'prismicio/webhook/secret',
         XML_PATH_SITEMAP_CONTENT_TYPES              = 'prismicio/sitemap/content_types',
         XML_PATH_URL_REWRITE_CONTENT_TYPES          = 'prismicio/url_rewrites/content_types',
-        XML_PATH_CACHE_FLUSH_CONTENT_TYPES          = 'prismicio/cache_flush/content_types',
 
         XML_PATH_WHITELIST_ENABLED                  = 'prismicio/whitelist/enabled',
         XML_PATH_WHITELIST_CONTENT_TYPES            = 'prismicio/whitelist/content_types';
@@ -72,8 +71,6 @@ interface ConfigurationInterface
     public function getSitemapContentTypes(StoreInterface $store): string;
 
     public function getUrlRewriteContentTypes(StoreInterface $store): array;
-
-    public function getCacheFlushContentTypes(StoreInterface $store): array;
 
     public function isWhitelistEnabled(StoreInterface $store): bool;
 

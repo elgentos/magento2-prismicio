@@ -41,5 +41,4 @@
         <plugin name="elgentos_prismicio_appendtrailingslashes" type="Elgentos\PrismicIO\Plugin\ViewModel\LinkResolver\AppendTrailingSlashes" />
     </type>
     -->
-
 </config>

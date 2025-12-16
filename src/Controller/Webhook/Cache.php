@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace Elgentos\PrismicIO\Controller\Webhook;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
-use Elgentos\PrismicIO\Model\Api;
+use Elgentos\PrismicIO\Model\CacheTypes;
 use Magento\Framework\App\Action\HttpPostActionInterface;
+use Magento\Framework\App\Cache\StateInterface;
 use Magento\Framework\App\Cache\TypeListInterface;
 use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\PageCache\Model\Cache\Type;
 use Magento\Store\Model\StoreManagerInterface;
 
@@ -24,26 +26,26 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
 
     private StoreManagerInterface $storeManager;
 
-    private Api $apiFactory;
-
     private ResultFactory $resultFactory;
 
     private TypeListInterface $typeList;
+
+    private StateInterface $cacheState;
 
     public function __construct(
         RequestInterface       $request,
         ConfigurationInterface $configuration,
         StoreManagerInterface  $storeManager,
-        Api                    $apiFactory,
         ResultFactory          $resultFactory,
-        TypeListInterface      $typeList
+        TypeListInterface      $typeList,
+        StateInterface         $cacheState,
     ) {
         $this->request = $request;
         $this->configuration = $configuration;
         $this->storeManager = $storeManager;
-        $this->apiFactory = $apiFactory;
         $this->resultFactory = $resultFactory;
         $this->typeList = $typeList;
+        $this->cacheState = $cacheState;
     }
 
     public function execute(): ?ResultInterface
@@ -61,17 +63,6 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
             return null;
         }
 
-        $store = $this->storeManager->getStore();
-        $cacheFlushDocumentTypes = $this->configuration->getCacheFlushContentTypes(
-            $store
-        );
-
-        if (!$cacheFlushDocumentTypes) {
-            return $result->setData([
-                'success' => true
-            ]);
-        }
-
         $documentIds = $payload['documents'] ?? [];
         if (empty($documentIds)) {
             return $result->setData([
@@ -79,14 +70,10 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
             ]);
         }
 
-        $api = $this->apiFactory->create();
-        foreach ($documentIds as $documentId) {
-            $document = $api->getByID($documentId);
-            if ($document && in_array($document->type, $cacheFlushDocumentTypes)) {
-                $this->typeList->cleanType(Type::TYPE_IDENTIFIER);
+        $this->typeList->cleanType(Type::TYPE_IDENTIFIER);
 
-                break;
-            }
+        if ($this->cacheState->isEnabled(CacheTypes::TYPE_DOCUMENTS)) {
+            $this->typeList->cleanType(CacheTypes::TYPE_DOCUMENTS);
         }
 
         return $result->setData([
@@ -104,6 +91,9 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
         return true;
     }
 
+    /**
+     * @throws NoSuchEntityException
+     */
     private function protectRoute(array $payload): bool
     {
         $accessToken = $this->configuration->getWebhookSecret($this->storeManager->getStore());

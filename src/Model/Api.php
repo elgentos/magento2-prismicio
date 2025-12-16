@@ -10,7 +10,6 @@ namespace Elgentos\PrismicIO\Model;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
 use Elgentos\PrismicIO\Exception\ApiNotEnabledException;
-use Elgentos\PrismicIO\Logger\ApiLogger;
 use Elgentos\PrismicIO\Model\Api\CacheProxy;
 use Exception;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -31,7 +30,6 @@ class Api
         ConfigurationInterface $configuration,
         StoreManagerInterface $storeManager,
         CacheProxy $cacheProxy,
-        private readonly ApiLogger $logger
     ) {
         $this->configuration = $configuration;
         $this->storeManager = $storeManager;
@@ -231,8 +229,6 @@ class Api
         $contentType = $contentType ?? $this->getDefaultContentType();
         $api = $this->create();
 
-        $this->logger->info("Fetching document by uid: {$uid}, contentType: {$contentType}");
-
         $allowedContentTypes = $api->getData()->getTypes();
         if (! isset($allowedContentTypes[$contentType])) {
             return null;
@@ -259,8 +255,6 @@ class Api
     {
         $contentType = $contentType ?? $this->getDefaultContentType();
         $api = $this->create();
-
-        $this->logger->info("Fetching singleton document by contentType: {$contentType}");
 
         $allowedContentTypes = $api->getData()->getTypes();
         if (! isset($allowedContentTypes[$contentType])) {
@@ -291,8 +285,6 @@ class Api
      */
     public function getDocumentById(string $id, array $options = []): ?stdClass
     {
-        $this->logger->info("Fetching document by id: {$id}");
-
         return $this->create()->getByID($id, $this->getOptions($options));
     }
 }

@@ -41,19 +41,4 @@
         <plugin name="elgentos_prismicio_appendtrailingslashes" type="Elgentos\PrismicIO\Plugin\ViewModel\LinkResolver\AppendTrailingSlashes" />
     </type>
     -->
-
-    <!-- Logger Configuration -->
-    <type name="Elgentos\PrismicIO\Logger\ApiHandler">
-        <arguments>
-            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
-        </arguments>
-    </type>
-    <type name="Elgentos\PrismicIO\Logger\ApiLogger">
-        <arguments>
-            <argument name="name" xsi:type="string">ApiPrismicIOLogger</argument>
-            <argument name="handlers"  xsi:type="array">
-                <item name="system" xsi:type="object">Elgentos\PrismicIO\Logger\ApiHandler</item>
-            </argument>
-        </arguments>
-    </type>
 </config>

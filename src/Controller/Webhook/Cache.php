@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Elgentos\PrismicIO\Controller\Webhook;
 
 use Elgentos\PrismicIO\Api\ConfigurationInterface;
-use Elgentos\PrismicIO\Logger\ApiLogger;
 use Elgentos\PrismicIO\Model\CacheTypes;
 use Magento\Framework\App\Action\HttpPostActionInterface;
 use Magento\Framework\App\Cache\StateInterface;
@@ -33,8 +32,6 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
 
     private StateInterface $cacheState;
 
-    private ApiLogger $apiLogger;
-
     public function __construct(
         RequestInterface       $request,
         ConfigurationInterface $configuration,
@@ -42,7 +39,6 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
         ResultFactory          $resultFactory,
         TypeListInterface      $typeList,
         StateInterface         $cacheState,
-        ApiLogger              $apiLogger
     ) {
         $this->request = $request;
         $this->configuration = $configuration;
@@ -50,7 +46,6 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
         $this->resultFactory = $resultFactory;
         $this->typeList = $typeList;
         $this->cacheState = $cacheState;
-        $this->apiLogger = $apiLogger;
     }
 
     public function execute(): ?ResultInterface
@@ -77,11 +72,8 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
 
         $this->typeList->cleanType(Type::TYPE_IDENTIFIER);
 
-        $this->apiLogger->info('Full page cache cleared');
-
         if ($this->cacheState->isEnabled(CacheTypes::TYPE_DOCUMENTS)) {
             $this->typeList->cleanType(CacheTypes::TYPE_DOCUMENTS);
-            $this->apiLogger->info('All Prismic documents cache cleared');
         }
 
         return $result->setData([

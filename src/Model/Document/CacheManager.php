@@ -7,7 +7,6 @@ declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Model\Document;
 
-use Elgentos\PrismicIO\Logger\ApiLogger;
 use Elgentos\PrismicIO\Model\CacheTypes;
 use Exception;
 use Magento\Framework\App\Cache\StateInterface;
@@ -23,7 +22,6 @@ class CacheManager
     public function __construct(
         private readonly CacheInterface $cache,
         private readonly SerializerInterface $serializer,
-        private readonly ApiLogger $logger,
         private readonly StateInterface $cacheState,
         private readonly array $defaultConfig = []
     ) {
@@ -53,15 +51,8 @@ class CacheManager
                 $unserialized = json_decode(json_encode($unserialized));
             }
 
-            $this->logger->info(
-                sprintf('Document cache hit: %s', $key)
-            );
-
             return $unserialized;
         } catch (Exception $e) {
-            $this->logger->error(
-                sprintf('Error retrieving cached document: %s', $e->getMessage())
-            );
 
             return null;
         }
@@ -95,14 +86,7 @@ class CacheManager
                 $tags,
                 $ttl
             );
-
-            $this->logger->info(
-                sprintf('Document cached: %s (TTL: %d seconds)', $key, $ttl)
-            );
-        } catch (Exception $e) {
-            $this->logger->info(
-                sprintf('Error caching document: %s', $e->getMessage())
-            );
+        } catch (Exception) {
         }
     }
 
@@ -118,7 +102,6 @@ class CacheManager
             if ($type === null) {
                 // Invalidate all Prismic documents
                 $this->cache->clean([CacheTypes::TAG_DOCUMENTS]);
-                $this->logger->info('All Prismic documents cache cleared');
                 return;
             }
 
@@ -126,22 +109,13 @@ class CacheManager
                 // Invalidate all documents of a specific type
                 $tags = [sprintf(CacheTypes::TAG_DOCUMENT_ITEM, $type, '*')];
                 $this->cache->clean($tags);
-                $this->logger->info(
-                    sprintf('All documents of type "%s" cache cleared', $type)
-                );
                 return;
             }
 
             // Invalidate specific document
             $tags = [$this->buildItemTag($type, $uid)];
             $this->cache->clean($tags);
-            $this->logger->info(
-                sprintf('Document cache cleared: %s_%s', $type, $uid)
-            );
-        } catch (Exception $e) {
-            $this->logger->info(
-                sprintf('Error invalidating document cache: %s', $e->getMessage())
-            );
+        } catch (Exception) {
         }
     }
 

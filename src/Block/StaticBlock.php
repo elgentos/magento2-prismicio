@@ -56,16 +56,33 @@ class StaticBlock extends AbstractBlock
      */
     private function createPrismicDocument(): void
     {
-        $data = $this->getData('data') ?? [];
-        if (! (isset($this->contentType, $this->identifier) || isset($data['uid']) || isset($data['identifier']))) {
+        $contentType = $this->contentType;
+        $identifier  = $this->identifier;
+
+        // Allow using "template" to reference a document (saves XML)
+        $reference = $this->getReference();
+        if ($reference !== '*') {
+            $this->setReference('*');
+
+            $elements = explode('.', $reference);
+
+            if (count($elements) > 1) {
+                [$contentType, $identifier] = $elements;
+            } else {
+                [$identifier] = $elements;
+            }
+        }
+
+        $data = $this->getData('data') ?? $this->getData() ?? [];
+        if (! ($identifier || isset($data['uid']) || isset($data['identifier']))) {
             return;
         }
 
-        $document = new stdClass();
+        $document = new stdClass;
         $options  = $this->api->getOptions();
 
-        $document->uid  = $data['uid'] ?? $data['identifier'] ?? $this->identifier;
-        $document->type = $data['content_type'] ?? $this->contentType;
+        $document->uid  = $data['uid'] ?? $data['identifier'] ?? $identifier;
+        $document->type = $data['content_type'] ?? $contentType;
         $document->lang = $data['lang'] ??  $options['lang'];
 
         $this->setDocument($document);

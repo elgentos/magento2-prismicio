@@ -16,8 +16,8 @@ use stdClass;
 
 class CacheManager
 {
-    private const CACHE_KEY_PATTERN = 'prismic_doc_%s_%s_%s';
-    private const CACHE_TAG_ITEM_PATTERN = 'PRISMICIO_DOC_ITEM_%s_%s';
+    private const CACHE_KEY_PATTERN = 'prismic_doc_store_%s_website_%s_%s_%s_%s';
+    private const CACHE_TAG_ITEM_PATTERN = 'PRISMICIO_DOC_ITEM_store_%s_website_%s_%s_%s';
 
     public function __construct(
         private readonly CacheInterface $cache,
@@ -30,14 +30,16 @@ class CacheManager
     public function get(
         string $type,
         string $uid,
-        string $lang
+        string $lang,
+        int $storeId,
+        int $websiteId
     ): mixed {
         if (!$this->cacheState->isEnabled(CacheTypes::TYPE_DOCUMENTS)) {
             return null;
         }
 
         try {
-            $key = $this->buildKey($type, $uid, $lang);
+            $key = $this->buildKey($type, $uid, $lang, $storeId, $websiteId);
             $cached = $this->cache->load($key);
 
             if ($cached === false) {
@@ -62,7 +64,9 @@ class CacheManager
         StdClass $document,
         string $type,
         string $uid,
-        string $lang
+        string $lang,
+        int $storeId,
+        int $websiteId
     ): void {
         if (!$this->cacheState->isEnabled(CacheTypes::TYPE_DOCUMENTS)) {
             return;
@@ -72,10 +76,12 @@ class CacheManager
             $key = $this->buildKey(
                 $type,
                 $uid,
-                $lang
+                $lang,
+                $storeId,
+                $websiteId
             );
 
-            $tags = $this->buildTags($type, $uid);
+            $tags = $this->buildTags($type, $uid, $storeId, $websiteId);
             $ttl = (int)($this->defaultConfig['ttl'] ?? 86400); // Default 1 day
 
             /** @var array|bool|float|int|null|string $document */
@@ -92,7 +98,9 @@ class CacheManager
 
     public function invalidate(
         ?string $type = null,
-        ?string $uid = null
+        ?string $uid = null,
+        ?int $storeId = null,
+        ?int $websiteId = null
     ): void {
         if (!$this->cacheState->isEnabled(CacheTypes::TYPE_DOCUMENTS)) {
             return;
@@ -106,14 +114,26 @@ class CacheManager
             }
 
             if ($uid === null) {
-                // Invalidate all documents of a specific type
-                $tags = [sprintf(CacheTypes::TAG_DOCUMENT_ITEM, $type, '*')];
+                // Invalidate all documents of a specific type (optionally for specific store/website)
+                if ($storeId !== null && $websiteId !== null) {
+                    // Invalidate specific store/website combination
+                    $tags = [sprintf(CacheTypes::TAG_DOCUMENT_ITEM, $storeId, $websiteId, $type, '*')];
+                } else {
+                    // Invalidate all stores/websites for this type
+                    $tags = [sprintf(CacheTypes::TAG_DOCUMENT_ITEM, '*', '*', $type, '*')];
+                }
                 $this->cache->clean($tags);
                 return;
             }
 
             // Invalidate specific document
-            $tags = [$this->buildItemTag($type, $uid)];
+            if ($storeId !== null && $websiteId !== null) {
+                // Invalidate specific document in specific store/website
+                $tags = [$this->buildItemTag($type, $uid, $storeId, $websiteId)];
+            } else {
+                // Invalidate specific document across all stores/websites
+                $tags = [sprintf(CacheTypes::TAG_DOCUMENT_ITEM, '*', '*', $type, $uid)];
+            }
             $this->cache->clean($tags);
         } catch (Exception) {
         }
@@ -122,21 +142,23 @@ class CacheManager
     private function buildKey(
         string $type,
         string $uid,
-        string $lang
+        string $lang,
+        int $storeId,
+        int $websiteId
     ): string {
-        return sprintf(self::CACHE_KEY_PATTERN, $type, $uid, $lang);
+        return sprintf(self::CACHE_KEY_PATTERN, $storeId, $websiteId, $type, $uid, $lang);
     }
 
-    private function buildTags(string $type, string $uid): array
+    private function buildTags(string $type, string $uid, int $storeId, int $websiteId): array
     {
         return [
             CacheTypes::TAG_DOCUMENTS,
-            $this->buildItemTag($type, $uid),
+            $this->buildItemTag($type, $uid, $storeId, $websiteId),
         ];
     }
 
-    private function buildItemTag(string $type, string $uid): string
+    private function buildItemTag(string $type, string $uid, int $storeId, int $websiteId): string
     {
-        return sprintf(self::CACHE_TAG_ITEM_PATTERN, $type, $uid);
+        return sprintf(self::CACHE_TAG_ITEM_PATTERN, $storeId, $websiteId, $type, $uid);
     }
 }

@@ -94,7 +94,7 @@ class Scaffold extends Command
         Reader $moduleReader,
         RouteFactory $routeFactory,
         RouteStoreFactory $routeStoreFactory,
-        string $name = null
+        ?string $name = null
     )
     {
         parent::__construct($name);

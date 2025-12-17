@@ -50,7 +50,7 @@ class Page
      * @throws NoSuchEntityException
      * @throws ApiNotEnabledException
      */
-    public function renderPageByUid(string $uid, string $contentType = null): ResultInterface
+    public function renderPageByUid(string $uid, ?string $contentType = null): ResultInterface
     {
         if (! $uid) {
             return $this->forwardNoRoute();
@@ -95,7 +95,7 @@ class Page
      * @throws NoSuchEntityException
      * @throws ApiNotEnabledException
      */
-    public function renderPageBySingleton(string $contentType = null): ResultInterface
+    public function renderPageBySingleton(?string $contentType = null): ResultInterface
     {
         if (! $this->api->isActive()) {
             return $this->forwardNoRoute();

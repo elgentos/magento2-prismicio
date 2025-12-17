@@ -40,7 +40,7 @@ class DocumentResolver implements ArgumentInterface
         return $this->currentDocument->getDocument();
     }
 
-    public function hasContext(string $documentReference, \stdClass $document = null): bool
+    public function hasContext(string $documentReference, ?\stdClass $document = null): bool
     {
         try {
             $this->getContext($documentReference, $document);
@@ -61,7 +61,7 @@ class DocumentResolver implements ArgumentInterface
      * @throws ContextNotFoundException
      * @throws DocumentNotFoundException
      */
-    public function getContext(string $documentReference, \stdClass $document = null)
+    public function getContext(string $documentReference, ?\stdClass $document = null)
     {
         $document = $document ?? $this->getDocument();
         if ($documentReference === '*') {

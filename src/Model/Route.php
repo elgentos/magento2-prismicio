@@ -22,8 +22,8 @@ class Route extends \Magento\Framework\Model\AbstractModel implements \Elgentos\
         Context $context,
         Registry $registry,
         CollectionFactory $storeCollectionFactory,
-        AbstractResource $resource = null,
-        AbstractDb $resourceCollection = null,
+        ?AbstractResource $resource = null,
+        ?AbstractDb $resourceCollection = null,
         array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

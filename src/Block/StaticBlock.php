@@ -12,6 +12,7 @@ use Elgentos\PrismicIO\ViewModel\DocumentResolver;
 use Elgentos\PrismicIO\ViewModel\LinkResolver;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Element\Context;
+use Magento\Store\Model\StoreManagerInterface;
 use stdClass;
 
 class StaticBlock extends AbstractBlock
@@ -19,6 +20,7 @@ class StaticBlock extends AbstractBlock
     private string $contentType;
     private ?string $identifier;
     private CacheManager $cacheManager;
+    private StoreManagerInterface $storeManager;
 
     public function __construct(
         Context                  $context,
@@ -26,6 +28,7 @@ class StaticBlock extends AbstractBlock
         LinkResolver             $linkResolver,
         private readonly Api     $api,
         CacheManager             $cacheManager,
+        StoreManagerInterface    $storeManager,
         string                   $contentType = 'static_block',
         ?string                  $identifier = null,
         array                    $data = []
@@ -40,6 +43,7 @@ class StaticBlock extends AbstractBlock
         $this->contentType = $contentType;
         $this->identifier = $identifier;
         $this->cacheManager = $cacheManager;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -127,8 +131,13 @@ class StaticBlock extends AbstractBlock
         $type = $context->type ?? '';
         $lang = $context->lang ?? '';
 
+        // Get store and website info
+        $store = $this->storeManager->getStore();
+        $storeId = (int)$store->getId();
+        $websiteId = (int)$store->getWebsiteId();
+
         // Try to get document from cache
-        $document = $this->cacheManager->get($type, $uid, $lang);
+        $document = $this->cacheManager->get($type, $uid, $lang, $storeId, $websiteId);
 
         // If not cached, fetch from API and cache it
         if ($document === null) {
@@ -147,7 +156,7 @@ class StaticBlock extends AbstractBlock
             }
 
             // Cache the document for next request
-            $this->cacheManager->set($document, $type, $uid, $lang);
+            $this->cacheManager->set($document, $type, $uid, $lang, $storeId, $websiteId);
         }
 
         if (! $document) {

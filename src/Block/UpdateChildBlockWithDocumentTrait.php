@@ -39,6 +39,10 @@ trait UpdateChildBlockWithDocumentTrait
             return false;
         }
 
+        if (is_array($document)) {
+            $document = json_decode(json_encode($document));
+        }
+
         $block->setDocument($document);
         return true;
     }

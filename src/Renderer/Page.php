@@ -50,6 +50,8 @@ class Page
         $this->cacheManager = $cacheManager;
         $this->storeManager = $storeManager;
     }
+            // For singletons, UID should match the type (as per original design: $uid = $type)
+            // Use $uid if available, otherwise fallback to $cacheType
 
     /**
      * @throws NoSuchEntityException
@@ -75,11 +77,8 @@ class Page
         $storeId = (int)$store->getId();
         $websiteId = (int)$store->getWebsiteId();
 
-        // Try to get document from cache (only if type is known)
-        $document = null;
-        if ($type !== null) {
-            $document = $this->cacheManager->get($type, $uid, $lang, $storeId, $websiteId);
-        }
+        // Try to get document from cache
+        $document = $this->cacheManager->get($type, $uid, $lang, $storeId, $websiteId);
 
         // If not cached, fetch from API and cache it
         if ($document === null) {
@@ -89,11 +88,8 @@ class Page
                 return $this->forwardNoRoute();
             }
 
-            // Use document's actual type for caching (fallback to provided type if document type is missing)
-            $cacheType = $document->type ?? $type ?? 'by_uid';
-            
             // Cache the document for next request
-            $this->cacheManager->set($document, $cacheType, $uid, $lang, $storeId, $websiteId);
+            $this->cacheManager->set($document, $type, $uid, $lang, $storeId, $websiteId);
         }
 
         if (! $document) {
@@ -130,11 +126,8 @@ class Page
         $storeId = (int)$store->getId();
         $websiteId = (int)$store->getWebsiteId();
 
-        // Try to get document from cache (only if type is known)
-        $document = null;
-        if ($type !== null) {
-            $document = $this->cacheManager->get($type, $uid, $lang, $storeId, $websiteId);
-        }
+        // Try to get document from cache
+        $document = $this->cacheManager->get($type, $uid, $lang, $storeId, $websiteId);
 
         // If not cached, fetch from API and cache it
         if ($document === null) {
@@ -144,12 +137,8 @@ class Page
                 return $this->forwardNoRoute();
             }
 
-            // Use document's actual type for caching (fallback to provided type if document type is missing)
-            $cacheType = $document->type ?? $type ?? 'singleton';
-            $cacheUid = $cacheType;
-
             // Cache the document for next request
-            $this->cacheManager->set($document, $cacheType, $cacheUid, $lang, $storeId, $websiteId);
+            $this->cacheManager->set($document, $type, $uid, $lang, $storeId, $websiteId);
         }
 
         if (! $document) {

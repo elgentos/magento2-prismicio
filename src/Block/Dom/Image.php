@@ -15,7 +15,8 @@ class Image extends AbstractBlock
         }
 
         $cssClasses = $this->getData('css_class') ? 'class="'. $this->getData('css_class') .'"' : '';
-        
+        $loading = $this->getData('loading') ? 'loading="'. $this->getData('loading') .'"' : 'loading="eager"';
+
         return sprintf(
             '<img src="%s" alt="%s" width="%d" height="%d" %s />',
             $context->url,

@@ -23,7 +23,8 @@ class Image extends AbstractBlock
             $context->alt ?? '',
             $context->dimensions->width,
             $context->dimensions->height,
-            $cssClasses
+            $cssClasses,
+            $loading
         );
     }
 }

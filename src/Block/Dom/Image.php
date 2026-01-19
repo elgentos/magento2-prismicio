@@ -18,7 +18,7 @@ class Image extends AbstractBlock
         $loading = $this->getData('loading') ? 'loading="'. $this->getData('loading') .'"' : 'loading="eager"';
 
         return sprintf(
-            '<img src="%s" alt="%s" width="%d" height="%d" %s />',
+            '<img src="%s" alt="%s" width="%d" height="%d" %s %s />',
             $context->url,
             $context->alt ?? '',
             $context->dimensions->width,

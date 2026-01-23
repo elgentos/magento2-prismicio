@@ -98,7 +98,7 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
     {
         $accessToken = $this->configuration->getWebhookSecret($this->storeManager->getStore());
 
-        if ($payload['secret'] ?? '' === $accessToken) {
+        if (($payload['secret'] ?? '') === $accessToken) {
             return true;
         }
 

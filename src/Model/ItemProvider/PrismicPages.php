@@ -65,6 +65,11 @@ class PrismicPages implements ItemProviderInterface
         $this->configReader = $configReader;
     }
 
+    public function filterDocumentsForSitemap(array $documents): array
+    {
+        return $documents;
+    }
+
     public function getItems($storeId): array
     {
         $store = $this->storeManager->getStore($storeId);
@@ -95,7 +100,10 @@ class PrismicPages implements ItemProviderInterface
                     ]
                 );
 
-                $this->addDocumentsToSitemap($documents->results, $store);
+                $this->addDocumentsToSitemap(
+                    $this->filterDocumentsForSitemap($documents->results),
+                    $store
+                );
             }
         }
 

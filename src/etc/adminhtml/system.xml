@@ -117,7 +117,7 @@
                 </field>
             </group>
 
-            <group id="webhook" translate="true" showInDefault="1">
+            <group id="webhook" translate="true" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Webhook</label>
                 <field id="secret" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="text">
                     <label>Secret</label>

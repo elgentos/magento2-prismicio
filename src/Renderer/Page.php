@@ -50,6 +50,8 @@ class Page
         $this->cacheManager = $cacheManager;
         $this->storeManager = $storeManager;
     }
+            // For singletons, UID should match the type (as per original design: $uid = $type)
+            // Use $uid if available, otherwise fallback to $cacheType
 
     /**
      * @throws NoSuchEntityException

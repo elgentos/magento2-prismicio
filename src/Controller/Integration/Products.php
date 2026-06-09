@@ -90,9 +90,12 @@ class Products implements HttpGetActionInterface
         $productCollection->addAttributeToFilter('visibility', $visibility)
             ->addAttributeToSelect($attributes)
             ->addAttributeToSort('updated_at', 'DESC');
+        $productCollection->getSelect()->order('e.entity_id DESC');
 
-        $productCollection->setPageSize(50);
-        $productCollection->setCurPage((int)$this->request->getParam('page', 1));
+        $pageSize = 50;
+        $page = max(1, (int)$this->request->getParam('page', 1));
+        $resultsSize = $productCollection->getSize();
+        $productCollection->getSelect()->limit($pageSize, ($page - 1) * $pageSize);
 
         $mediaUrl = $this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA);
         $results = array_values(array_map(function ($product) use ($mediaUrl) {
@@ -108,7 +111,7 @@ class Products implements HttpGetActionInterface
 
         $jsonResult = $this->jsonFactory->create();
         $jsonResult->setData([
-            'results_size' => $productCollection->getSize(),
+            'results_size' => $resultsSize,
             'results' => $results
         ]);
 

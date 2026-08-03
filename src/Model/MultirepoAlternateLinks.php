@@ -7,7 +7,7 @@ use Elgentos\PrismicIO\Model\Api\CacheProxy;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Prismic\Api as PrismicApi;
-use Prismic\Exception\RequestFailureException;
+use Prismic\Exception\ExceptionInterface as PrismicException;
 use Prismic\Predicates;
 
 class MultirepoAlternateLinks
@@ -63,17 +63,18 @@ class MultirepoAlternateLinks
                 continue;
             }
 
-            // Fetch document from API
-            $api = $this->create($store);
-
             try {
+                // Fetch document from API. Creating the api reads the repository endpoint, so an
+                // unreachable repository of another store must not break the current page either.
+                $api = $this->create($store);
+
                 $alternateDocument = $api->queryFirst(
                     Predicates::at('my.' . $documentType . '.' . $multiRepoField, $referenceField),
                     [
                         'lang' => $configuration->getContentLanguage($store)
                     ]
                 );
-            } catch (RequestFailureException $e) {
+            } catch (PrismicException $e) {
                 $this->documentLanguageCache[$cacheKey] = false;
                 continue;
             }

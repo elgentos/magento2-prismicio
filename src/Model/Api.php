@@ -15,6 +15,8 @@ use Exception;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Prismic\Api as PrismicApi;
+use Prismic\Exception\ExceptionInterface as PrismicException;
+use Psr\Log\LoggerInterface;
 use stdClass;
 
 class Api
@@ -25,15 +27,19 @@ class Api
 
     private CacheProxy $cacheProxy;
 
+    private LoggerInterface $logger;
+
 
     public function __construct(
         ConfigurationInterface $configuration,
         StoreManagerInterface $storeManager,
         CacheProxy $cacheProxy,
+        LoggerInterface $logger,
     ) {
         $this->configuration = $configuration;
         $this->storeManager = $storeManager;
         $this->cacheProxy = $cacheProxy;
+        $this->logger = $logger;
     }
 
     /**
@@ -227,19 +233,26 @@ class Api
     public function getDocumentByUid(string $uid, ?string $contentType = null, array $options = []): ?stdClass
     {
         $contentType = $contentType ?? $this->getDefaultContentType();
-        $api = $this->create();
 
-        $allowedContentTypes = $api->getData()->getTypes();
-        if (! isset($allowedContentTypes[$contentType])) {
+        try {
+            $api = $this->create();
+
+            $allowedContentTypes = $api->getData()->getTypes();
+            if (! isset($allowedContentTypes[$contentType])) {
+                return null;
+            }
+
+            $document = $api->getByUID($contentType, $uid, $this->getOptions($options));
+            if ($document || ! $this->isFallbackAllowed()) {
+                return $document;
+            }
+
+            return $api->getByUID($contentType, $uid, $this->getOptionsLanguageFallback($options));
+        } catch (PrismicException $exception) {
+            $this->logApiFailure($exception);
+
             return null;
         }
-
-        $document = $api->getByUID($contentType, $uid, $this->getOptions($options));
-        if ($document || ! $this->isFallbackAllowed()) {
-            return $document;
-        }
-
-        return $api->getByUID($contentType, $uid, $this->getOptionsLanguageFallback($options));
     }
 
     /**
@@ -254,24 +267,31 @@ class Api
     public function getSingleton(?string $contentType = null, array $options = []): ?stdClass
     {
         $contentType = $contentType ?? $this->getDefaultContentType();
-        $api = $this->create();
-
-        $allowedContentTypes = $api->getData()->getTypes();
-        if (! isset($allowedContentTypes[$contentType])) {
-            return null;
-        }
 
         try {
-            $document = $api->getSingle($contentType, $this->getOptions($options));
-        } catch (Exception $e) {
+            $api = $this->create();
+
+            $allowedContentTypes = $api->getData()->getTypes();
+            if (! isset($allowedContentTypes[$contentType])) {
+                return null;
+            }
+
+            try {
+                $document = $api->getSingle($contentType, $this->getOptions($options));
+            } catch (Exception $e) {
+                return null;
+            }
+
+            if ($document || ! $this->isFallbackAllowed()) {
+                return $document;
+            }
+
+            return $api->getSingle($contentType, $this->getOptionsLanguageFallback($options));
+        } catch (PrismicException $exception) {
+            $this->logApiFailure($exception);
+
             return null;
         }
-
-        if ($document || ! $this->isFallbackAllowed()) {
-            return $document;
-        }
-
-        return $api->getSingle($contentType, $this->getOptionsLanguageFallback($options));
     }
 
     /**
@@ -285,6 +305,25 @@ class Api
      */
     public function getDocumentById(string $id, array $options = []): ?stdClass
     {
-        return $this->create()->getByID($id, $this->getOptions($options));
+        try {
+            return $this->create()->getByID($id, $this->getOptions($options));
+        } catch (PrismicException $exception) {
+            $this->logApiFailure($exception);
+
+            return null;
+        }
+    }
+
+    /**
+     * An unreachable repository means the document cannot be delivered, it is not a fatal error
+     *
+     * @param PrismicException $exception
+     * @return void
+     */
+    private function logApiFailure(PrismicException $exception): void
+    {
+        $this->logger->warning(
+            'Prismic API request failed, treating the document as not found: ' . $exception->getMessage()
+        );
     }
 }

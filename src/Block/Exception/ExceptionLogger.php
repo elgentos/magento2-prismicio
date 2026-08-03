@@ -63,10 +63,12 @@ class ExceptionLogger
         $context = array_merge(
             [
                 'exception' => $type,
-                'reference' => $block->getReference(),
+                'reference' => self::gather(static fn () => $block->getReference()),
                 'name_in_layout' => $block->getNameInLayout(),
-                'children' => array_keys($block->getLayout()->getChildBlocks($block->getNameInLayout())),
-                'context' => $block->getContext(),
+                'children' => self::gather(
+                    static fn () => array_keys($block->getLayout()->getChildBlocks($block->getNameInLayout()))
+                ),
+                'context' => self::gather(static fn () => $block->getContext()),
             ],
             $context
         );
@@ -77,6 +79,25 @@ class ExceptionLogger
                 new $type(self::enhanceMessageWithContext($message, $context)),
                 $context
             );
+    }
+
+    /**
+     * Collect a value for the log context without ever throwing.
+     *
+     * Blocks like Block\Document replace their document with the resolved context before reporting a
+     * missing document, so resolving the reference a second time throws a ContextNotFoundException.
+     * That turned a logged warning into a fatal error, in every application mode.
+     *
+     * @param callable $callback
+     * @return mixed
+     */
+    private static function gather(callable $callback): mixed
+    {
+        try {
+            return $callback();
+        } catch (\Throwable) {
+            return null;
+        }
     }
 
     private static function enhanceMessageWithContext(
@@ -91,7 +112,7 @@ class ExceptionLogger
             }
 
             if (! \is_string($value)) {
-                $value = \json_encode($value, JSON_THROW_ON_ERROR);
+                $value = \json_encode($value) ?: '';
             }
 
             $message = str_replace($key, $value, $message);

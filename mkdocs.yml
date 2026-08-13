@@ -29,6 +29,7 @@ nav:
     - Sitemap: advanced/sitemap.md
     - Integration fields: advanced/integration-fields.md
     - Webhooks: advanced/webhooks.md
+    - Slice Simulator: advanced/slice-simulator.md
   - Technical description:
     - Blocks:
       - Prismic fields: technical/blocks/prismic-fields.md

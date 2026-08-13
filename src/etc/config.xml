@@ -33,6 +33,12 @@
                 <sync_disabled_products>0</sync_disabled_products>
                 <visibility>4</visibility>
             </integration_fields>
+            <simulator>
+                <enabled>0</enabled>
+                <secret />
+                <block_prefix />
+                <handle_prefix>prismicio_slices_</handle_prefix>
+            </simulator>
         </prismicio>
         <sitemap>
             <prismic>

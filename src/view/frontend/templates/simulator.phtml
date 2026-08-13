@@ -1,0 +1,154 @@
+<?php
+/** @var \Magento\Framework\View\Element\Template $block */
+
+// Render.php requires the same secret this page was already validated with.
+$secret = $block->getRequest()->getParam('secret');
+$renderUrl = $block->getUrl('prismicio/slice/render', $secret ? ['_query' => ['secret' => $secret]] : []);
+?>
+<style>
+    html, body {
+        height: auto;
+    }
+    .slice-simulator-main {
+        max-width: 100%;
+    }
+    .page-layout-simulator .column.main,
+    .page-layout-simulator .page-wrapper {
+        min-height: 0;
+    }
+    .slice-simulator {
+        background: #ffffff;
+        min-height: 750px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .slice-simulator--root {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    #root > * {
+        max-width: 100% !important;
+    }
+    #root:empty::before {
+        content: 'Loading...';
+        display: block;
+        text-align: center;
+        color: #666;
+    }
+</style>
+
+<div class="slice-simulator">
+    <div id="root" class="slice-simulator--root"></div>
+</div>
+
+<script type="module">
+    import {
+        SimulatorManager,
+        StateEventType,
+        onClickHandler,
+        disableEventHandler
+    } from 'https://cdn.jsdelivr.net/npm/@prismicio/simulator@0.2.0/kit/+esm';
+    import LZString from 'https://cdn.jsdelivr.net/npm/lz-string@1.5.0/+esm';
+
+    const renderUrl = '<?= $block->escapeUrl($renderUrl) ?>';
+    const root = document.getElementById('root');
+    const STATE_PARAMS_KEY = 'state';
+
+    console.log('[Simulator] Starting...');
+
+    async function renderSlice(slice) {
+        if (!slice) return;
+        console.log('[Simulator] Rendering slice:', slice.slice_type || slice.type);
+
+        try {
+            const res = await fetch(renderUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: new URLSearchParams({ slice: JSON.stringify(slice) })
+            });
+
+            const data = await res.json();
+
+            if (data.html) {
+                root.innerHTML = data.html;
+
+                // innerHTML doesn't execute embedded <script> tags, so replace each with a fresh element.
+                root.querySelectorAll('script').forEach(old => {
+                    const script = document.createElement('script');
+                    Array.from(old.attributes).forEach(attr => script.setAttribute(attr.name, attr.value));
+                    script.textContent = old.textContent;
+                    old.parentNode.replaceChild(script, old);
+                });
+
+                if (window.Alpine?.initTree) window.Alpine.initTree(root);
+            }
+        } catch (e) {
+            console.error('[Simulator] Error rendering slice:', e);
+            root.innerHTML = `<div style="padding: 20px; color: red;">Error: ${e.message}</div>`;
+        }
+    }
+
+    function getSlicesFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        const state = params.get(STATE_PARAMS_KEY);
+        if (state) {
+            try {
+                const parsed = JSON.parse(LZString.decompressFromEncodedURIComponent(state));
+                if (Array.isArray(parsed)) return parsed;
+            } catch (e) {
+                console.error('[Simulator] Failed to parse state from URL:', e);
+            }
+        }
+        return [];
+    }
+
+    const simulatorManager = new SimulatorManager();
+
+    simulatorManager.state.on(StateEventType.Slices, async (newSlices) => {
+        console.log('[Simulator] Received new slices:', newSlices);
+
+        // Persist to the URL so a refresh/share keeps the current slice.
+        const url = new URL(window.location.href);
+        url.searchParams.set(STATE_PARAMS_KEY, LZString.compressToEncodedURIComponent(JSON.stringify(newSlices)));
+        window.history.replaceState(null, '', url);
+
+        if (newSlices.length > 0) {
+            await renderSlice(newSlices[0]);
+        } else {
+            root.innerHTML = '';
+        }
+    }, 'simulator-slices');
+
+    // e.g. "click a slice in Prismic to preview it here" placeholder text.
+    simulatorManager.state.on(StateEventType.Message, (newMessage) => {
+        console.log('[Simulator] Message:', newMessage);
+        if (getSlicesFromURL().length === 0 && newMessage) {
+            const msgEl = document.createElement('div');
+            msgEl.style.cssText = 'text-align: center; color: #666;';
+            msgEl.innerHTML = newMessage;
+            root.innerHTML = '';
+            root.appendChild(msgEl);
+        }
+    }, 'simulator-message');
+
+    // Lets Prismic's "click to edit" jump straight to the clicked field.
+    root.addEventListener('click', onClickHandler, { capture: true });
+    root.addEventListener('submit', disableEventHandler, { capture: true });
+
+    const initialSlices = getSlicesFromURL();
+    if (initialSlices.length > 0) {
+        renderSlice(initialSlices[0]);
+    }
+
+    simulatorManager.init().then(() => {
+        console.log('[Simulator] Handshake complete and ready');
+    }).catch(e => {
+        console.error('[Simulator] Initialization failed:', e);
+    });
+</script>

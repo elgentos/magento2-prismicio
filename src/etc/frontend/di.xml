@@ -14,6 +14,11 @@
                     <item name="disable" xsi:type="boolean">false</item>
                     <item name="sortOrder" xsi:type="string">50</item>
                 </item>
+                <item name="prismicio_slice_simulator" xsi:type="array">
+                    <item name="class" xsi:type="string">Elgentos\PrismicIO\Controller\SliceSimulatorRouter</item>
+                    <item name="disable" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="string">40</item>
+                </item>
             </argument>
         </arguments>
     </type>
@@ -26,5 +31,10 @@
     <type name="Magento\Framework\App\Response\Http">
         <plugin name="prismicio_no_store_for_incomplete_response"
                 type="Elgentos\PrismicIO\Plugin\Response\NoStoreForIncompleteResponse"/>
+    </type>
+
+    <type name="Magento\Framework\App\Response\HeaderProvider\XFrameOptions">
+        <plugin name="prismicio_allow_slice_simulator_framing"
+                type="Elgentos\PrismicIO\Plugin\Response\HeaderProvider\AllowSliceSimulatorFraming"/>
     </type>
 </config>

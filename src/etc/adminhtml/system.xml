@@ -125,6 +125,36 @@
                 </field>
             </group>
 
+            <group id="simulator" translate="true" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Slice Simulator</label>
+                <field id="enabled" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="select">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    <comment>Enables the /prismicio/slice/simulator and /prismicio/slice/render routes, used by Prismic's Slice Simulator.</comment>
+                </field>
+                <field id="secret" showInDefault="1" showInStore="1" showInWebsite="1" translate="label" type="text">
+                    <label>Secret</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <comment>Leave empty for no authentication. If set, requests to the simulator must include a matching 'secret' query parameter.</comment>
+                </field>
+                <field id="block_prefix" showInDefault="1" showInStore="1" showInWebsite="1" translate="label comment" type="text">
+                    <label>Block Name Prefix</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <comment><![CDATA[The simulator looks up a slice's root block by its slice type name (e.g. <code>hero_banner</code>). If your layouts namespace slice root blocks instead (e.g. <code>slice.hero_banner</code>), set that prefix here (e.g. <code>slice.</code>). Leave empty to only try the unprefixed name. For anything more custom, plugin Elgentos\PrismicIO\Controller\Slice\Render::getBlockNames.]]></comment>
+                </field>
+                <field id="handle_prefix" showInDefault="1" showInStore="1" showInWebsite="1" translate="label comment" type="text">
+                    <label>Layout Handle Prefix</label>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                    <comment><![CDATA[The layout handle loaded for a slice is this prefix plus the slice type name (e.g. <code>prismicio_slices_hero_banner</code>). For anything more custom, plugin Elgentos\PrismicIO\Controller\Slice\Render::getLayoutHandle.]]></comment>
+                </field>
+            </group>
+
             <group id="sitemap" translate="true" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Sitemap</label>
                 <field id="content_types" showInDefault="1" showInWebsite="1" showInStore="1" translate="label" type="multiselect">

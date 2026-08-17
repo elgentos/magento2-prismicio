@@ -937,6 +937,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/block-cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Block Cache
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1821,7 +1849,7 @@
 <h2 id="implementation">Implementation</h2>
 <h3 id="preview-script-integration">Preview Script Integration</h3>
 <p>The module automatically adds the Prismic preview script to your pages when preview is enabled:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="x">const PRISMICIO_PREVIEW_URL = &#39;https://static.cdn.prismic.io/prismic.js?new=true&amp;repo=&#39;;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="x">const PRISMICIO_PREVIEW_URL = 'https://static.cdn.prismic.io/prismic.js?new=true&amp;repo=';</span>
 </code></pre></div>
 <h3 id="preview-flow">Preview Flow</h3>
 <ol>
@@ -1837,11 +1865,11 @@
 - Validates preview tokens
 - Falls back to 404 for invalid requests</p>
 <h3 id="template-integration">Template Integration</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">&lt;referenceBlock</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;before.body.end&quot;</span><span class="nt">&gt;</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">ifconfig=</span><span class="s">&quot;prismicio/content/allow_preview&quot;</span><span class="w"> </span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">           </span><span class="na">name=</span><span class="s">&quot;prismicio_preview_html&quot;</span><span class="w"> </span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">           </span><span class="na">class=</span><span class="s">&quot;Elgentos\PrismicIO\Block\PreviewMode&quot;</span><span class="w"> </span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">           </span><span class="na">template=</span><span class="s">&quot;Elgentos_PrismicIO::preview-mode.phtml&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">&lt;referenceBlock</span><span class="w"> </span><span class="na">name=</span><span class="s">"before.body.end"</span><span class="nt">&gt;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">ifconfig=</span><span class="s">"prismicio/content/allow_preview"</span><span class="w"> </span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">           </span><span class="na">name=</span><span class="s">"prismicio_preview_html"</span><span class="w"> </span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">           </span><span class="na">class=</span><span class="s">"Elgentos\PrismicIO\Block\PreviewMode"</span><span class="w"> </span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">           </span><span class="na">template=</span><span class="s">"Elgentos_PrismicIO::preview-mode.phtml"</span><span class="w"> </span><span class="nt">/&gt;</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="nt">&lt;/referenceBlock&gt;</span>
 </code></pre></div>
 <h2 id="api-methods">API Methods</h2>

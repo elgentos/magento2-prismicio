@@ -1104,6 +1104,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/block-cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Block Cache
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1720,7 +1748,7 @@ while the repository is unavailable.</p>
 Anything that constructs it by hand, or extends it and calls <code>parent::__construct()</code>, has to pass
 them.</p>
 <h4 id="subclasses-of-blockstaticblock">Subclasses of <code>Block\StaticBlock</code></h4>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>grep<span class="w"> </span>-rn<span class="w"> </span><span class="s2">&quot;extends StaticBlock&quot;</span><span class="w"> </span>app/code
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>grep<span class="w"> </span>-rn<span class="w"> </span><span class="s2">"extends StaticBlock"</span><span class="w"> </span>app/code
 </code></pre></div>
 <p><code>Block\StaticBlock</code> no longer takes a cache manager and a store manager, so the arguments after them
 shifted. A subclass that passes them on has to drop them, otherwise the cache manager arrives where

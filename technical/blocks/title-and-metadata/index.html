@@ -11,7 +11,7 @@
       
       
       
-        <link rel="prev" href="../../../advanced/webhooks/">
+        <link rel="prev" href="../../../advanced/block-cache/">
       
       
         <link rel="next" href="../container/">
@@ -937,6 +937,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../advanced/block-cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Block Cache
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1726,13 +1754,13 @@ Generates canonical URLs for Prismic content.</p>
 Handles hreflang tags for multilingual content.</p>
 <h2 id="implementation">Implementation</h2>
 <h3 id="layout-integration">Layout Integration</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">&lt;referenceBlock</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;head.additional&quot;</span><span class="nt">&gt;</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;prismicio_alternate_links&quot;</span><span class="w"> </span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">           </span><span class="na">class=</span><span class="s">&quot;Elgentos\PrismicIO\Block\AlternateLanguage&quot;</span><span class="w"> </span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">           </span><span class="na">template=</span><span class="s">&quot;alternate_links.phtml&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;prismicio_canonical&quot;</span><span class="w"> </span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">           </span><span class="na">class=</span><span class="s">&quot;Elgentos\PrismicIO\Block\Canonical&quot;</span><span class="w"> </span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">           </span><span class="na">template=</span><span class="s">&quot;canonical.phtml&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">&lt;referenceBlock</span><span class="w"> </span><span class="na">name=</span><span class="s">"head.additional"</span><span class="nt">&gt;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">name=</span><span class="s">"prismicio_alternate_links"</span><span class="w"> </span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">           </span><span class="na">class=</span><span class="s">"Elgentos\PrismicIO\Block\AlternateLanguage"</span><span class="w"> </span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">           </span><span class="na">template=</span><span class="s">"alternate_links.phtml"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">name=</span><span class="s">"prismicio_canonical"</span><span class="w"> </span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">           </span><span class="na">class=</span><span class="s">"Elgentos\PrismicIO\Block\Canonical"</span><span class="w"> </span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">           </span><span class="na">template=</span><span class="s">"canonical.phtml"</span><span class="w"> </span><span class="nt">/&gt;</span>
 <a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="nt">&lt;/referenceBlock&gt;</span>
 </code></pre></div>
 <h3 id="metadata-handling">Metadata Handling</h3>
@@ -1745,17 +1773,17 @@ Handles hreflang tags for multilingual content.</p>
 - Alternate language links</p>
 <h2 id="usage-examples">Usage Examples</h2>
 <h3 id="page-title">Page Title</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">&lt;referenceBlock</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;page.main.title&quot;</span><span class="nt">&gt;</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;Elgentos\PrismicIO\Block\Dom\Plain&quot;</span><span class="w"> </span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">           </span><span class="na">template=</span><span class="s">&quot;data.meta_title&quot;</span><span class="nt">/&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">&lt;referenceBlock</span><span class="w"> </span><span class="na">name=</span><span class="s">"page.main.title"</span><span class="nt">&gt;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">"Elgentos\PrismicIO\Block\Dom\Plain"</span><span class="w"> </span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">           </span><span class="na">template=</span><span class="s">"data.meta_title"</span><span class="nt">/&gt;</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="nt">&lt;/referenceBlock&gt;</span>
 </code></pre></div>
 <h3 id="meta-description">Meta Description</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">&lt;referenceBlock</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;head.additional&quot;</span><span class="nt">&gt;</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;Elgentos\PrismicIO\Block\Metadata&quot;</span><span class="w"> </span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">           </span><span class="na">name=</span><span class="s">&quot;prismic.metadata&quot;</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">&lt;referenceBlock</span><span class="w"> </span><span class="na">name=</span><span class="s">"head.additional"</span><span class="nt">&gt;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">"Elgentos\PrismicIO\Block\Metadata"</span><span class="w"> </span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">           </span><span class="na">name=</span><span class="s">"prismic.metadata"</span><span class="nt">&gt;</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">        </span><span class="nt">&lt;arguments&gt;</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">            </span><span class="nt">&lt;argument</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;reference&quot;</span><span class="w"> </span><span class="na">xsi:type=</span><span class="s">&quot;string&quot;</span><span class="nt">&gt;</span>data.meta_description<span class="nt">&lt;/argument&gt;</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">            </span><span class="nt">&lt;argument</span><span class="w"> </span><span class="na">name=</span><span class="s">"reference"</span><span class="w"> </span><span class="na">xsi:type=</span><span class="s">"string"</span><span class="nt">&gt;</span>data.meta_description<span class="nt">&lt;/argument&gt;</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="nt">&lt;/arguments&gt;</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="nt">&lt;/block&gt;</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nt">&lt;/referenceBlock&gt;</span>

@@ -1030,6 +1030,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/block-cache/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Block Cache
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1553,35 +1581,35 @@
 </ul>
 <h2 id="usage-examples">Usage Examples</h2>
 <p>Here's an example of how to customize the layout for a homepage content type:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">&lt;page</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">      </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">&quot;urn:magento:framework:View/Layout/etc/page_configuration.xsd&quot;</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nt">&lt;page</span><span class="w"> </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">      </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">"urn:magento:framework:View/Layout/etc/page_configuration.xsd"</span><span class="nt">&gt;</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">&lt;body&gt;</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="nt">&lt;referenceContainer</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;prismicio_content&quot;</span><span class="nt">&gt;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="nt">&lt;referenceContainer</span><span class="w"> </span><span class="na">name=</span><span class="s">"prismicio_content"</span><span class="nt">&gt;</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">            </span><span class="cm">&lt;!-- Remove default title if needed --&gt;</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">            </span><span class="nt">&lt;referenceBlock</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;page.main.title&quot;</span><span class="w"> </span><span class="na">remove=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">            </span><span class="nt">&lt;referenceBlock</span><span class="w"> </span><span class="na">name=</span><span class="s">"page.main.title"</span><span class="w"> </span><span class="na">remove=</span><span class="s">"true"</span><span class="nt">/&gt;</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">            </span><span class="cm">&lt;!-- Custom title block --&gt;</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">            </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;homepage.title&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;Elgentos\PrismicIO\Block\Layout\PageTitle&quot;</span><span class="nt">&gt;</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">                </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;Elgentos\PrismicIO\Block\Dom\Plain&quot;</span><span class="w"> </span><span class="na">template=</span><span class="s">&quot;data.title&quot;</span><span class="nt">/&gt;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">            </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">name=</span><span class="s">"homepage.title"</span><span class="w"> </span><span class="na">class=</span><span class="s">"Elgentos\PrismicIO\Block\Layout\PageTitle"</span><span class="nt">&gt;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">                </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">"Elgentos\PrismicIO\Block\Dom\Plain"</span><span class="w"> </span><span class="na">template=</span><span class="s">"data.title"</span><span class="nt">/&gt;</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">            </span><span class="nt">&lt;/block&gt;</span>
 <a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">            </span><span class="cm">&lt;!-- Main content template --&gt;</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">            </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;Elgentos\PrismicIO\Block\Template&quot;</span><span class="w"> </span><span class="na">template=</span><span class="s">&quot;homepage.phtml&quot;</span><span class="nt">&gt;</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">            </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">"Elgentos\PrismicIO\Block\Template"</span><span class="w"> </span><span class="na">template=</span><span class="s">"homepage.phtml"</span><span class="nt">&gt;</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">                </span><span class="nt">&lt;arguments&gt;</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">                    </span><span class="nt">&lt;argument</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;reference&quot;</span><span class="w"> </span><span class="na">xsi:type=</span><span class="s">&quot;string&quot;</span><span class="nt">&gt;</span>data<span class="nt">&lt;/argument&gt;</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">                    </span><span class="nt">&lt;argument</span><span class="w"> </span><span class="na">name=</span><span class="s">"reference"</span><span class="w"> </span><span class="na">xsi:type=</span><span class="s">"string"</span><span class="nt">&gt;</span>data<span class="nt">&lt;/argument&gt;</span>
 <a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">                </span><span class="nt">&lt;/arguments&gt;</span>
 <a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>
 <a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">                </span><span class="cm">&lt;!-- Slice content --&gt;</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">                </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;page.body&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;Elgentos\PrismicIO\Block\Slices&quot;</span><span class="w"> </span><span class="na">template=</span><span class="s">&quot;body&quot;</span><span class="nt">&gt;</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">                    </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;page.body.block&quot;</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;Elgentos\PrismicIO\Block\Container&quot;</span><span class="nt">&gt;</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">                </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">name=</span><span class="s">"page.body"</span><span class="w"> </span><span class="na">class=</span><span class="s">"Elgentos\PrismicIO\Block\Slices"</span><span class="w"> </span><span class="na">template=</span><span class="s">"body"</span><span class="nt">&gt;</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">                    </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">name=</span><span class="s">"page.body.block"</span><span class="w"> </span><span class="na">class=</span><span class="s">"Elgentos\PrismicIO\Block\Container"</span><span class="nt">&gt;</span>
 <a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">                        </span><span class="nt">&lt;arguments&gt;</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">                            </span><span class="nt">&lt;argument</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;reference&quot;</span><span class="w"> </span><span class="na">xsi:type=</span><span class="s">&quot;string&quot;</span><span class="nt">&gt;</span>primary<span class="nt">&lt;/argument&gt;</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">                            </span><span class="nt">&lt;argument</span><span class="w"> </span><span class="na">name=</span><span class="s">"reference"</span><span class="w"> </span><span class="na">xsi:type=</span><span class="s">"string"</span><span class="nt">&gt;</span>primary<span class="nt">&lt;/argument&gt;</span>
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">                        </span><span class="nt">&lt;/arguments&gt;</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">                        </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;Elgentos\PrismicIO\Block\Template&quot;</span><span class="w"> </span><span class="na">template=</span><span class="s">&quot;element/homepage-block.phtml&quot;</span><span class="nt">&gt;</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">                            </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;Elgentos\PrismicIO\Block\Dom\Plain&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;block.width&quot;</span><span class="w"> </span><span class="na">template=</span><span class="s">&quot;width&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">                            </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;Elgentos\PrismicIO\Block\Dom\Plain&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;block.image&quot;</span><span class="w"> </span><span class="na">template=</span><span class="s">&quot;image&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">                            </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">&quot;Elgentos\PrismicIO\Block\Dom\Link&quot;</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;block.link&quot;</span><span class="w"> </span><span class="na">template=</span><span class="s">&quot;link&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">                        </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">"Elgentos\PrismicIO\Block\Template"</span><span class="w"> </span><span class="na">template=</span><span class="s">"element/homepage-block.phtml"</span><span class="nt">&gt;</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">                            </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">"Elgentos\PrismicIO\Block\Dom\Plain"</span><span class="w"> </span><span class="na">name=</span><span class="s">"block.width"</span><span class="w"> </span><span class="na">template=</span><span class="s">"width"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">                            </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">"Elgentos\PrismicIO\Block\Dom\Plain"</span><span class="w"> </span><span class="na">name=</span><span class="s">"block.image"</span><span class="w"> </span><span class="na">template=</span><span class="s">"image"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">                            </span><span class="nt">&lt;block</span><span class="w"> </span><span class="na">class=</span><span class="s">"Elgentos\PrismicIO\Block\Dom\Link"</span><span class="w"> </span><span class="na">name=</span><span class="s">"block.link"</span><span class="w"> </span><span class="na">template=</span><span class="s">"link"</span><span class="w"> </span><span class="nt">/&gt;</span>
 <a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">                        </span><span class="nt">&lt;/block&gt;</span>
 <a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">                    </span><span class="nt">&lt;/block&gt;</span>
 <a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">                </span><span class="nt">&lt;/block&gt;</span>

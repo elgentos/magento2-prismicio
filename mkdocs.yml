@@ -21,6 +21,7 @@ nav:
     - Slices: layout/slices.md
     - Static blocks: layout/static-blocks.md
     - Document Links: layout/document-links.md
+    - Content Relationship: layout/content-relationship.md
     - Alternate languages: layout/alternate-languages.md
   - Advanced:
     - Routing: advanced/routing.md

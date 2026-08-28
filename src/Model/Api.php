@@ -15,10 +15,12 @@ use Elgentos\PrismicIO\Model\Api\CacheProxy;
 use Elgentos\PrismicIO\Model\Api\State;
 use Elgentos\PrismicIO\Model\Document\CacheManager;
 use Exception;
+use Magento\Framework\App\CacheInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
 use Prismic\Api as PrismicApi;
 use Prismic\Exception\ExceptionInterface as PrismicException;
+use Prismic\Predicates;
 use Psr\Log\LoggerInterface;
 use stdClass;
 use Throwable;
@@ -29,6 +31,17 @@ class Api
      * Cache key prefix for documents that are looked up by id instead of by uid
      */
     private const CACHE_TYPE_BY_ID = 'by_id';
+
+    /**
+     * Cache key prefix for documents that are looked up by tag instead of by uid
+     */
+    private const CACHE_TYPE_BY_TAG = 'by_tag';
+
+    /**
+     * Cached repository tag list - tagged as a prismicio_documents entry so it clears with the
+     * rest of the document cache, no separate invalidation needed (see hasTag()).
+     */
+    private const CACHE_KEY_ALL_TAGS = 'prismicio_all_tags';
 
     private ConfigurationInterface $configuration;
 
@@ -42,6 +55,7 @@ class Api
 
     private State $state;
 
+    private CacheInterface $cache;
 
     public function __construct(
         ConfigurationInterface $configuration,
@@ -50,6 +64,7 @@ class Api
         LoggerInterface $logger,
         CacheManager $cacheManager,
         State $state,
+        CacheInterface $cache,
     ) {
         $this->configuration = $configuration;
         $this->storeManager = $storeManager;
@@ -57,6 +72,7 @@ class Api
         $this->logger = $logger;
         $this->cacheManager = $cacheManager;
         $this->state = $state;
+        $this->cache = $cache;
     }
 
     /**
@@ -374,6 +390,92 @@ class Api
         }
 
         return $document;
+    }
+
+    /**
+     * Get the first document of a given content type carrying any of the given tags
+     *
+     * @param string|string[] $tag
+     * @param string $contentType
+     * @param array $options
+     * @return stdClass|null
+     * @throws ApiNotEnabledException
+     * @throws NoSuchEntityException
+     */
+    public function getDocumentByTag(string|array $tag, string $contentType, array $options = []): ?stdClass
+    {
+        $tags = array_values(array_filter(is_array($tag) ? $tag : [$tag], [$this, 'hasTag']));
+        if (empty($tags)) {
+            return null;
+        }
+
+        $language = $this->getLanguage($options);
+
+        $cached = $this->cacheManager->get(self::CACHE_TYPE_BY_TAG, $contentType . '_' . implode('_', $tags), $language, ...$this->getScope());
+        if ($cached !== null) {
+            return $cached;
+        }
+
+        try {
+            $result = $this->create()->query(
+                [Predicates::at('document.type', $contentType), Predicates::any('document.tags', $tags)],
+                $this->getOptions($options)
+            );
+        } catch (ApiUnavailableException | PrismicException $exception) {
+            $this->logApiFailure($exception);
+
+            return null;
+        }
+
+        $document = $result->results[0] ?? null;
+        if ($document) {
+            $this->cacheManager->set($document, self::CACHE_TYPE_BY_TAG, $contentType . '_' . implode('_', $tags), $language, ...$this->getScope());
+        }
+
+        return $document;
+    }
+
+    /**
+     * Cheap pre-check before querying for a specific tag match. Fails open (assumes the tag
+     * might exist) if the tag list can't be loaded, so a transient failure never hides content.
+     *
+     * @param string $tag
+     * @return bool
+     */
+    private function hasTag(string $tag): bool
+    {
+        $tags = $this->getAllTags();
+
+        return $tags === null || in_array($tag, $tags, true);
+    }
+
+    /**
+     * @return string[]|null
+     */
+    private function getAllTags(): ?array
+    {
+        $cached = $this->cache->load(self::CACHE_KEY_ALL_TAGS);
+        if ($cached !== false) {
+            return json_decode($cached);
+        }
+
+        try {
+            $api = $this->create();
+            $response = $api->getHttpClient()->request('GET', $api->form('tags')->url());
+            $tags = json_decode((string) $response->getBody());
+        } catch (Throwable $exception) {
+            return null;
+        }
+
+        if (!is_array($tags)) {
+            return null;
+        }
+
+        // Tagged as a prismicio_documents entry so the webhook's existing cleanType() call
+        // clears it too - no separate invalidation path needed.
+        $this->cache->save(json_encode($tags), self::CACHE_KEY_ALL_TAGS, [CacheTypes::TAG_DOCUMENTS], 60 * 60 * 48);
+
+        return $tags;
     }
 
     /**

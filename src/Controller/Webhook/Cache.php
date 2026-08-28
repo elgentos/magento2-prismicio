@@ -92,6 +92,7 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
         }
 
         if ($this->cacheState->isEnabled(CacheTypes::TYPE_DOCUMENTS)) {
+            // Also clears Api::hasTag()'s cached tag list, tagged as part of this same type.
             $this->typeList->cleanType(CacheTypes::TYPE_DOCUMENTS);
         }
 
@@ -129,6 +130,9 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
             $uid = $document->uid ?? $document->id ?? '';
             // Must match Block\DocumentCacheableTrait::getIdentities().
             $identities[] = 'prismicio_document_' . $document->type . '_' . $uid;
+            foreach ($document->tags ?? [] as $tag) {
+                $identities[] = 'prismicio_tag_' . $document->type . '_' . $tag;
+            }
         }
 
         if (empty($identities)) {

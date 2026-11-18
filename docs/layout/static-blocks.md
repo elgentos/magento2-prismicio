@@ -89,6 +89,73 @@ The block will:
   - Content type
   - Language
 
+## Loading by Tag
+
+`Elgentos\PrismicIO\Block\StaticBlockByTag` resolves the first document of a content type
+carrying a given Prismic tag, instead of an explicit uid - useful for binding a block to
+"whichever document is currently tagged for this spot" rather than a fixed document. It's a
+drop-in `StaticBlock` swap; the `identifier` argument (or reference dot-notation) is the tag to
+search for instead of a uid:
+
+```xml
+<block class="Elgentos\PrismicIO\Block\StaticBlockByTag" name="category.promo">
+    <arguments>
+        <argument name="content_type" xsi:type="string">promo_banner</argument>
+        <argument name="identifier" xsi:type="string">category-25</argument>
+    </arguments>
+</block>
+```
+
+If [block caching](../advanced/block-cache.md) is enabled, this is invalidated correctly even
+when a *different* document gets tagged to take the current one's place - the webhook re-tags
+every changed document by its own current tags on each publish, not just by its own identity.
+
+Before querying, the tag is checked against the repository's full tag list (cached, refreshed
+every 48 hours) - so a category or product with nothing tagged for it doesn't cost a Prismic
+query on every page view. If that check itself fails, it fails open (assumes the tag might exist)
+rather than risk hiding real content over a transient error.
+
+Enable the **Tags** triggers ("A tag is created" / "A tag is deleted") on the webhook alongside
+the document ones, so the cached tag list refreshes as soon as a tag is added or removed rather
+than waiting out its TTL.
+
+### Category and Product
+
+`CategoryStaticBlockByTag` and `ProductStaticBlockByTag` extend `StaticBlockByTag` to derive the
+tag from the page being viewed, instead of a fixed `identifier`:
+
+```xml
+<!-- catalog_category_view.xml -->
+<block class="Elgentos\PrismicIO\Block\CategoryStaticBlockByTag" name="category.promo">
+    <arguments>
+        <argument name="content_type" xsi:type="string">promo_banner</argument>
+    </arguments>
+</block>
+
+<!-- catalog_product_view.xml -->
+<block class="Elgentos\PrismicIO\Block\ProductStaticBlockByTag" name="product.promo">
+    <arguments>
+        <argument name="content_type" xsi:type="string">promo_banner</argument>
+    </arguments>
+</block>
+```
+
+`CategoryStaticBlockByTag` searches for a document tagged `category_{id}` for the category being
+viewed. `ProductStaticBlockByTag` searches for `product_sku_{sku}` or `product_id_{id}` for the
+product being viewed - either one matches, so you can tag content by whichever is more
+convenient. Neither needs an `identifier` argument at all; both fall back to it if given, same as
+the base `StaticBlockByTag`.
+
+A document isn't limited to one category/product tag either - tag it with several
+(`category_4`, `category_9`, `category_12`) to show the same content on exactly those
+categories, not every category, without duplicating the document. Which specific pages a piece
+of content appears on is managed entirely from Prismic's tag field.
+
+Both `resolveTag()` and `buildTag()` are public, so a different tagging convention doesn't need a
+subclass at all - a plugin on `buildTag(Category $category)` / `buildTag(Product $product)` gets
+the category/product itself as an argument, so it's a natural place to add more tags (a promo-type
+attribute, for example) alongside the defaults, or replace them entirely.
+
 ## Best Practices
 
 1. Use meaningful identifiers that reflect the block's purpose

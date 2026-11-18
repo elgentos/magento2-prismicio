@@ -41,6 +41,11 @@ trait DocumentCacheableTrait
         return $key;
     }
 
+    /**
+     * Tags with both the document's own identity and one per Prismic tag it carries, so a
+     * tag-based lookup (StaticBlockByTag) invalidates even when a different document takes its
+     * place. Must match Controller\Webhook\Cache::purgeCachesForDocuments().
+     */
     public function getIdentities(): array
     {
         $document = $this->resolveDocument();
@@ -49,8 +54,13 @@ trait DocumentCacheableTrait
         }
 
         $uid = $document->uid ?? $document->id ?? '';
+        $identities = ['prismicio_document_' . $document->type . '_' . $uid];
 
-        return ['prismicio_document_' . $document->type . '_' . $uid];
+        foreach ($document->tags ?? [] as $tag) {
+            $identities[] = 'prismicio_tag_' . $document->type . '_' . $tag;
+        }
+
+        return $identities;
     }
 
     /**

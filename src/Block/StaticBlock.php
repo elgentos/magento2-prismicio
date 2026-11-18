@@ -19,14 +19,14 @@ class StaticBlock extends AbstractBlock implements IdentityInterface
 {
     use DocumentCacheableTrait;
 
-    private string $contentType;
+    protected string $contentType;
     private ?string $identifier;
 
     public function __construct(
         Context                  $context,
         DocumentResolver         $documentResolver,
         LinkResolver             $linkResolver,
-        private readonly Api     $api,
+        protected readonly Api   $api,
         StoreManagerInterface    $storeManager,
         string                   $contentType = 'static_block',
         ?string                  $identifier = null,
@@ -132,7 +132,7 @@ class StaticBlock extends AbstractBlock implements IdentityInterface
      * @throws DocumentNotFoundException
      * @throws NoSuchEntityException
      */
-    private function fetchChildDocument(): bool
+    protected function fetchChildDocument(): bool
     {
         $context = $this->getContext();
 

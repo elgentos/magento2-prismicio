@@ -15,7 +15,6 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\CsrfAwareActionInterface;
 use Magento\Framework\App\Request\InvalidRequestException;
 use Magento\Framework\App\RequestInterface;
-use Magento\Framework\Cache\CacheConstants;
 use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -136,7 +135,7 @@ class Cache implements HttpPostActionInterface, CsrfAwareActionInterface
         }
 
         $this->cache->clean($identities);
-        $this->fullPageCache->clean(CacheConstants::CLEANING_MODE_MATCHING_ANY_TAG, $identities);
+        $this->fullPageCache->clean('matchingAnyTag', $identities);
     }
 
     public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException

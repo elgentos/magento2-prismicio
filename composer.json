@@ -34,10 +34,16 @@
     },
     "config": {
         "allow-plugins": {
-            "magento/composer-dependency-version-audit-plugin": true
+            "magento/composer-dependency-version-audit-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "phpstan/extension-installer": true
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "magento/magento-coding-standard": "^41",
+        "phpstan/phpstan": "^2.1",
+        "bitexpert/phpstan-magento": "^0.44",
+        "phpstan/extension-installer": "^1.4"
     }
 }

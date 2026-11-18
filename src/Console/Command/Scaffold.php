@@ -7,9 +7,12 @@ declare(strict_types=1);
 
 namespace Elgentos\PrismicIO\Console\Command;
 
+use Elgentos\PrismicIO\Model\ResourceModel\Route as RouteResource;
+use Elgentos\PrismicIO\Model\ResourceModel\Route\Store as RouteStoreResource;
 use Exception;
 use InvalidArgumentException;
 use Magento\Framework\App\Filesystem\DirectoryList as AppDirectoryList;
+use Magento\Framework\Console\Cli;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem\Io\File;
@@ -77,6 +80,10 @@ class Scaffold extends Command
      */
     protected $stubDir;
 
+    private RouteResource $routeResource;
+
+    private RouteStoreResource $routeStoreResource;
+
     /**
      * Scaffold constructor.
      * @param ListInterface $themeList
@@ -85,6 +92,8 @@ class Scaffold extends Command
      * @param Reader $moduleReader
      * @param RouteFactory $routeFactory
      * @param RouteStoreFactory $routeStoreFactory
+     * @param RouteResource $routeResource
+     * @param RouteStoreResource $routeStoreResource
      * @param string|null $name
      */
     public function __construct(
@@ -94,9 +103,10 @@ class Scaffold extends Command
         Reader $moduleReader,
         RouteFactory $routeFactory,
         RouteStoreFactory $routeStoreFactory,
+        RouteResource $routeResource,
+        RouteStoreResource $routeStoreResource,
         ?string $name = null
-    )
-    {
+    ) {
         parent::__construct($name);
         $this->themeList = $themeList;
         $this->io = $io;
@@ -104,6 +114,8 @@ class Scaffold extends Command
         $this->directoryList = $directoryList;
         $this->routeFactory = $routeFactory;
         $this->routeStoreFactory = $routeStoreFactory;
+        $this->routeResource = $routeResource;
+        $this->routeStoreResource = $routeStoreResource;
     }
 
     /**
@@ -125,7 +137,7 @@ class Scaffold extends Command
         $this->createPrismicRoute();
         $this->showPrismicJson();
 
-        return Command::SUCCESS;
+        return Cli::RETURN_SUCCESS;
     }
 
     /**
@@ -225,7 +237,7 @@ class Scaffold extends Command
         $route = $this->routeFactory->create();
         $route->setData(['title' => $this->customType, 'content_type' => $this->customType, 'route' => $routePrefix, 'status' => 1]);
         try {
-            $route->save();
+            $this->routeResource->save($route);
         } catch (Exception $e) {
             $this->output->writeln('Could not save route; ' . $e->getMessage());
         }
@@ -233,7 +245,7 @@ class Scaffold extends Command
         $routeStore = $this->routeStoreFactory->create();
         $routeStore->setData(['route_id' => $route->getId(), 'store_id' => $storeId]);
         try {
-            $routeStore->save();
+            $this->routeStoreResource->save($routeStore);
             $this->output->writeln('Route ' . $routePrefix . ' created for store 1');
         } catch (Exception $e) {
             $this->output->writeln('Could not save route store; ' . $e->getMessage());

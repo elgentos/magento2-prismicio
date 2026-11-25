@@ -129,10 +129,13 @@ class Unpublished implements HttpPostActionInterface, CsrfAwareActionInterface
     {
         $accessToken = $this->configuration->getWebhookSecret($this->storeManager->getStore());
 
-        if ($payload['secret'] ?? '' === $accessToken) {
+        // An empty secret means no authentication, as documented in the system configuration
+        if ($accessToken === '') {
             return true;
         }
 
-        return false;
+        $secret = $payload['secret'] ?? '';
+
+        return is_string($secret) && hash_equals($accessToken, $secret);
     }
 }
